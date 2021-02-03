@@ -90,7 +90,7 @@ const Main = (props) => {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {new Array(CARDS_COUNT).fill().map((i) => <PlaceCard key={`card` + i}/>)}
+                {new Array(CARDS_COUNT).fill(`card`).map((card, i) => <PlaceCard key={card + i}/>)}
               </div>
             </section>
             <div className="cities__right-section">
