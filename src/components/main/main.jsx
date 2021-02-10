@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import PlaceCard from '../place-card/place-card';
 
 const Main = (props) => {
-  const CARDS_COUNT = 5;
-  const {offersCount} = props;
+  const {offersCount, offers} = props;
 
   return (
     <div className="page page--gray page--main">
@@ -90,7 +89,7 @@ const Main = (props) => {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {new Array(CARDS_COUNT).fill(`card`).map((card, i) => <PlaceCard key={card + i}/>)}
+                {offers.map((offer) => <PlaceCard key={offer.id} offer={offer}/>)}
               </div>
             </section>
             <div className="cities__right-section">
@@ -105,6 +104,16 @@ const Main = (props) => {
 
 Main.propTypes = {
   offersCount: PropTypes.number.isRequired,
+  offers: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    isFavorite: PropTypes.bool.isRequired,
+    isPremium: PropTypes.bool.isRequired,
+    previewImage: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    rating: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired
+  }))
 };
 
 export default Main;

@@ -6,6 +6,7 @@ import SignIn from '../sign-in/sign-in';
 import Favorites from '../favorites/favorites';
 import Room from '../room/room';
 import NotFound from '../not-found/not-found';
+import {OFFERS} from '../../mocks/offers';
 
 
 const App = (props) => {
@@ -14,7 +15,7 @@ const App = (props) => {
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
-          <Main offersCount={offersCount}/>
+          <Main offersCount={offersCount} offers={OFFERS}/>
         </Route>
         <Route exact path="/login">
           <SignIn/>
@@ -35,6 +36,16 @@ const App = (props) => {
 
 App.propTypes = {
   offersCount: PropTypes.number.isRequired,
+  offers: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    isFavorite: PropTypes.bool.isRequired,
+    isPremium: PropTypes.bool.isRequired,
+    previewImage: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    rating: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired
+  }))
 };
 
 export default App;
