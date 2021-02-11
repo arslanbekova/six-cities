@@ -7,7 +7,8 @@ export const OFFERS = [
     "price": 120,
     "rating": 4.8,
     "title": `Beautiful & luxurious studio at great location`,
-    "type": `room`
+    "type": `room`,
+    "city": `Amsterdam`
   },
   {
     "id": 2,
@@ -17,7 +18,8 @@ export const OFFERS = [
     "price": 130,
     "rating": 4.3,
     "title": `Nice, cozy, warm big bed apartment`,
-    "type": `apartment`
+    "type": `apartment`,
+    "city": `Amsterdam`
   },
   {
     "id": 3,
@@ -27,7 +29,8 @@ export const OFFERS = [
     "price": 140,
     "rating": 4.0,
     "title": `Canal View Prinsengracht`,
-    "type": `house`
+    "type": `house`,
+    "city": `Cologne`
   },
   {
     "id": 4,
@@ -37,6 +40,7 @@ export const OFFERS = [
     "price": 150,
     "rating": 3.2,
     "title": `Wood and stone place`,
-    "type": `hotel`
+    "type": `hotel`,
+    "city": `Cologne`
   },
 ];
