@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PlaceCard from '../place-card/place-card';
+import OffersList from '../offers-list/offers-list';
 
 const Main = (props) => {
   const {offersCount, offers} = props;
@@ -88,9 +88,7 @@ const Main = (props) => {
                   <li className="places__option" tabIndex="0">Top rated first</li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                {offers.map((offer) => <PlaceCard key={offer.id} offer={offer}/>)}
-              </div>
+              <OffersList offers={offers}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map"></section>

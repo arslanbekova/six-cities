@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const PlaceCard = (props) => {
-  const {offer} = props;
+  const {offer, setPlaceCard} = props;
 
   const isPremium = () => {
     if (offer.isPremium) {
@@ -13,7 +13,7 @@ const PlaceCard = (props) => {
   };
 
   const setRating = () => {
-    const STAR_WIDTH = 20
+    const STAR_WIDTH = 20;
     return Math.round(offer.rating) * STAR_WIDTH + `%`;
   };
 
@@ -26,7 +26,7 @@ const PlaceCard = (props) => {
   };
 
   return (
-    <article className="cities__place-card place-card">
+    <article className="cities__place-card place-card" onMouseOver={() => setPlaceCard(offer)}>
       {isPremium()}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="#">
@@ -71,7 +71,8 @@ PlaceCard.propTypes = {
     rating: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired
-  })
+  }),
+  setPlaceCard: PropTypes.func.isRequired
 };
 
 export default PlaceCard;
