@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
 import {setRating} from '../../utils/general';
 
 const PlaceCard = (props) => {
   const {offer, setPlaceCard} = props;
 
   const isPremium = () => {
-    if (offer.isPremium) {
+    return offer.isPremium ?
       <div className="place-card__mark">
         <span>Premium</span>
-      </div>;
-    }
+      </div> : ``;
   };
 
   const isFavorite = () => {
@@ -49,7 +49,7 @@ const PlaceCard = (props) => {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{offer.title}</a>
+          <Link to="/offer/id">{offer.title}</Link>
         </h2>
         <p className="place-card__type">{offer.type}</p>
       </div>
