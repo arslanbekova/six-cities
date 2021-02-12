@@ -6,7 +6,10 @@ import FavoritePlaceCard from '../favorite-place-card/favorite-place-card';
 const Favorites = (props) => {
   const {offers} = props;
 
-  const favoritesOffers = offers.filter((offer) => offer.isFavorite === true);
+  const favoritesOffers = offers.filter((offer) => offer.isFavorite === true).reduce(function(result, item) {
+    result[item.city] = [...result[item.city] || [], item]
+    return result;
+  }, {})
 
   return (
     <div className="page">
@@ -38,31 +41,18 @@ const Favorites = (props) => {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              <li className="favorites__locations-items">
+              {Object.keys(favoritesOffers).map((cityKey) => <li className="favorites__locations-items" key={cityKey}>
                 <div className="favorites__locations locations locations--current">
                   <div className="locations__item">
                     <a className="locations__item-link" href="#">
-                      <span>Amsterdam</span>
+                      <span>{cityKey}</span>
                     </a>
                   </div>
                 </div>
                 <div className="favorites__places">
-                  {favoritesOffers.map((offer) => offer.city === `Amsterdam` ? <FavoritePlaceCard key={offer.id} offer={offer}/> : ``)}
+                  {Object.values(favoritesOffers).map((city) => city.map((offer) => offer.city === cityKey ? <FavoritePlaceCard key={offer.id} offer={offer}/> : ``))}
                 </div>
-              </li>
-
-              <li className="favorites__locations-items">
-                <div className="favorites__locations locations locations--current">
-                  <div className="locations__item">
-                    <a className="locations__item-link" href="#">
-                      <span>Cologne</span>
-                    </a>
-                  </div>
-                </div>
-                <div className="favorites__places">
-                  {favoritesOffers.map((offer) => offer.city === `Cologne` ? <FavoritePlaceCard key={offer.id} offer={offer}/> : ``)}
-                </div>
-              </li>
+              </li>)}
             </ul>
           </section>
         </div>

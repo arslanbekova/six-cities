@@ -1,7 +1,7 @@
 export const OFFERS = [
   {
     "id": 1,
-    "isFavorite": false,
+    "isFavorite": true,
     "isPremium": false,
     "previewImage": `./img/apartment-01.jpg`,
     "price": 120,
