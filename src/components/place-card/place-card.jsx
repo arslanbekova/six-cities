@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {setRating} from '../../utils/general';
 
 const PlaceCard = (props) => {
   const {offer, setPlaceCard} = props;
@@ -10,11 +11,6 @@ const PlaceCard = (props) => {
         <span>Premium</span>
       </div>;
     }
-  };
-
-  const setRating = () => {
-    const STAR_WIDTH = 20;
-    return Math.round(offer.rating) * STAR_WIDTH + `%`;
   };
 
   const isFavorite = () => {
@@ -48,7 +44,7 @@ const PlaceCard = (props) => {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: setRating()}}></span>
+            <span style={{width: setRating(offer)}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
@@ -70,7 +66,8 @@ PlaceCard.propTypes = {
     price: PropTypes.number.isRequired,
     rating: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired
+    type: PropTypes.string.isRequired,
+    city: PropTypes.string.isRequired
   }),
   setPlaceCard: PropTypes.func.isRequired
 };
