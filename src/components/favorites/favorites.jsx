@@ -6,10 +6,10 @@ import FavoritePlaceCard from '../favorite-place-card/favorite-place-card';
 const Favorites = (props) => {
   const {offers} = props;
 
-  const favoritesOffers = offers.filter((offer) => offer.isFavorite === true).reduce(function(result, item) {
-    result[item.city] = [...result[item.city] || [], item]
+  const favoritesOffers = offers.filter((offer) => offer.isFavorite === true).reduce(function (result, item) {
+    result[item.city] = [...result[item.city] || [], item];
     return result;
-  }, {})
+  }, {});
 
   return (
     <div className="page">
