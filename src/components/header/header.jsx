@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const Header = (props) => (
   <header className="header">
@@ -23,8 +24,12 @@ const Header = (props) => (
         </nav>
       </div>
     </div>
-  {props.children}
+    {props.children}
   </header>
 );
+
+Header.propTypes = {
+  children: PropTypes.element
+};
 
 export default Header;
