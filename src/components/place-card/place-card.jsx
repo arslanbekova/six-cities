@@ -6,13 +6,6 @@ import {setRating} from '../../utils/general';
 const PlaceCard = (props) => {
   const {offer, setPlaceCard} = props;
 
-  const isPremium = () => {
-    return offer.isPremium ?
-      <div className="place-card__mark">
-        <span>Premium</span>
-      </div> : ``;
-  };
-
   const isFavorite = () => {
     let buttonFavoriteClasses = [`place-card__bookmark-button`, `button`];
     if (offer.isFavorite) {
@@ -23,7 +16,9 @@ const PlaceCard = (props) => {
 
   return (
     <article className="cities__place-card place-card" onMouseOver={() => setPlaceCard(offer)}>
-      {isPremium()}
+      {offer.isPremium && <div className="place-card__mark">
+        <span>Premium</span>
+      </div>}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="#">
           <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place image"/>
