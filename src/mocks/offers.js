@@ -97,7 +97,14 @@ export const OFFERS = [
     "rating": 4.0,
     "title": `Canal View Prinsengracht`,
     "type": `house`,
-    "city": `Cologne`
+    "city": {
+      "location": {
+        "latitude": 52.370216,
+        "longitude": 4.895168,
+        "zoom": 10
+      },
+      "name": `Cologne`
+    },
   },
   {
     "id": 6,
@@ -108,6 +115,13 @@ export const OFFERS = [
     "rating": 3.2,
     "title": `Wood and stone place`,
     "type": `hotel`,
-    "city": `Cologne`
+    "city": {
+      "location": {
+        "latitude": 52.370216,
+        "longitude": 4.895168,
+        "zoom": 10
+      },
+      "name": `Cologne`
+    },
   },
 ];

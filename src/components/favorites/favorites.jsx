@@ -7,7 +7,7 @@ const Favorites = (props) => {
   const {offers} = props;
 
   const favoritesOffers = offers.filter((offer) => offer.isFavorite === true).reduce((result, item) => {
-    result[item.city] = [...result[item.city] || [], item];
+    result[item.city.name] = [...result[item.city.name] || [], item];
     return result;
   }, {});
 
@@ -50,7 +50,7 @@ const Favorites = (props) => {
                   </div>
                 </div>
                 <div className="favorites__places">
-                  {Object.values(favoritesOffers).map((city) => city.map((offer) => offer.city === cityKey ? <FavoritePlaceCard key={offer.id} offer={offer}/> : ``))}
+                  {Object.values(favoritesOffers).map((city) => city.map((offer) => offer.city.name === cityKey ? <FavoritePlaceCard key={offer.id} offer={offer}/> : ``))}
                 </div>
               </li>)}
             </ul>
@@ -76,7 +76,17 @@ Favorites.propTypes = {
     rating: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
-    city: PropTypes.string.isRequired
+    city: PropTypes.shape({
+      location: PropTypes.shape({
+        latitude: PropTypes.number.isRequired,
+        longitude: PropTypes.number.isRequired,
+      }),
+      name: PropTypes.string.isRequired,
+    }),
+    location: PropTypes.shape({
+      latitude: PropTypes.number.isRequired,
+      longitude: PropTypes.number.isRequired,
+    })
   }))
 };
 
