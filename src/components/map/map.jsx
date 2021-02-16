@@ -19,20 +19,20 @@ const Map = (props) => {
 
   useEffect(() => {
     mapRef.current = leaflet.map(`map`, {
-    center: {
-      lat: city.latitude,
-      lng: city.longitude
-    },
-    zoom: city.zoom,
-    zoomControl: false,
-    marker: true
+      center: {
+        lat: city.latitude,
+        lng: city.longitude
+      },
+      zoom: city.zoom,
+      zoomControl: false,
+      marker: true
     });
 
     mapRef.current.setView([city.latitude, city.longitude], city.zoom);
 
     leaflet
     .tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`, {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+      attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`
     })
     .addTo(mapRef.current);
 
@@ -42,9 +42,9 @@ const Map = (props) => {
         lng: point.longitude
       },
       {
-        icon: icon
+        icon
       })
-      .addTo(mapRef.current)
+      .addTo(mapRef.current);
     });
 
     return () => {
@@ -54,7 +54,7 @@ const Map = (props) => {
   }, []);
 
   return (
-    <div id="map" ref={mapRef} style={{width: 100 + '%'}}></div>
+    <div id="map" ref={mapRef} style={{width: 100 + `%`}}></div>
   );
 };
 
