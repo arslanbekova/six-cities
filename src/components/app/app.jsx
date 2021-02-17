@@ -22,7 +22,7 @@ const App = (props) => {
           <Favorites offers={offers}/>
         </Route>
         <Route exact path="/offer/:id">
-          <Room reviews={reviews}/>
+          <Room reviews={reviews} offers={offers}/>
         </Route>
         <Route>
           <NotFound/>

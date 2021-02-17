@@ -3,9 +3,12 @@ import PropTypes from 'prop-types';
 import Header from '../header/header';
 import ReviewsList from '../reviews-list/reviews-list';
 import CommentForm from '../comment-form/comment-form';
+import Map from '../map/map';
 
 const Room = (props) => {
-  const {reviews} = props;
+  const {reviews, offers} = props;
+
+  const nearPlaces = offers.slice(1);
 
   return (
     <div className="page">
@@ -133,7 +136,9 @@ const Room = (props) => {
               </section>
             </div>
           </div>
-          <section className="property__map map"></section>
+          <section className="property__map map">
+            <Map offers={nearPlaces}/>
+          </section>
         </section>
         <div className="container">
           <section className="near-places places">
@@ -254,7 +259,17 @@ Room.propTypes = {
       isPro: PropTypes.bool.isRequired,
       name: PropTypes.string.isRequired,
     })
-  }))
+  })),
+  offers: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    isFavorite: PropTypes.bool.isRequired,
+    isPremium: PropTypes.bool.isRequired,
+    previewImage: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    rating: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired
+  })),
 };
 
 export default Room;
