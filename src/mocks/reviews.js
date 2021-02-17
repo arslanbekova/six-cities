@@ -25,7 +25,7 @@ export const REVIEWS = [
   },
   {
     "comment": `Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.`,
-    "date": `"2019-06-15T23:15:00.000Z"`,
+    "date": `2019-06-15T23:15:00.000Z`,
     "id": 3,
     "rating": 5,
     "user": {
