@@ -51,10 +51,10 @@ const Map = (props) => {
       mapRef.current.remove();
     };
 
-  }, []);
+  }, [offers]);
 
   return (
-    <div id="map" ref={mapRef} style={{width: 100 + `%`}}></div>
+    <div id="map" ref={mapRef} style={{height: 100 + `%`}}></div>
   );
 };
 
