@@ -7,7 +7,7 @@ export const REVIEWS  = [
     "user": {
       "avatar_url": `./img/avatar-max.jpg`,
       "id": 3,
-      "is_pro": false,
+      "isPro": false,
       "name": `Max`
     }
   },
@@ -19,7 +19,7 @@ export const REVIEWS  = [
     "user": {
       "avatar_url": `./img/avatar.svg`,
       "id": 4,
-      "is_pro": false,
+      "isPro": false,
       "name": `Den`
     }
   },
@@ -31,7 +31,7 @@ export const REVIEWS  = [
     "user": {
       "avatar_url": `./img/avatar-angelina.jpg`,
       "id": 5,
-      "is_pro": false,
+      "isPro": false,
       "name": `Kate`
     }
   },
