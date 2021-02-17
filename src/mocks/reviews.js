@@ -1,11 +1,11 @@
-export const REVIEWS  = [
+export const REVIEWS = [
   {
     "comment": `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.`,
     "date": `2019-05-08T14:13:56.569Z`,
     "id": 1,
     "rating": 4,
     "user": {
-      "avatar_url": `./img/avatar-max.jpg`,
+      "avatarUrl": `./img/avatar-max.jpg`,
       "id": 3,
       "isPro": false,
       "name": `Max`
@@ -17,7 +17,7 @@ export const REVIEWS  = [
     "id": 2,
     "rating": 3,
     "user": {
-      "avatar_url": `./img/avatar.svg`,
+      "avatarUrl": `./img/avatar.svg`,
       "id": 4,
       "isPro": false,
       "name": `Den`
@@ -29,7 +29,7 @@ export const REVIEWS  = [
     "id": 3,
     "rating": 5,
     "user": {
-      "avatar_url": `./img/avatar-angelina.jpg`,
+      "avatarUrl": `./img/avatar-angelina.jpg`,
       "id": 5,
       "isPro": false,
       "name": `Kate`

@@ -1,10 +1,10 @@
 import React from 'react';
 import ReviewItem from '../review-item/review-item';
 
-const ReviewItem = () => {
+const ReviewsList = () => {
   return (
     <ul className="reviews__list"></ul>
   );
 };
 
-export default ReviewItem;
+export default ReviewsList;

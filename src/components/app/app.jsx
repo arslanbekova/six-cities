@@ -49,8 +49,8 @@ App.propTypes = {
     date: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
     rating: PropTypes.number.isRequired,
-    user: PropTypes.object.shape({
-      avatar_url: PropTypes.string.isRequired,
+    user: PropTypes.shape({
+      avatarUrl: PropTypes.string.isRequired,
       id: PropTypes.number.isRequired,
       isPro: PropTypes.bool.isRequired,
       name: PropTypes.string.isRequired,
