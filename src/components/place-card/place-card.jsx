@@ -4,7 +4,8 @@ import {Link} from 'react-router-dom';
 import {setRating} from '../../utils/general';
 
 const PlaceCard = (props) => {
-  const {offer, setPlaceCard} = props;
+
+  const {offer, setPlaceCard, className, imageClassName} = props;
 
   const isFavorite = () => {
     let buttonFavoriteClasses = [`place-card__bookmark-button`, `button`];
@@ -15,11 +16,11 @@ const PlaceCard = (props) => {
   };
 
   return (
-    <article className="cities__place-card place-card" onMouseOver={() => setPlaceCard(offer)}>
+    <article className={`${className} place-card`} onMouseOver={() => setPlaceCard(offer)}>
       {offer.isPremium && <div className="place-card__mark">
         <span>Premium</span>
       </div>}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className={`${imageClassName || `cities__image-wrapper`} place-card__image-wrapper`}>
         <a href="#">
           <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place image"/>
         </a>
@@ -74,7 +75,9 @@ PlaceCard.propTypes = {
       longitude: PropTypes.number.isRequired,
     })
   }),
-  setPlaceCard: PropTypes.func.isRequired
+  setPlaceCard: PropTypes.func.isRequired,
+  className: PropTypes.string.isRequired,
+  imageClassName: PropTypes.string
 };
 
 export default PlaceCard;
