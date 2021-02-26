@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {setRating} from '../../utils/general';
+import {CardSettings} from '../../utils/consts';
 
 const PlaceCard = (props) => {
 
-  const {offer, setPlaceCard, className, imageClassName} = props;
+  const {offer, setPlaceCard, cardType} = props;
 
   const isFavorite = () => {
     let buttonFavoriteClasses = [`place-card__bookmark-button`, `button`];
@@ -16,11 +17,11 @@ const PlaceCard = (props) => {
   };
 
   return (
-    <article className={`${className} place-card`} onMouseOver={() => setPlaceCard(offer)}>
+    <article className={`${CardSettings[cardType].cardClass} place-card`} onMouseOver={() => setPlaceCard(offer)}>
       {offer.isPremium && <div className="place-card__mark">
         <span>Premium</span>
       </div>}
-      <div className={`${imageClassName || `cities__image-wrapper`} place-card__image-wrapper`}>
+      <div className={`${CardSettings[cardType].imageClass} place-card__image-wrapper`}>
         <a href="#">
           <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place image"/>
         </a>
@@ -76,8 +77,7 @@ PlaceCard.propTypes = {
     })
   }),
   setPlaceCard: PropTypes.func.isRequired,
-  className: PropTypes.string.isRequired,
-  imageClassName: PropTypes.string
+  cardType: PropTypes.string.isRequired,
 };
 
 export default PlaceCard;

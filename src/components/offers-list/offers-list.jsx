@@ -1,42 +1,23 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import PlaceCard from '../place-card/place-card';
-import PlaceCardNear from '../place-card-near/place-card-near';
+import {OfferListSettings} from '../../utils/consts';
 
 const OffersList = (props) => {
-  const {offers, className} = props;
+  const {offers, cardType} = props;
   const [, setPlaceCard] = useState(0);
 
-  const getComponentByClassName = (componentClassName, offer) => {
-    switch (componentClassName) {
-      case `near-places__list`:
-        return <PlaceCardNear
-          key={offer.id}
-          offer={offer}
-          setPlaceCard={setPlaceCard}
-          className="near-places__card"
-          imageClassName="near-places__image-wrapper"/>;
-    }
-
-    return <PlaceCard
-      key={offer.id}
-      offer={offer}
-      setPlaceCard={setPlaceCard}
-      className="cities__place-card"/>;
-  };
-
   return (
-    <div className={`${className || `cities__places-list tabs__content`} places__list`}>
+    <div className={`${OfferListSettings[cardType].containerClass} places__list`}>
       {
         offers.map((offer) =>
-          getComponentByClassName(className, offer))
-      }
+          <PlaceCard key={offer.id} offer={offer} setPlaceCard={setPlaceCard} cardType={cardType}/>
+        )}
     </div>
   );
 };
 
 OffersList.propTypes = {
-  className: PropTypes.string.isRequired,
   offers: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     isFavorite: PropTypes.bool.isRequired,
@@ -46,7 +27,8 @@ OffersList.propTypes = {
     rating: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired
-  }))
+  })),
+  cardType: PropTypes.string.isRequired
 };
 
 export default OffersList;
