@@ -2,9 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {setRating} from '../../utils/general';
+import {CardSettings} from '../../utils/consts';
 
 const PlaceCard = (props) => {
-  const {offer, setPlaceCard} = props;
+
+  const {offer, setPlaceCard, cardType} = props;
 
   const isFavorite = () => {
     let buttonFavoriteClasses = [`place-card__bookmark-button`, `button`];
@@ -15,11 +17,11 @@ const PlaceCard = (props) => {
   };
 
   return (
-    <article className="cities__place-card place-card" onMouseOver={() => setPlaceCard(offer)}>
+    <article className={`${CardSettings[cardType].cardClass} place-card`} onMouseOver={() => setPlaceCard(offer)}>
       {offer.isPremium && <div className="place-card__mark">
         <span>Premium</span>
       </div>}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className={`${CardSettings[cardType].imageClass} place-card__image-wrapper`}>
         <a href="#">
           <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place image"/>
         </a>
@@ -74,7 +76,8 @@ PlaceCard.propTypes = {
       longitude: PropTypes.number.isRequired,
     })
   }),
-  setPlaceCard: PropTypes.func.isRequired
+  setPlaceCard: PropTypes.func.isRequired,
+  cardType: PropTypes.string.isRequired,
 };
 
 export default PlaceCard;

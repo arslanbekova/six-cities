@@ -1,19 +1,18 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import PlaceCard from '../place-card/place-card';
+import {OfferListSettings} from '../../utils/consts';
 
 const OffersList = (props) => {
-  const {offers} = props;
+  const {offers, cardType} = props;
   const [, setPlaceCard] = useState(0);
 
   return (
-    <div className="cities__places-list places__list tabs__content">
-      {offers.map((offer) =>
-        <PlaceCard
-          key={offer.id}
-          offer={offer}
-          setPlaceCard={setPlaceCard}/>
-      )}
+    <div className={`${OfferListSettings[cardType].containerClass} places__list`}>
+      {
+        offers.map((offer) =>
+          <PlaceCard key={offer.id} offer={offer} setPlaceCard={setPlaceCard} cardType={cardType}/>
+        )}
     </div>
   );
 };
@@ -28,7 +27,8 @@ OffersList.propTypes = {
     rating: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired
-  }))
+  })),
+  cardType: PropTypes.string.isRequired
 };
 
 export default OffersList;
