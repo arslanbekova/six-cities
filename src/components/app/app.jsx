@@ -6,25 +6,23 @@ import SignIn from '../sign-in/sign-in';
 import Favorites from '../favorites/favorites';
 import Room from '../room/room';
 import NotFound from '../not-found/not-found';
-import {OFFERS} from '../../mocks/offers';
-
 
 const App = (props) => {
-  const {offersCount} = props;
+  const {offersCount, offers, reviews} = props;
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
-          <Main offersCount={offersCount} offers={OFFERS}/>
+          <Main offersCount={offersCount} offers={offers}/>
         </Route>
         <Route exact path="/login">
           <SignIn/>
         </Route>
         <Route exact path="/favorites">
-          <Favorites offers={OFFERS}/>
+          <Favorites offers={offers}/>
         </Route>
         <Route exact path="/offer/:id">
-          <Room/>
+          <Room reviews={reviews} offers={offers}/>
         </Route>
         <Route>
           <NotFound/>
@@ -45,6 +43,18 @@ App.propTypes = {
     rating: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired
+  })),
+  reviews: PropTypes.arrayOf(PropTypes.shape({
+    comment: PropTypes.string.isRequired,
+    date: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+    rating: PropTypes.number.isRequired,
+    user: PropTypes.shape({
+      avatarUrl: PropTypes.string.isRequired,
+      id: PropTypes.number.isRequired,
+      isPro: PropTypes.bool.isRequired,
+      name: PropTypes.string.isRequired,
+    })
   }))
 };
 
