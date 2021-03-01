@@ -14,7 +14,7 @@ export const OFFERS = [
         "longitude": 4.895168,
         "zoom": 10
       },
-      "name": `Amsterdam`
+      "name": `Paris`
     },
     "location": {
       "latitude": 52.3909553943508,
@@ -37,7 +37,7 @@ export const OFFERS = [
         "longitude": 4.895168,
         "zoom": 10
       },
-      "name": `Amsterdam`
+      "name": `Paris`
     },
     "location": {
       "latitude": 52.369553943508,
@@ -108,6 +108,11 @@ export const OFFERS = [
       },
       "name": `Cologne`
     },
+    "location": {
+      "latitude": 52.3809553943508,
+      "longitude": 4.939309666406198,
+      "zoom": 8,
+    },
   },
   {
     "id": 6,
@@ -125,6 +130,11 @@ export const OFFERS = [
         "zoom": 10
       },
       "name": `Cologne`
+    },
+    "location": {
+      "latitude": 52.3909553943508,
+      "longitude": 4.929309666406198,
+      "zoom": 8,
     },
   },
 ];
