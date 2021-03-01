@@ -8,12 +8,12 @@ import Room from '../room/room';
 import NotFound from '../not-found/not-found';
 
 const App = (props) => {
-  const {offersCount, offers, reviews} = props;
+  const {offers, reviews} = props;
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
-          <Main offersCount={offersCount} offers={offers}/>
+          <Main/>
         </Route>
         <Route exact path="/login">
           <SignIn/>
@@ -33,7 +33,6 @@ const App = (props) => {
 };
 
 App.propTypes = {
-  offersCount: PropTypes.number.isRequired,
   offers: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     isFavorite: PropTypes.bool.isRequired,
