@@ -1,16 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/app/app';
-import {OFFERS} from './mocks/offers';
+import {createStore} from 'redux';
+import {composeWithDevTools} from 'redux-devtools-extension';
+import {Provider} from 'react-redux';
 import {REVIEWS} from './mocks/reviews';
+import {reducer} from './store/reducer';
 
-const offersCount = 312;
+const store = createStore(reducer, composeWithDevTools());
 
 ReactDOM.render(
-    <App
-      offersCount={offersCount}
-      offers={OFFERS}
-      reviews={REVIEWS}
-    />,
+    <Provider store={store}>
+      <App
+        reviews={REVIEWS}
+      />
+    </Provider>,
     document.querySelector(`#root`)
 );
