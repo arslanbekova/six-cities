@@ -1,11 +1,21 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import PlaceCard from '../place-card/place-card';
-import {OfferListSettings} from '../../utils/consts';
 
 const OffersList = (props) => {
+
   const {offers, cardType} = props;
+
   const [, setPlaceCard] = useState(0);
+
+  const OfferListSettings = {
+    NEAR: {
+      containerClass: `near-places__list`,
+    },
+    MAIN: {
+      containerClass: `cities__places-list tabs__content`,
+    }
+  };
 
   return (
     <div className={`${OfferListSettings[cardType].containerClass} places__list`}>
