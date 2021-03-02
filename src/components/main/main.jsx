@@ -70,7 +70,7 @@ Main.propTypes = {
 const mapStateToProps = (state) => {
   return {
     city: state.city,
-    offers: state.OFFERS.filter((offer) => offer.city.name === state.city)
+    offers: state.offers.filter((offer) => offer.city.name === state.city)
   };
 };
 

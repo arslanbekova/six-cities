@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import FavoritePlaceCard from '../favorite-place-card/favorite-place-card';
 import Header from '../header/header';
+import {connect} from 'react-redux';
 
 const Favorites = (props) => {
   const {offers} = props;
@@ -68,4 +69,11 @@ Favorites.propTypes = {
   }))
 };
 
-export default Favorites;
+const mapStateToProps = (state) => {
+  return {
+    offers: state.offers,
+  };
+};
+
+export {Favorites};
+export default connect(mapStateToProps)(Favorites);
