@@ -5,6 +5,7 @@ import ReviewsList from '../reviews-list/reviews-list';
 import CommentForm from '../comment-form/comment-form';
 import Map from '../map/map';
 import OffersListNear from '../offers-list-near/offers-list-near';
+import {connect} from 'react-redux';
 
 const Room = (props) => {
   const {reviews, offers} = props;
@@ -177,4 +178,12 @@ Room.propTypes = {
   })),
 };
 
-export default Room;
+const mapStateToProps = (state) => {
+  return {
+    offers: state.offers,
+    reviews: state.reviews
+  };
+};
+
+export {Room};
+export default connect(mapStateToProps)(Room);

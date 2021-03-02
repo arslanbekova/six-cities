@@ -3,7 +3,7 @@ import OffersList from '../offers-list/offers-list';
 
 const OffersListNear = (props) => {
   return (
-    <OffersList cardType="near" {...props}/>
+    <OffersList cardType="NEAR" {...props}/>
   );
 };
 
