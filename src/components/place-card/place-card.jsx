@@ -2,11 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {setRating} from '../../utils/general';
-import {CardSettings} from '../../utils/consts';
 
 const PlaceCard = (props) => {
 
   const {offer, setPlaceCard, cardType} = props;
+
+  const CardSettings = {
+    NEAR: {
+      containerClass: `near-places__list`,
+      cardClass: `near-places__card`,
+      imageClass: `near-places__image-wrapper`,
+    },
+    MAIN: {
+      containerClass: `cities__places-list tabs__content`,
+      cardClass: `cities__place-card`,
+      imageClass: `cities__image-wrapper`,
+    }
+  };
 
   const isFavorite = () => {
     let buttonFavoriteClasses = [`place-card__bookmark-button`, `button`];

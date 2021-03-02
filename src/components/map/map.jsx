@@ -6,9 +6,8 @@ import 'leaflet/dist/leaflet.css';
 
 const Map = (props) => {
   const {offers} = props;
-  const cityOffers = offers.filter((offer) => offer.city.name === `Amsterdam`);
-  const city = cityOffers[0].city.location;
-  const points = cityOffers.map((offer) => offer.location);
+  const city = offers[0].city.location;
+  const points = offers.map((offer) => offer.location);
 
   const mapRef = useRef();
 
