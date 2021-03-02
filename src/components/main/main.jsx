@@ -5,10 +5,9 @@ import Header from '../header/header';
 import Map from '../map/map';
 import CitiesList from '../cities-list/cities-list';
 import {connect} from 'react-redux';
-import {ActionCreator} from '../../store/action';
 
 const Main = (props) => {
-  const {offers, city, onChangeCity} = props;
+  const {offers, city} = props;
 
   return (
     <div className="page page--gray page--main">
@@ -17,7 +16,7 @@ const Main = (props) => {
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <CitiesList onChangeCity={onChangeCity} city={city}/>
+            <CitiesList/>
           </section>
         </div>
         <div className="cities">
@@ -40,7 +39,7 @@ const Main = (props) => {
                   <li className="places__option" tabIndex="0">Top rated first</li>
                 </ul>
               </form>
-              <OffersList offers={offers} cardType="main"/>
+              <OffersList offers={offers} cardType="MAIN"/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
@@ -66,7 +65,6 @@ Main.propTypes = {
     type: PropTypes.string.isRequired
   })),
   city: PropTypes.string.isRequired,
-  onChangeCity: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -76,12 +74,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  onChangeCity(city) {
-    dispatch(ActionCreator.changeCity(city));
-  }
-});
-
 export {Main};
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(mapStateToProps)(Main);
 
