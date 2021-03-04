@@ -5,7 +5,7 @@ import {setRating} from '../../utils/general';
 
 const PlaceCard = (props) => {
 
-  const {offer, setPlaceCard, cardType} = props;
+  const {offer, cardType, setActiveCard} = props;
 
   const CardSettings = {
     NEAR: {
@@ -29,7 +29,7 @@ const PlaceCard = (props) => {
   };
 
   return (
-    <article className={`${CardSettings[cardType].cardClass} place-card`} onMouseOver={() => setPlaceCard(offer)}>
+    <article className={`${CardSettings[cardType].cardClass} place-card`} onMouseOver={() => setActiveCard(offer.id)} onMouseOut={() => setActiveCard(0)}>
       {offer.isPremium && <div className="place-card__mark">
         <span>Premium</span>
       </div>}
@@ -88,7 +88,7 @@ PlaceCard.propTypes = {
       longitude: PropTypes.number.isRequired,
     })
   }),
-  setPlaceCard: PropTypes.func.isRequired,
+  setActiveCard: PropTypes.func.isRequired,
   cardType: PropTypes.string.isRequired,
 };
 

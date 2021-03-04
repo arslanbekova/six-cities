@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import OffersList from '../offers-list/offers-list';
 import Header from '../header/header';
@@ -9,6 +9,8 @@ import {connect} from 'react-redux';
 
 const Main = (props) => {
   const {offers, city} = props;
+
+  const [activeCard, setActiveCard] = useState(0);
 
   return (
     <div className="page page--gray page--main">
@@ -26,11 +28,11 @@ const Main = (props) => {
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{offers.length} places to stay in {city}</b>
               <SortOptions/>
-              <OffersList offers={offers} cardType="MAIN"/>
+              <OffersList offers={offers} cardType="MAIN" setActiveCard={setActiveCard}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
-                <Map offers={offers}/>
+                <Map offers={offers} activeCard={activeCard} city={city}/>
               </section>
             </div>
           </div>
