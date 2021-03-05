@@ -69,7 +69,7 @@ const sortOffers = (sortType, offers) => {
       offers.sort((a, b) => b.rating - a.rating);
       break;
     default:
-      offers;
+      return offers;
   }
   return offers;
 };

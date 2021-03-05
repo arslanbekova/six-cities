@@ -46,7 +46,7 @@ const Map = (props) => {
   }, [city]);
 
   useEffect(() => {
-    const points = new leaflet.layerGroup;
+    const points = new leaflet.LayerGroup();
 
     offers.forEach((offer) => {
       leaflet.marker({
@@ -55,10 +55,10 @@ const Map = (props) => {
       },
       {
         icon: offer.id === activeCard ? activeIcon : icon
-      }).addTo(points)
+      }).addTo(points);
     });
 
-    points.addTo(mapRef.current)
+    points.addTo(mapRef.current);
 
     return () => {
       mapRef.current.removeLayer(points);
