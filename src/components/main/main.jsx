@@ -54,12 +54,31 @@ Main.propTypes = {
     type: PropTypes.string.isRequired
   })),
   city: PropTypes.string.isRequired,
+  sortType: PropTypes.string.isRequired,
+};
+
+const sortOffers = (sortType, offers) => {
+  switch (sortType) {
+    case `Price: low to high`:
+      offers.sort((a, b) => a.price - b.price);
+      break;
+    case `Price: high to low`:
+      offers.sort((a, b) => b.price - a.price);
+      break;
+    case `Top rated first`:
+      offers.sort((a, b) => b.rating - a.rating);
+      break;
+    default:
+      offers;
+  }
+  return offers;
 };
 
 const mapStateToProps = (state) => {
   return {
     city: state.city,
-    offers: state.offers.filter((offer) => offer.city.name === state.city)
+    offers: sortOffers(state.sortType, state.offers.filter((offer) => offer.city.name === state.city)),
+    sortType: state.sortType
   };
 };
 
