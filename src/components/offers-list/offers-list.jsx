@@ -1,12 +1,10 @@
-import React, {useState} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import PlaceCard from '../place-card/place-card';
 
 const OffersList = (props) => {
 
-  const {offers, cardType} = props;
-
-  const [, setPlaceCard] = useState(0);
+  const {offers, cardType, setActiveCard} = props;
 
   const OfferListSettings = {
     NEAR: {
@@ -21,7 +19,7 @@ const OffersList = (props) => {
     <div className={`${OfferListSettings[cardType].containerClass} places__list`}>
       {
         offers.map((offer) =>
-          <PlaceCard key={offer.id} offer={offer} setPlaceCard={setPlaceCard} cardType={cardType}/>
+          <PlaceCard key={offer.id} offer={offer} cardType={cardType} setActiveCard={setActiveCard}/>
         )}
     </div>
   );
@@ -38,7 +36,8 @@ OffersList.propTypes = {
     title: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired
   })),
-  cardType: PropTypes.string.isRequired
+  cardType: PropTypes.string.isRequired,
+  setActiveCard: PropTypes.func.isRequired
 };
 
 export default OffersList;
