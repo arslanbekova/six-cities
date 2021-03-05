@@ -1,6 +1,6 @@
 export const ActionType = {
   CHANGE_CITY: `main/changeCity`,
-  SORT_OFFERS: `main/sortOffers`,
+  CHANGE_SORT_TYPE: `main/changeSortType`,
 };
 
 export const ActionCreator = {
@@ -8,8 +8,8 @@ export const ActionCreator = {
     type: ActionType.CHANGE_CITY,
     payload: city
   }),
-  sortOffers: (sortType) => ({
-    type: ActionType.SORT_OFFERS,
+  changeSortType: (sortType) => ({
+    type: ActionType.CHANGE_SORT_TYPE,
     payload: sortType
   })
 };

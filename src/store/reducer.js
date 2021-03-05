@@ -17,7 +17,7 @@ const reducer = (state = initialState, action) => {
         city: action.payload
       };
 
-    case ActionType.SORT_OFFERS:
+    case ActionType.CHANGE_SORT_TYPE:
       return {
         ...state,
         sortType: action.payload

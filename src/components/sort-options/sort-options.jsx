@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {ActionCreator} from '../../store/action';
 
 const SortOptions = (props) => {
-  const {handleSortOffers, activeSortType} = props;
+  const {handleChangeSortType, activeSortType} = props;
 
   const SortListSettings = {
     CLOSED_CLASS: `places__options places__options--custom`,
@@ -16,26 +16,33 @@ const SortOptions = (props) => {
     PRICE_LOWER: `Price: high to low`,
     RATE: `Top rated first`
   };
-  const [sortListClasses, changeOpenedClass] = useState(SortListSettings.CLOSED_CLASS);
+  const [sortListClasses, changeSortListClasses] = useState(SortListSettings.CLOSED_CLASS);
 
   const handleSortListOpen = () => {
-    return (sortListClasses.includes(SortListSettings.OPENED_CLASS) ?
-      changeOpenedClass(SortListSettings.CLOSED_CLASS) :
-      changeOpenedClass(SortListSettings.OPENED_CLASS));
+    return changeSortListClasses(SortListSettings.OPENED_CLASS);
+  };
+
+  const handleSortListClose = () => {
+    return changeSortListClasses(SortListSettings.CLOSED_CLASS);
   };
 
   return (
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by</span>
       <span className="places__sorting-type" tabIndex="0" onClick={handleSortListOpen}>
-        Popular
+        {activeSortType}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
       <ul className={sortListClasses}>
         {Object.values(SortTypes).map((sortType) =>
-          <li key={sortType} className={`${activeSortType === sortType && `places__option--active`} places__option`} tabIndex="0" onClick={() => handleSortOffers(sortType)}>{sortType}</li>)}
+          <li key={sortType} className={`${activeSortType === sortType && `places__option--active`} places__option`} tabIndex="0"
+            onClick={() => {
+              handleChangeSortType(sortType);
+              handleSortListClose();
+            }}>{sortType}</li>
+        )}
       </ul>
     </form>
   );
@@ -48,13 +55,13 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  handleSortOffers(sortType) {
-    dispatch(ActionCreator.sortOffers(sortType));
+  handleChangeSortType(sortType) {
+    dispatch(ActionCreator.changeSortType(sortType));
   }
 });
 
 SortOptions.propTypes = {
-  handleSortOffers: PropTypes.func.isRequired,
+  handleChangeSortType: PropTypes.func.isRequired,
   activeSortType: PropTypes.string.isRequired
 };
 
