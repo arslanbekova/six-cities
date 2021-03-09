@@ -12,8 +12,6 @@ import {fetchOffersList} from "../../store/api-actions";
 const Main = (props) => {
   const {offers, city, isDataLoaded, onLoadData} = props;
 
-  console.log(offers)
-
   const [activeCard, setActiveCard] = useState(0);
 
   useEffect(() => {
