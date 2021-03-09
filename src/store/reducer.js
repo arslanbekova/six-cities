@@ -1,10 +1,9 @@
-import {OFFERS} from '../mocks/offers';
 import {REVIEWS} from '../mocks/reviews';
 import {ActionType} from './action';
 
 const initialState = {
   city: `Paris`,
-  offers: OFFERS,
+  offers: [],
   reviews: REVIEWS,
   sortType: `Popular`
 };
