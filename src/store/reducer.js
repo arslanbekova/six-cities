@@ -5,7 +5,8 @@ const initialState = {
   city: `Paris`,
   offers: [],
   reviews: REVIEWS,
-  sortType: `Popular`
+  sortType: `Popular`,
+  isDataLoaded: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -20,6 +21,13 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         sortType: action.payload
+      };
+
+    case ActionType.LOAD_OFFERS:
+      return {
+        ...state,
+        offers: action.payload,
+        isDataLoaded: true
       };
   }
 
