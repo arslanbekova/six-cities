@@ -5,10 +5,9 @@ import PropTypes from 'prop-types';
 import 'leaflet/dist/leaflet.css';
 
 const Map = (props) => {
-  const {offers} = props;
-  const city = offers[0].city.location;
-  const points = offers.map((offer) => offer.location);
+  const {offers, activeCard, city} = props;
 
+  const cityPoints = offers[0].city.location;
   const mapRef = useRef();
 
   const icon = leaflet.icon({
@@ -16,18 +15,23 @@ const Map = (props) => {
     iconSize: [30, 30]
   });
 
+  const activeIcon = leaflet.icon({
+    iconUrl: `img/pin-active.svg`,
+    iconSize: [30, 30]
+  });
+
   useEffect(() => {
     mapRef.current = leaflet.map(`map`, {
       center: {
-        lat: city.latitude,
-        lng: city.longitude
+        lat: cityPoints.latitude,
+        lng: cityPoints.longitude
       },
-      zoom: city.zoom,
+      zoom: cityPoints.zoom,
       zoomControl: false,
       marker: true
     });
 
-    mapRef.current.setView([city.latitude, city.longitude], city.zoom);
+    mapRef.current.setView([cityPoints.latitude, cityPoints.longitude], cityPoints.zoom);
 
     leaflet
     .tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`, {
@@ -35,22 +39,32 @@ const Map = (props) => {
     })
     .addTo(mapRef.current);
 
-    points.forEach((point) => {
-      leaflet.marker({
-        lat: point.latitude,
-        lng: point.longitude
-      },
-      {
-        icon
-      })
-      .addTo(mapRef.current);
-    });
-
     return () => {
       mapRef.current.remove();
     };
 
-  }, [offers]);
+  }, [city]);
+
+  useEffect(() => {
+    const points = new leaflet.LayerGroup();
+
+    offers.forEach((offer) => {
+      leaflet.marker({
+        lat: offer.location.latitude,
+        lng: offer.location.longitude
+      },
+      {
+        icon: offer.id === activeCard ? activeIcon : icon
+      }).addTo(points);
+    });
+
+    points.addTo(mapRef.current);
+
+    return () => {
+      mapRef.current.removeLayer(points);
+    };
+
+  }, [offers, activeCard]);
 
   return (
     <div id="map" ref={mapRef} style={{height: 100 + `%`}}></div>
@@ -79,7 +93,9 @@ Map.propTypes = {
       latitude: PropTypes.number.isRequired,
       longitude: PropTypes.number.isRequired,
     })
-  }))
+  })),
+  activeCard: PropTypes.number.isRequired,
+  city: PropTypes.string.isRequired
 };
 
 export default Map;
