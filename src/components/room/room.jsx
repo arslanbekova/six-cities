@@ -8,7 +8,7 @@ import OffersListNear from '../offers-list-near/offers-list-near';
 import {connect} from 'react-redux';
 
 const Room = (props) => {
-  const {reviews, offers} = props;
+  const {reviews, offers, authorizationStatus} = props;
 
   const nearPlaces = offers.slice(0, 3);
 
@@ -134,7 +134,7 @@ const Room = (props) => {
               <section className="property__reviews reviews">
                 <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
                 <ReviewsList reviews={reviews}/>
-                <CommentForm/>
+                {authorizationStatus && <CommentForm/>}
               </section>
             </div>
           </div>
@@ -176,12 +176,14 @@ Room.propTypes = {
     title: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired
   })),
+  authorizationStatus: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => {
   return {
     offers: state.offers,
-    reviews: state.reviews
+    reviews: state.reviews,
+    authorizationStatus: state.authorizationStatus
   };
 };
 
