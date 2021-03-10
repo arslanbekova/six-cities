@@ -31,6 +31,12 @@ const reducer = (state = initialState, action) => {
         offers: action.payload,
         isDataLoaded: true
       };
+
+    case ActionType.REQUIRED_AUTHORIZATION:
+      return {
+        ...state,
+        authorizationStatus: action.payload,
+      };
   }
 
   return state;
