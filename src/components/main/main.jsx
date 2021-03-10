@@ -1,16 +1,30 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import OffersList from '../offers-list/offers-list';
 import Header from '../header/header';
 import Map from '../map/map';
 import CitiesList from '../cities-list/cities-list';
 import SortOptions from '../sort-options/sort-options';
+import Spinner from '../spinner/spinner';
 import {connect} from 'react-redux';
+import {fetchOffersList} from "../../store/api-actions";
 
 const Main = (props) => {
-  const {offers, city} = props;
+  const {offers, city, isDataLoaded, onLoadData} = props;
 
   const [activeCard, setActiveCard] = useState(0);
+
+  useEffect(() => {
+    if (!isDataLoaded) {
+      onLoadData();
+    }
+  }, [isDataLoaded]);
+
+  if (!isDataLoaded) {
+    return (
+      <Spinner/>
+    );
+  }
 
   return (
     <div className="page page--gray page--main">
@@ -55,6 +69,8 @@ Main.propTypes = {
   })),
   city: PropTypes.string.isRequired,
   sortType: PropTypes.string.isRequired,
+  isDataLoaded: PropTypes.bool.isRequired,
+  onLoadData: PropTypes.func.isRequired
 };
 
 const sortOffers = (sortType, offers) => {
@@ -78,10 +94,17 @@ const mapStateToProps = (state) => {
   return {
     city: state.city,
     offers: sortOffers(state.sortType, state.offers.filter((offer) => offer.city.name === state.city)),
-    sortType: state.sortType
+    sortType: state.sortType,
+    isDataLoaded: state.isDataLoaded,
   };
 };
 
+const mapDispatchToProps = (dispatch) => ({
+  onLoadData() {
+    dispatch(fetchOffersList());
+  },
+});
+
 export {Main};
-export default connect(mapStateToProps)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
 
