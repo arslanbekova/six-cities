@@ -5,6 +5,7 @@ import SignIn from '../sign-in/sign-in';
 import Favorites from '../favorites/favorites';
 import Room from '../room/room';
 import NotFound from '../not-found/not-found';
+import PrivateRoute from '../private-route/private-route';
 
 const App = () => {
   return (
@@ -16,9 +17,10 @@ const App = () => {
         <Route exact path="/login">
           <SignIn/>
         </Route>
-        <Route exact path="/favorites">
-          <Favorites/>
-        </Route>
+        <PrivateRoute exact
+          path="/favorites"
+          render={() => <Favorites/>}>
+        </PrivateRoute>
         <Route exact path="/offer/:id">
           <Room/>
         </Route>
