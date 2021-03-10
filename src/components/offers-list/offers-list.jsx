@@ -4,7 +4,7 @@ import PlaceCard from '../place-card/place-card';
 
 const OffersList = (props) => {
 
-  const {offers, cardType, setActiveCard} = props;
+  const {offers, cardType, setActiveCard, authorizationStatus} = props;
 
   const OfferListSettings = {
     NEAR: {
@@ -19,7 +19,7 @@ const OffersList = (props) => {
     <div className={`${OfferListSettings[cardType].containerClass} places__list`}>
       {
         offers.map((offer) =>
-          <PlaceCard key={offer.id} offer={offer} cardType={cardType} setActiveCard={setActiveCard}/>
+          <PlaceCard key={offer.id} offer={offer} cardType={cardType} setActiveCard={setActiveCard} authorizationStatus={authorizationStatus}/>
         )}
     </div>
   );
@@ -37,7 +37,8 @@ OffersList.propTypes = {
     type: PropTypes.string.isRequired
   })),
   cardType: PropTypes.string.isRequired,
-  setActiveCard: PropTypes.func.isRequired
+  setActiveCard: PropTypes.func.isRequired,
+  authorizationStatus: PropTypes.bool.isRequired
 };
 
 export default OffersList;

@@ -10,7 +10,7 @@ import {connect} from 'react-redux';
 import {fetchOffersList} from "../../store/api-actions";
 
 const Main = (props) => {
-  const {offers, city, isDataLoaded, onLoadData} = props;
+  const {offers, city, isDataLoaded, onLoadData, authorizationStatus} = props;
 
   const [activeCard, setActiveCard] = useState(0);
 
@@ -42,7 +42,7 @@ const Main = (props) => {
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{offers.length} places to stay in {city}</b>
               <SortOptions/>
-              <OffersList offers={offers} cardType="MAIN" setActiveCard={setActiveCard}/>
+              <OffersList offers={offers} cardType="MAIN" setActiveCard={setActiveCard} authorizationStatus={authorizationStatus}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
@@ -70,7 +70,8 @@ Main.propTypes = {
   city: PropTypes.string.isRequired,
   sortType: PropTypes.string.isRequired,
   isDataLoaded: PropTypes.bool.isRequired,
-  onLoadData: PropTypes.func.isRequired
+  onLoadData: PropTypes.func.isRequired,
+  authorizationStatus: PropTypes.bool.isRequired
 };
 
 const sortOffers = (sortType, offers) => {
@@ -96,6 +97,7 @@ const mapStateToProps = (state) => {
     offers: sortOffers(state.sortType, state.offers.filter((offer) => offer.city.name === state.city)),
     sortType: state.sortType,
     isDataLoaded: state.isDataLoaded,
+    authorizationStatus: state.authorizationStatus
   };
 };
 
