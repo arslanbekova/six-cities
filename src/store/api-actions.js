@@ -1,4 +1,5 @@
 import {ActionCreator} from './action';
+import {AuthorizationStatus} from '../utils/const';
 import camelcaseKeys from 'camelcase-keys';
 
 export const fetchOffersList = () => (dispatch, _getState, api) => (
@@ -10,4 +11,10 @@ export const fetchOffersList = () => (dispatch, _getState, api) => (
     ]
   })
   .then(({data}) => dispatch(ActionCreator.loadOffers(data)))
+);
+
+export const checkAuth = () => (dispatch, _getState, api) => (
+  api.get(`/login`)
+    .then(() => dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH)))
+    .catch(() => {})
 );
