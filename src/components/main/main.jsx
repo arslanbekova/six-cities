@@ -62,8 +62,7 @@ Main.propTypes = {
   city: PropTypes.string.isRequired,
   sortType: PropTypes.string.isRequired,
   isDataLoaded: PropTypes.bool.isRequired,
-  onLoadData: PropTypes.func.isRequired,
-  authorizationStatus: PropTypes.bool.isRequired
+  onLoadData: PropTypes.func.isRequired
 };
 
 const sortOffers = (sortType, offers) => {

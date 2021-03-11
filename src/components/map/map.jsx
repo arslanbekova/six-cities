@@ -54,7 +54,7 @@ const Map = (props) => {
         lng: offer.location.longitude
       },
       {
-        icon: offer.id === activeCard ? activeIcon : icon
+        icon
       }).addTo(points);
     });
 
@@ -64,7 +64,15 @@ const Map = (props) => {
       mapRef.current.removeLayer(points);
     };
 
-  }, [offers, activeCard]);
+  }, [city]);
+
+  // useEffect(() => {
+  //   mapRef.current.eachLayer((layer) => {
+  //       if (?) {
+  //         layer.setIcon(activeIcon)
+  //       }
+  //   })
+  // }, [activeCard])
 
   return (
     <div id="map" ref={mapRef} style={{height: 100 + `%`}}></div>
