@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import PlaceCard from '../place-card/place-card';
+import {offerTypes} from '../../prop-types/prop-types';
 
 const OffersList = (props) => {
 
-  const {offers, cardType, setActiveCard, authorizationStatus} = props;
+  const {offers, cardType, setActiveCard} = props;
 
   const OfferListSettings = {
     NEAR: {
@@ -19,26 +20,16 @@ const OffersList = (props) => {
     <div className={`${OfferListSettings[cardType].containerClass} places__list`}>
       {
         offers.map((offer) =>
-          <PlaceCard key={offer.id} offer={offer} cardType={cardType} setActiveCard={setActiveCard} authorizationStatus={authorizationStatus}/>
+          <PlaceCard key={offer.id} offer={offer} cardType={cardType} setActiveCard={setActiveCard}/>
         )}
     </div>
   );
 };
 
 OffersList.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    isFavorite: PropTypes.bool.isRequired,
-    isPremium: PropTypes.bool.isRequired,
-    previewImage: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    rating: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired
-  })),
+  offers: PropTypes.arrayOf(PropTypes.shape(offerTypes)).isRequired,
   cardType: PropTypes.string.isRequired,
-  setActiveCard: PropTypes.func.isRequired,
-  authorizationStatus: PropTypes.bool.isRequired
+  setActiveCard: PropTypes.func.isRequired
 };
 
 export default OffersList;

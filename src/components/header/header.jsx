@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import {authTypes} from '../../prop-types/prop-types';
 
 const Header = (props) => {
   const {authorizationStatus, authInfo} = props;
@@ -33,7 +34,8 @@ const Header = (props) => {
 };
 
 Header.propTypes = {
-  authorizationStatus: PropTypes.bool.isRequired
+  authorizationStatus: PropTypes.bool.isRequired,
+  authInfo: PropTypes.shape(authTypes)
 };
 
 const mapStateToProps = (state) => ({

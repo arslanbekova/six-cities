@@ -1,7 +1,7 @@
 import React, {useEffect, useRef} from 'react';
 import leaflet from 'leaflet';
 import PropTypes from 'prop-types';
-
+import {offerTypes} from '../../prop-types/prop-types';
 import 'leaflet/dist/leaflet.css';
 
 const Map = (props) => {
@@ -72,28 +72,7 @@ const Map = (props) => {
 };
 
 Map.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    isFavorite: PropTypes.bool.isRequired,
-    isPremium: PropTypes.bool.isRequired,
-    previewImage: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    rating: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    city: PropTypes.shape({
-      location: PropTypes.shape({
-        latitude: PropTypes.number.isRequired,
-        longitude: PropTypes.number.isRequired,
-        zoom: PropTypes.number.isRequired,
-      }),
-      name: PropTypes.string.isRequired,
-    }),
-    location: PropTypes.shape({
-      latitude: PropTypes.number.isRequired,
-      longitude: PropTypes.number.isRequired,
-    })
-  })),
+  offers: PropTypes.arrayOf(PropTypes.shape(offerTypes)).isRequired,
   activeCard: PropTypes.number.isRequired,
   city: PropTypes.string.isRequired
 };

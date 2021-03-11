@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import {Link, useHistory} from 'react-router-dom';
 import {setRating} from '../../utils/general';
 import {AuthorizationStatus} from '../../utils/const';
+import {connect} from 'react-redux';
+import {offerTypes} from '../../prop-types/prop-types';
 
 const PlaceCard = (props) => {
 
@@ -31,11 +33,11 @@ const PlaceCard = (props) => {
   };
 
   const changeFavoriteFlag = () => {
-  if (authorizationStatus === AuthorizationStatus.AUTH) {
-
-  }
-
-  history.push(`/login`);
+    if (authorizationStatus === AuthorizationStatus.AUTH) {
+      offer.isFavorite = true;
+    } else {
+      history.push(`/login`);
+    }
   };
 
   const handleChangeFavoriteFlag = () => {
@@ -81,30 +83,15 @@ const PlaceCard = (props) => {
 };
 
 PlaceCard.propTypes = {
-  offer: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    isFavorite: PropTypes.bool.isRequired,
-    isPremium: PropTypes.bool.isRequired,
-    previewImage: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    rating: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    city: PropTypes.shape({
-      location: PropTypes.shape({
-        latitude: PropTypes.number.isRequired,
-        longitude: PropTypes.number.isRequired,
-      }),
-      name: PropTypes.string.isRequired,
-    }),
-    location: PropTypes.shape({
-      latitude: PropTypes.number.isRequired,
-      longitude: PropTypes.number.isRequired,
-    })
-  }),
+  offer: PropTypes.shape(offerTypes),
   setActiveCard: PropTypes.func.isRequired,
   cardType: PropTypes.string.isRequired,
   authorizationStatus: PropTypes.bool.isRequired
 };
 
-export default PlaceCard;
+const mapStateToProps = (state) => ({
+  authorizationStatus: state.authorizationStatus,
+});
+
+export {PlaceCard};
+export default connect(mapStateToProps)(PlaceCard);

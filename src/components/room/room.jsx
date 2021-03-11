@@ -6,6 +6,7 @@ import CommentForm from '../comment-form/comment-form';
 import Map from '../map/map';
 import OffersListNear from '../offers-list-near/offers-list-near';
 import {connect} from 'react-redux';
+import {offerTypes, reviewTypes} from '../../prop-types/prop-types';
 
 const Room = (props) => {
   const {reviews, offers, authorizationStatus} = props;
@@ -154,28 +155,8 @@ const Room = (props) => {
 };
 
 Room.propTypes = {
-  reviews: PropTypes.arrayOf(PropTypes.shape({
-    comment: PropTypes.string.isRequired,
-    date: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired,
-    rating: PropTypes.number.isRequired,
-    user: PropTypes.shape({
-      avatarUrl: PropTypes.string.isRequired,
-      id: PropTypes.number.isRequired,
-      isPro: PropTypes.bool.isRequired,
-      name: PropTypes.string.isRequired,
-    })
-  })),
-  offers: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    isFavorite: PropTypes.bool.isRequired,
-    isPremium: PropTypes.bool.isRequired,
-    previewImage: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    rating: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired
-  })),
+  reviews: PropTypes.arrayOf(PropTypes.shape(reviewTypes)).isRequired,
+  offers: PropTypes.arrayOf(PropTypes.shape(offerTypes)).isRequired,
   authorizationStatus: PropTypes.bool.isRequired
 };
 

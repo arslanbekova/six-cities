@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {setRating} from '../../utils/general';
 import moment from 'moment';
+import {reviewTypes} from '../../prop-types/prop-types';
 
 const ReviewItem = (props) => {
   const {review} = props;
@@ -33,18 +34,7 @@ const ReviewItem = (props) => {
 };
 
 ReviewItem.propTypes = {
-  review: PropTypes.shape({
-    comment: PropTypes.string.isRequired,
-    date: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired,
-    rating: PropTypes.number.isRequired,
-    user: PropTypes.shape({
-      avatarUrl: PropTypes.string.isRequired,
-      id: PropTypes.number.isRequired,
-      isPro: PropTypes.bool.isRequired,
-      name: PropTypes.string.isRequired,
-    })
-  })
+  review: PropTypes.shape(reviewTypes)
 };
 
 export default ReviewItem;

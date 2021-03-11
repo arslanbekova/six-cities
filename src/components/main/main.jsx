@@ -8,9 +8,10 @@ import SortOptions from '../sort-options/sort-options';
 import Spinner from '../spinner/spinner';
 import {connect} from 'react-redux';
 import {fetchOffersList} from "../../store/api-actions";
+import {offerTypes} from '../../prop-types/prop-types';
 
 const Main = (props) => {
-  const {offers, city, isDataLoaded, onLoadData, authorizationStatus} = props;
+  const {offers, city, isDataLoaded, onLoadData} = props;
 
   const [activeCard, setActiveCard] = useState(0);
 
@@ -42,7 +43,7 @@ const Main = (props) => {
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{offers.length} places to stay in {city}</b>
               <SortOptions/>
-              <OffersList offers={offers} cardType="MAIN" setActiveCard={setActiveCard} authorizationStatus={authorizationStatus}/>
+              <OffersList offers={offers} cardType="MAIN" setActiveCard={setActiveCard}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
@@ -57,16 +58,7 @@ const Main = (props) => {
 };
 
 Main.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    isFavorite: PropTypes.bool.isRequired,
-    isPremium: PropTypes.bool.isRequired,
-    previewImage: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    rating: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired
-  })),
+  offers: PropTypes.arrayOf(PropTypes.shape(offerTypes)).isRequired,
   city: PropTypes.string.isRequired,
   sortType: PropTypes.string.isRequired,
   isDataLoaded: PropTypes.bool.isRequired,
