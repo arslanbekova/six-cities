@@ -20,7 +20,14 @@ export const checkAuth = () => (dispatch, _getState, api) => (
 );
 
 export const login = ({email, password}) => (dispatch, _getState, api) => (
-  api.post(`/login`, {email, password})
+  api.post(`/login`, {email, password}, {
+    transformResponse: [
+      (data) => {
+        return camelcaseKeys(JSON.parse(data), {deep: true});
+      }
+    ]
+  })
+    .then(({data}) => dispatch(ActionCreator.loadAuthInfo(data)))
     .then(() => dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH)))
     .then(() => dispatch(ActionCreator.redirectToRoute(`/`)))
 );
