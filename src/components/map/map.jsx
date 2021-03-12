@@ -54,7 +54,8 @@ const Map = (props) => {
         lng: offer.location.longitude
       },
       {
-        icon
+        icon,
+        alt: offer.id
       }).addTo(points);
     });
 
@@ -66,13 +67,13 @@ const Map = (props) => {
 
   }, [city]);
 
-  // useEffect(() => {
-  //   mapRef.current.eachLayer((layer) => {
-  //       if (?) {
-  //         layer.setIcon(activeIcon)
-  //       }
-  //   })
-  // }, [activeCard])
+  useEffect(() => {
+    mapRef.current.eachLayer((layer) => {
+      if (layer instanceof leaflet.Marker) {
+        layer.setIcon(layer.options.alt === activeCard ? activeIcon : icon);
+      }
+    });
+  }, [activeCard]);
 
   return (
     <div id="map" ref={mapRef} style={{height: 100 + `%`}}></div>
