@@ -8,6 +8,7 @@ import SortOptions from '../sort-options/sort-options';
 import Spinner from '../spinner/spinner';
 import {connect} from 'react-redux';
 import {fetchOffersList} from "../../store/api-actions";
+import {offerTypes} from '../../prop-types/prop-types';
 
 const Main = (props) => {
   const {offers, city, isDataLoaded, onLoadData} = props;
@@ -57,16 +58,7 @@ const Main = (props) => {
 };
 
 Main.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    isFavorite: PropTypes.bool.isRequired,
-    isPremium: PropTypes.bool.isRequired,
-    previewImage: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    rating: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired
-  })),
+  offers: PropTypes.arrayOf(PropTypes.shape(offerTypes)).isRequired,
   city: PropTypes.string.isRequired,
   sortType: PropTypes.string.isRequired,
   isDataLoaded: PropTypes.bool.isRequired,
@@ -96,6 +88,7 @@ const mapStateToProps = (state) => {
     offers: sortOffers(state.sortType, state.offers.filter((offer) => offer.city.name === state.city)),
     sortType: state.sortType,
     isDataLoaded: state.isDataLoaded,
+    authorizationStatus: state.authorizationStatus
   };
 };
 

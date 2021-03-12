@@ -6,9 +6,10 @@ import CommentForm from '../comment-form/comment-form';
 import Map from '../map/map';
 import OffersListNear from '../offers-list-near/offers-list-near';
 import {connect} from 'react-redux';
+import {offerTypes, reviewTypes} from '../../prop-types/prop-types';
 
 const Room = (props) => {
-  const {reviews, offers} = props;
+  const {reviews, offers, authorizationStatus} = props;
 
   const nearPlaces = offers.slice(0, 3);
 
@@ -134,7 +135,7 @@ const Room = (props) => {
               <section className="property__reviews reviews">
                 <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
                 <ReviewsList reviews={reviews}/>
-                <CommentForm/>
+                {authorizationStatus && <CommentForm/>}
               </section>
             </div>
           </div>
@@ -154,34 +155,16 @@ const Room = (props) => {
 };
 
 Room.propTypes = {
-  reviews: PropTypes.arrayOf(PropTypes.shape({
-    comment: PropTypes.string.isRequired,
-    date: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired,
-    rating: PropTypes.number.isRequired,
-    user: PropTypes.shape({
-      avatarUrl: PropTypes.string.isRequired,
-      id: PropTypes.number.isRequired,
-      isPro: PropTypes.bool.isRequired,
-      name: PropTypes.string.isRequired,
-    })
-  })),
-  offers: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    isFavorite: PropTypes.bool.isRequired,
-    isPremium: PropTypes.bool.isRequired,
-    previewImage: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    rating: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired
-  })),
+  reviews: PropTypes.arrayOf(PropTypes.shape(reviewTypes)).isRequired,
+  offers: PropTypes.arrayOf(PropTypes.shape(offerTypes)).isRequired,
+  authorizationStatus: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => {
   return {
     offers: state.offers,
-    reviews: state.reviews
+    reviews: state.reviews,
+    authorizationStatus: state.authorizationStatus
   };
 };
 
