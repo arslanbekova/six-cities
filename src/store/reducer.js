@@ -1,12 +1,15 @@
 import {REVIEWS} from '../mocks/reviews';
 import {ActionType} from './action';
+import {AuthorizationStatus} from '../utils/const';
 
 const initialState = {
   city: `Paris`,
   offers: [],
   reviews: REVIEWS,
   sortType: `Popular`,
-  isDataLoaded: false
+  isDataLoaded: false,
+  authorizationStatus: AuthorizationStatus.NO_AUTH,
+  authInfo: {}
 };
 
 const reducer = (state = initialState, action) => {
@@ -28,6 +31,18 @@ const reducer = (state = initialState, action) => {
         ...state,
         offers: action.payload,
         isDataLoaded: true
+      };
+
+    case ActionType.REQUIRED_AUTHORIZATION:
+      return {
+        ...state,
+        authorizationStatus: action.payload,
+      };
+
+    case ActionType.LOAD_AUTH_INFO:
+      return {
+        ...state,
+        authInfo: action.payload,
       };
   }
 
