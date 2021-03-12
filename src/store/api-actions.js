@@ -14,7 +14,14 @@ export const fetchOffersList = () => (dispatch, _getState, api) => (
 );
 
 export const checkAuth = () => (dispatch, _getState, api) => (
-  api.get(`/login`)
+  api.get(`/login`, {
+    transformResponse: [
+      (data) => {
+        return camelcaseKeys(JSON.parse(data), {deep: true});
+      }
+    ]
+  })
+    .then(({data}) => dispatch(ActionCreator.loadAuthInfo(data)))
     .then(() => dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH)))
     .catch(() => {})
 );
