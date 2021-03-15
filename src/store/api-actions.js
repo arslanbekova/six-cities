@@ -21,6 +21,16 @@ export const fetchOffer = (id) => (dispatch, _getState, api) => (
   .then(() => dispatch(ActionCreator.redirectToRoute(`/offer/${id}`)))
 );
 
+export const fetchReviewsList = (id) => (dispatch, _getState, api) => (
+  api.get(`/comments/${id}`, FORMATTED_RESPONS)
+  .then(({data}) => dispatch(ActionCreator.loadReviews(data)))
+);
+
+export const postComment = (id, {comment, rating}) => (dispatch, _getState, api) => (
+  api.post(`/comments/${id}`, {comment, rating}, FORMATTED_RESPONS)
+    .then(({data}) => dispatch(ActionCreator.loadReviews(data)))
+);
+
 export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(`/login`, FORMATTED_RESPONS)
     .then(({data}) => dispatch(ActionCreator.loadAuthInfo(data)))

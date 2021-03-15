@@ -1,13 +1,22 @@
 import React, {useState} from 'react';
+import {connect} from 'react-redux';
+import {postComment} from "../../store/api-actions";
 
-const CommentForm = () => {
+const CommentForm = (props) => {
+  const {offerId, onSubmit} = props;
+
   const [userForm, setUserForm] = useState({
     rating: ``,
-    review: ``,
+    review: ``
   });
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
+
+    onSubmit(offerId, {
+      comment: userForm.review,
+      rating: userForm.rating
+    });
   };
 
   const handleFieldChange = (evt) => {
@@ -54,15 +63,23 @@ const CommentForm = () => {
           </svg>
         </label>
       </div>
-      <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved" onChange={handleFieldChange}></textarea>
+      <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved" required minlength="50"
+          maxlength="300" onChange={handleFieldChange}></textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled="">Submit</button>
+        <button className="reviews__submit form__submit button" type="submit" disabled>Submit</button>
       </div>
     </form>
   );
 };
 
-export default CommentForm;
+const mapDispatchToProps = (dispatch) => ({
+  onSubmit(offerId, commentData) {
+    dispatch(postComment(offerId, commentData));
+  },
+});
+
+export {CommentForm};
+export default connect(null, mapDispatchToProps)(CommentForm);
