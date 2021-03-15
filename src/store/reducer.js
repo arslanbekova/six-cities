@@ -9,7 +9,8 @@ const initialState = {
   sortType: `Popular`,
   isDataLoaded: false,
   authorizationStatus: AuthorizationStatus.NO_AUTH,
-  authInfo: {}
+  authInfo: {},
+  offer: {}
 };
 
 const reducer = (state = initialState, action) => {
@@ -43,6 +44,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         authInfo: action.payload,
+      };
+
+    case ActionType.LOAD_OFFER:
+      return {
+        ...state,
+        offer: action.payload,
       };
   }
 

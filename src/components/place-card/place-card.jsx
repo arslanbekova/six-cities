@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link, useHistory} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import {setRating} from '../../utils/general';
 import {AuthorizationStatus} from '../../utils/const';
 import {connect} from 'react-redux';
 import {offerTypes} from '../../prop-types/prop-types';
+import {fetchOffer} from "../../store/api-actions";
 
 const PlaceCard = (props) => {
 
-  const {offer, cardType, setActiveCard, authorizationStatus} = props;
+  const {offer, cardType, setActiveCard, authorizationStatus, seeOfferPage} = props;
   const history = useHistory();
 
   const CardSettings = {
@@ -44,6 +45,10 @@ const PlaceCard = (props) => {
     changeFavoriteFlag();
   };
 
+  const handleSeeOfferPage = () => {
+    seeOfferPage(offer.id);
+  };
+
   return (
     <article className={`${CardSettings[cardType].cardClass} place-card`} onMouseOver={() => setActiveCard(offer.id)} onMouseOut={() => setActiveCard(0)}>
       {offer.isPremium && <div className="place-card__mark">
@@ -73,8 +78,8 @@ const PlaceCard = (props) => {
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
-        <h2 className="place-card__name">
-          <Link to="/offer/id">{offer.title}</Link>
+        <h2 className="place-card__name" onClick={handleSeeOfferPage}>
+          {offer.title}
         </h2>
         <p className="place-card__type">{offer.type}</p>
       </div>
@@ -86,12 +91,19 @@ PlaceCard.propTypes = {
   offer: PropTypes.shape(offerTypes),
   setActiveCard: PropTypes.func.isRequired,
   cardType: PropTypes.string.isRequired,
-  authorizationStatus: PropTypes.bool.isRequired
+  authorizationStatus: PropTypes.bool.isRequired,
+  seeOfferPage: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-  authorizationStatus: state.authorizationStatus,
+  authorizationStatus: state.authorizationStatus
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  seeOfferPage(offerId) {
+    dispatch(fetchOffer(offerId));
+  },
 });
 
 export {PlaceCard};
-export default connect(mapStateToProps)(PlaceCard);
+export default connect(mapStateToProps, mapDispatchToProps)(PlaceCard);

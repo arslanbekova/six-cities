@@ -4,7 +4,8 @@ export const ActionType = {
   LOAD_OFFERS: `data/loadOffers`,
   REQUIRED_AUTHORIZATION: `user/requiredAuthorization`,
   REDIRECT_TO_ROUTE: `login/redirectToRoute`,
-  LOAD_AUTH_INFO: `login/loadAuthInfo`
+  LOAD_AUTH_INFO: `login/loadAuthInfo`,
+  LOAD_OFFER: `data/loadOffer`
 };
 
 export const ActionCreator = {
@@ -31,5 +32,9 @@ export const ActionCreator = {
   loadAuthInfo: (authInfo) => ({
     type: ActionType.LOAD_AUTH_INFO,
     payload: authInfo
-  })
+  }),
+  loadOffer: (offer) => ({
+    type: ActionType.LOAD_OFFER,
+    payload: offer
+  }),
 };

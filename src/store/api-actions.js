@@ -2,38 +2,34 @@ import {ActionCreator} from './action';
 import {AuthorizationStatus} from '../utils/const';
 import camelcaseKeys from 'camelcase-keys';
 
+const FORMATTED_RESPONS = {
+  transformResponse: [
+    (data) => {
+      return camelcaseKeys(JSON.parse(data), {deep: true});
+    }
+  ]
+};
+
 export const fetchOffersList = () => (dispatch, _getState, api) => (
-  api.get(`/hotels`, {
-    transformResponse: [
-      (data) => {
-        return camelcaseKeys(JSON.parse(data), {deep: true});
-      }
-    ]
-  })
+  api.get(`/hotels`, FORMATTED_RESPONS)
   .then(({data}) => dispatch(ActionCreator.loadOffers(data)))
 );
 
+export const fetchOffer = (id) => (dispatch, _getState, api) => (
+  api.get(`/hotels/${id}`, FORMATTED_RESPONS)
+  .then(({data}) => dispatch(ActionCreator.loadOffer(data)))
+  .then(() => dispatch(ActionCreator.redirectToRoute(`/offer/${id}`)))
+);
+
 export const checkAuth = () => (dispatch, _getState, api) => (
-  api.get(`/login`, {
-    transformResponse: [
-      (data) => {
-        return camelcaseKeys(JSON.parse(data), {deep: true});
-      }
-    ]
-  })
+  api.get(`/login`, FORMATTED_RESPONS)
     .then(({data}) => dispatch(ActionCreator.loadAuthInfo(data)))
     .then(() => dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH)))
     .catch(() => {})
 );
 
 export const login = ({email, password}) => (dispatch, _getState, api) => (
-  api.post(`/login`, {email, password}, {
-    transformResponse: [
-      (data) => {
-        return camelcaseKeys(JSON.parse(data), {deep: true});
-      }
-    ]
-  })
+  api.post(`/login`, {email, password}, FORMATTED_RESPONS)
     .then(({data}) => dispatch(ActionCreator.loadAuthInfo(data)))
     .then(() => dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH)))
     .then(() => dispatch(ActionCreator.redirectToRoute(`/`)))

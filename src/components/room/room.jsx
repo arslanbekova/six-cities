@@ -9,7 +9,7 @@ import {connect} from 'react-redux';
 import {offerTypes, reviewTypes} from '../../prop-types/prop-types';
 
 const Room = (props) => {
-  const {reviews, offers, authorizationStatus} = props;
+  const {reviews, offers, authorizationStatus, offer} = props;
 
   const nearPlaces = offers.slice(0, 3);
 
@@ -164,7 +164,8 @@ const mapStateToProps = (state) => {
   return {
     offers: state.offers,
     reviews: state.reviews,
-    authorizationStatus: state.authorizationStatus
+    authorizationStatus: state.authorizationStatus,
+    offer: state.offer
   };
 };
 
