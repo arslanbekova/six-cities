@@ -26,9 +26,10 @@ export const fetchReviewsList = (id) => (dispatch, _getState, api) => (
   .then(({data}) => dispatch(ActionCreator.loadReviews(data)))
 );
 
-export const postComment = (id, {comment, rating}) => (dispatch, _getState, api) => (
+export const postComment = (id, {comment, rating}, onSuccessUpload) => (dispatch, _getState, api) => (
   api.post(`/comments/${id}`, {comment, rating}, FORMATTED_RESPONS)
     .then(({data}) => dispatch(ActionCreator.loadReviews(data)))
+    .then(() => onSuccessUpload())
 );
 
 export const checkAuth = () => (dispatch, _getState, api) => (
