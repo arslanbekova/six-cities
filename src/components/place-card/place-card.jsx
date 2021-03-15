@@ -5,7 +5,7 @@ import {setRating} from '../../utils/general';
 import {AuthorizationStatus} from '../../utils/const';
 import {connect} from 'react-redux';
 import {offerTypes} from '../../prop-types/prop-types';
-import {fetchOffer} from "../../store/api-actions";
+import {fetchOffer, fetchReviewsList} from "../../store/api-actions";
 
 const PlaceCard = (props) => {
 
@@ -102,6 +102,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   seeOfferPage(offerId) {
     dispatch(fetchOffer(offerId));
+    dispatch(fetchReviewsList(offerId));
   },
 });
 
