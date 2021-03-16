@@ -5,11 +5,11 @@ import {setRating} from '../../utils/general';
 import {AuthorizationStatus} from '../../utils/const';
 import {connect} from 'react-redux';
 import {offerTypes} from '../../prop-types/prop-types';
-import {fetchOffer, fetchReviewsList} from "../../store/api-actions";
+// import {fetchOffer, fetchReviewsList} from "../../store/api-actions";
 
 const PlaceCard = (props) => {
 
-  const {offer, cardType, setActiveCard, authorizationStatus, seeOfferPage} = props;
+  const {offer, cardType, setActiveCard, authorizationStatus} = props;
   const history = useHistory();
 
   const CardSettings = {
@@ -46,7 +46,8 @@ const PlaceCard = (props) => {
   };
 
   const handleSeeOfferPage = () => {
-    seeOfferPage(offer.id);
+    // seeOfferPage(offer.id);
+    history.push(`/offer/${offer.id}`);
   };
 
   return (
@@ -92,19 +93,19 @@ PlaceCard.propTypes = {
   setActiveCard: PropTypes.func.isRequired,
   cardType: PropTypes.string.isRequired,
   authorizationStatus: PropTypes.bool.isRequired,
-  seeOfferPage: PropTypes.func.isRequired
+  // seeOfferPage: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
   authorizationStatus: state.authorizationStatus
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  seeOfferPage(offerId) {
-    dispatch(fetchOffer(offerId));
-    dispatch(fetchReviewsList(offerId));
-  },
-});
+// const mapDispatchToProps = (dispatch) => ({
+//   seeOfferPage(offerId) {
+//     dispatch(fetchOffer(offerId));
+//     dispatch(fetchReviewsList(offerId));
+//   },
+// });
 
 export {PlaceCard};
-export default connect(mapStateToProps, mapDispatchToProps)(PlaceCard);
+export default connect(mapStateToProps)(PlaceCard);

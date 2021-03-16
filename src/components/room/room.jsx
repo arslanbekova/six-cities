@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import Header from '../header/header';
 import ReviewsList from '../reviews-list/reviews-list';
@@ -8,9 +8,16 @@ import OffersListNear from '../offers-list-near/offers-list-near';
 import {connect} from 'react-redux';
 import {offerTypes, reviewTypes} from '../../prop-types/prop-types';
 import {setRating} from '../../utils/general';
+import {fetchOffer, fetchReviewsList} from "../../store/api-actions";
 
 const Room = (props) => {
-  const {reviews, offers, authorizationStatus, offer} = props;
+  const {reviews, offers, authorizationStatus, offer, seeOfferPage} = props;
+
+  const offerId = location.pathname.split(`/`).pop();
+
+  useEffect(() => {
+    seeOfferPage(offerId)
+  }, [offerId]);
 
   const nearPlaces = offers.slice(0, 3);
   const separatedDescription = offer.description.split(`.`).slice(0, -1);
@@ -102,13 +109,13 @@ const Room = (props) => {
             </div>
           </div>
           <section className="property__map map">
-            <Map offers={nearPlaces}/>
+            {/* <Map offers={nearPlaces}/> */}
           </section>
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <OffersListNear offers={nearPlaces}/>
+            {/* <OffersListNear offers={nearPlaces}/> */}
           </section>
         </div>
       </main>
@@ -132,5 +139,12 @@ const mapStateToProps = (state) => {
   };
 };
 
+const mapDispatchToProps = (dispatch) => ({
+  seeOfferPage(offerId) {
+    dispatch(fetchOffer(offerId));
+    dispatch(fetchReviewsList(offerId));
+  },
+});
+
 export {Room};
-export default connect(mapStateToProps)(Room);
+export default connect(mapStateToProps, mapDispatchToProps)(Room);
