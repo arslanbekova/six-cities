@@ -18,7 +18,7 @@ export const fetchOffersList = () => (dispatch, _getState, api) => (
 export const fetchOffer = (id) => (dispatch, _getState, api) => (
   api.get(`/hotels/${id}`, FORMATTED_RESPONS)
   .then(({data}) => dispatch(ActionCreator.loadOffer(data)))
-  // .then(() => dispatch(ActionCreator.redirectToRoute(`/offer/${id}`)))
+  .catch((err) => dispatch(ActionCreator.redirectToRoute(`/not_found`)))
 );
 
 export const fetchReviewsList = (id) => (dispatch, _getState, api) => (
@@ -29,8 +29,9 @@ export const fetchReviewsList = (id) => (dispatch, _getState, api) => (
 export const postComment = (id, {comment, rating}, onSuccessUpload) => (dispatch, _getState, api) => (
   api.post(`/comments/${id}`, {comment, rating}, FORMATTED_RESPONS)
     .then(({data}) => dispatch(ActionCreator.loadReviews(data)))
-    .then(() => onSuccessUpload())
+    .then(onSuccessUpload)
 );
+
 
 export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(`/login`, FORMATTED_RESPONS)

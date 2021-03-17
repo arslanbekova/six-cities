@@ -9,6 +9,7 @@ const initialState = {
   isDataLoaded: false,
   authorizationStatus: AuthorizationStatus.NO_AUTH,
   authInfo: {},
+  isOfferLoaded: false,
   offer: {}
 };
 
@@ -55,6 +56,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         offer: action.payload,
+        isOfferLoaded: true
       };
   }
 

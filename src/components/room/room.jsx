@@ -1,23 +1,33 @@
 import React, {useEffect} from 'react';
+import {useParams} from "react-router-dom";
 import PropTypes from 'prop-types';
 import Header from '../header/header';
 import ReviewsList from '../reviews-list/reviews-list';
 import CommentForm from '../comment-form/comment-form';
 import Map from '../map/map';
 import OffersListNear from '../offers-list-near/offers-list-near';
+import Spinner from '../spinner/spinner';
 import {connect} from 'react-redux';
 import {offerTypes, reviewTypes} from '../../prop-types/prop-types';
 import {setRating} from '../../utils/general';
 import {fetchOffer, fetchReviewsList} from "../../store/api-actions";
 
 const Room = (props) => {
-  const {reviews, offers, authorizationStatus, offer, seeOfferPage} = props;
+  const {reviews, offers, authorizationStatus, offer, onOpenOfferPage, isOfferLoaded} = props;
 
-  const offerId = location.pathname.split(`/`).pop();
+  let {id} = useParams();
 
   useEffect(() => {
-    seeOfferPage(offerId)
-  }, [offerId]);
+    if (!isOfferLoaded) {
+      onOpenOfferPage(id);
+    }
+  }, [id]);
+
+  if (!isOfferLoaded) {
+    return (
+      <Spinner/>
+    );
+  }
 
   const nearPlaces = offers.slice(0, 3);
   const separatedDescription = offer.description.split(`.`).slice(0, -1);
@@ -115,7 +125,7 @@ const Room = (props) => {
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            {/* <OffersListNear offers={nearPlaces}/> */}
+            <OffersListNear offers={nearPlaces}/>
           </section>
         </div>
       </main>
@@ -127,7 +137,9 @@ Room.propTypes = {
   reviews: PropTypes.arrayOf(PropTypes.shape(reviewTypes)).isRequired,
   offers: PropTypes.arrayOf(PropTypes.shape(offerTypes)).isRequired,
   authorizationStatus: PropTypes.bool.isRequired,
-  offer: PropTypes.shape(offerTypes).isRequired
+  offer: PropTypes.shape(offerTypes),
+  isOfferLoaded: PropTypes.bool.isRequired,
+  onOpenOfferPage: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -135,12 +147,14 @@ const mapStateToProps = (state) => {
     offers: state.offers,
     reviews: state.reviews,
     authorizationStatus: state.authorizationStatus,
-    offer: state.offer
+    offer: state.offer,
+    isOfferLoaded: state.isOfferLoaded
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  seeOfferPage(offerId) {
+
+  onOpenOfferPage(offerId) {
     dispatch(fetchOffer(offerId));
     dispatch(fetchReviewsList(offerId));
   },

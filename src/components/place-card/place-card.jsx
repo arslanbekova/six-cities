@@ -5,7 +5,6 @@ import {setRating} from '../../utils/general';
 import {AuthorizationStatus} from '../../utils/const';
 import {connect} from 'react-redux';
 import {offerTypes} from '../../prop-types/prop-types';
-// import {fetchOffer, fetchReviewsList} from "../../store/api-actions";
 
 const PlaceCard = (props) => {
 
@@ -45,8 +44,7 @@ const PlaceCard = (props) => {
     changeFavoriteFlag();
   };
 
-  const handleSeeOfferPage = () => {
-    // seeOfferPage(offer.id);
+  const handleOpenOfferPage = () => {
     history.push(`/offer/${offer.id}`);
   };
 
@@ -79,7 +77,7 @@ const PlaceCard = (props) => {
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
-        <h2 className="place-card__name" onClick={handleSeeOfferPage}>
+        <h2 className="place-card__name" onClick={handleOpenOfferPage}>
           {offer.title}
         </h2>
         <p className="place-card__type">{offer.type}</p>
@@ -93,19 +91,11 @@ PlaceCard.propTypes = {
   setActiveCard: PropTypes.func.isRequired,
   cardType: PropTypes.string.isRequired,
   authorizationStatus: PropTypes.bool.isRequired,
-  // seeOfferPage: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
   authorizationStatus: state.authorizationStatus
 });
-
-// const mapDispatchToProps = (dispatch) => ({
-//   seeOfferPage(offerId) {
-//     dispatch(fetchOffer(offerId));
-//     dispatch(fetchReviewsList(offerId));
-//   },
-// });
 
 export {PlaceCard};
 export default connect(mapStateToProps)(PlaceCard);
