@@ -5,16 +5,31 @@ import {postComment} from "../../store/api-actions";
 
 const CommentForm = (props) => {
   const {offerId, onSubmit} = props;
+  const InputRatingValues = {
+    FIVE_STARS: `5`,
+    FOUR_STARS: `4`,
+    THREE_STARS: `3`,
+    TWO_STARS: `2`,
+    ONE_STAR: `1`
+  };
 
   const [userForm, setUserForm] = useState({
     rating: ``,
     review: ``,
-    isDisableFormField: false
+    isDisableFormField: false,
+    isChecked: false
   });
 
   const [isDisableButton, setDisableButton] = useState(true);
 
   const onSuccessUpLoad = () => {
+    setUserForm({
+      rating: ``,
+      review: ``,
+      isDisableFormField: false,
+      isChecked: false
+    });
+    setDisableButton(false);
     setUserForm({...userForm, isDisableFormField: false});
   };
 
@@ -25,19 +40,18 @@ const CommentForm = (props) => {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
+    setDisableButton(true);
+    setUserForm({...userForm, isDisableFormField: true});
 
     onSubmit(offerId, {
       comment: userForm.review,
       rating: userForm.rating
     }, onSuccessUpLoad);
-
-    setDisableButton(true);
-    setUserForm({...userForm, isDisableFormField: true});
   };
 
   const handleFieldChange = (evt) => {
     const {name, value} = evt.target;
-    setUserForm({...userForm, [name]: value});
+    setUserForm({...userForm, [name]: value, isChecked: true});
 
     const FormValidationPoints = {
       MIN_REVIEW_LENGTH: 50,
@@ -58,42 +72,42 @@ const CommentForm = (props) => {
     <form className="reviews__form form" action="#" method="post" onSubmit={handleSubmit}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
-        <input className="form__rating-input visually-hidden" name="rating" value="5" id="5-stars" type="radio" disabled={userForm.isDisableFormField} onChange={handleFieldChange}/>
+        <input className="form__rating-input visually-hidden" name="rating" value="5" id="5-stars" type="radio" checked={userForm.rating === InputRatingValues.FIVE_STARS} disabled={userForm.isDisableFormField} onChange={handleFieldChange}/>
         <label htmlFor="5-stars" className="reviews__rating-label form__rating-label" title="perfect">
           <svg className="form__star-image" width="37" height="33">
             <use xlinkHref="#icon-star"></use>
           </svg>
         </label>
 
-        <input className="form__rating-input visually-hidden" name="rating" value="4" id="4-stars" type="radio" disabled={userForm.isDisableFormField} onChange={handleFieldChange}/>
+        <input className="form__rating-input visually-hidden" name="rating" value="4" id="4-stars" type="radio" checked={userForm.rating === InputRatingValues.FOUR_STARS} disabled={userForm.isDisableFormField} onChange={handleFieldChange}/>
         <label htmlFor="4-stars" className="reviews__rating-label form__rating-label" title="good">
           <svg className="form__star-image" width="37" height="33">
             <use xlinkHref="#icon-star"></use>
           </svg>
         </label>
 
-        <input className="form__rating-input visually-hidden" name="rating" value="3" id="3-stars" type="radio" disabled={userForm.isDisableFormField} onChange={handleFieldChange}/>
+        <input className="form__rating-input visually-hidden" name="rating" value="3" id="3-stars" type="radio" checked={userForm.rating === InputRatingValues.FOUR_STARS} disabled={userForm.isDisableFormField} onChange={handleFieldChange}/>
         <label htmlFor="3-stars" className="reviews__rating-label form__rating-label" title="not bad">
           <svg className="form__star-image" width="37" height="33">
             <use xlinkHref="#icon-star"></use>
           </svg>
         </label>
 
-        <input className="form__rating-input visually-hidden" name="rating" value="2" id="2-stars" type="radio" disabled={userForm.isDisableFormField} onChange={handleFieldChange}/>
+        <input className="form__rating-input visually-hidden" name="rating" value="2" id="2-stars" type="radio" checked={userForm.rating === InputRatingValues.TWO_STARS} disabled={userForm.isDisableFormField} onChange={handleFieldChange}/>
         <label htmlFor="2-stars" className="reviews__rating-label form__rating-label" title="badly">
           <svg className="form__star-image" width="37" height="33">
             <use xlinkHref="#icon-star"></use>
           </svg>
         </label>
 
-        <input className="form__rating-input visually-hidden" name="rating" value="1" id="1-star" type="radio" disabled={userForm.isDisableFormField} onChange={handleFieldChange}/>
+        <input className="form__rating-input visually-hidden" name="rating" value="1" id="1-star" type="radio" checked={userForm.rating === InputRatingValues.ONE_STAR} disabled={userForm.isDisableFormField} onChange={handleFieldChange}/>
         <label htmlFor="1-star" className="reviews__rating-label form__rating-label" title="terribly">
           <svg className="form__star-image" width="37" height="33">
             <use xlinkHref="#icon-star"></use>
           </svg>
         </label>
       </div>
-      <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved" disabled={userForm.isDisableFormField} required onChange={handleFieldChange}></textarea>
+      <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved" value={userForm.review} disabled={userForm.isDisableFormField} onChange={handleFieldChange} required></textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
