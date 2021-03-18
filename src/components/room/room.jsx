@@ -137,7 +137,7 @@ Room.propTypes = {
   reviews: PropTypes.arrayOf(PropTypes.shape(reviewTypes)).isRequired,
   offers: PropTypes.arrayOf(PropTypes.shape(offerTypes)).isRequired,
   authorizationStatus: PropTypes.bool.isRequired,
-  offer: PropTypes.shape(offerTypes),
+  offer: PropTypes.oneOfType([PropTypes.shape(offerTypes), PropTypes.object.isRequired]),
   isOfferLoaded: PropTypes.bool.isRequired,
   onOpenOfferPage: PropTypes.func.isRequired
 };
