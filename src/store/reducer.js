@@ -10,7 +10,8 @@ const initialState = {
   authorizationStatus: AuthorizationStatus.NO_AUTH,
   authInfo: {},
   isOfferLoaded: false,
-  offer: {}
+  offer: {},
+  offersNear: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -58,6 +59,11 @@ const reducer = (state = initialState, action) => {
         offer: action.payload,
         isOfferLoaded: true
       };
+    case ActionType.LOAD_OFFERS_NEAR:
+    return {
+      ...state,
+      offersNear: action.payload,
+    };
   }
 
   return state;

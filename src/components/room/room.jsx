@@ -10,10 +10,10 @@ import Spinner from '../spinner/spinner';
 import {connect} from 'react-redux';
 import {offerTypes, reviewTypes} from '../../prop-types/prop-types';
 import {setRating} from '../../utils/general';
-import {fetchOffer, fetchReviewsList} from "../../store/api-actions";
+import {fetchOffer, fetchReviewsList, fetchOffersNear} from "../../store/api-actions";
 
 const Room = (props) => {
-  const {reviews, offers, authorizationStatus, offer, onOpenOfferPage, isOfferLoaded} = props;
+  const {reviews, offersNear, authorizationStatus, offer, onOpenOfferPage, isOfferLoaded} = props;
 
   let {id} = useParams();
 
@@ -29,7 +29,6 @@ const Room = (props) => {
     );
   }
 
-  const nearPlaces = offers.slice(0, 3);
   const separatedDescription = offer.description.split(`.`).slice(0, -1);
 
   return (
@@ -119,13 +118,13 @@ const Room = (props) => {
             </div>
           </div>
           <section className="property__map map">
-            {/* <Map offers={nearPlaces}/> */}
+            <Map offers={offersNear}/>
           </section>
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <OffersListNear offers={nearPlaces}/>
+            <OffersListNear offers={offersNear}/>
           </section>
         </div>
       </main>
@@ -135,7 +134,7 @@ const Room = (props) => {
 
 Room.propTypes = {
   reviews: PropTypes.arrayOf(PropTypes.shape(reviewTypes)).isRequired,
-  offers: PropTypes.arrayOf(PropTypes.shape(offerTypes)).isRequired,
+  offersNear: PropTypes.arrayOf(PropTypes.shape(offerTypes)).isRequired,
   authorizationStatus: PropTypes.bool.isRequired,
   offer: PropTypes.oneOfType([PropTypes.shape(offerTypes), PropTypes.object.isRequired]),
   isOfferLoaded: PropTypes.bool.isRequired,
@@ -144,7 +143,7 @@ Room.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    offers: state.offers,
+    offersNear: state.offersNear,
     reviews: state.reviews,
     authorizationStatus: state.authorizationStatus,
     offer: state.offer,
@@ -157,6 +156,7 @@ const mapDispatchToProps = (dispatch) => ({
   onOpenOfferPage(offerId) {
     dispatch(fetchOffer(offerId));
     dispatch(fetchReviewsList(offerId));
+    dispatch(fetchOffersNear(offerId));
   },
 });
 
