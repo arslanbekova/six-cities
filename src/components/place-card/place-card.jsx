@@ -48,8 +48,14 @@ const PlaceCard = (props) => {
     history.push(`/offer/${offer.id}`);
   };
 
+  const handleSetActiveCard = (offerId) => {
+    if (cardType === `MAIN`) {
+      setActiveCard(offerId);
+    }
+  };
+
   return (
-    <article className={`${CardSettings[cardType].cardClass} place-card`} onMouseOver={() => setActiveCard(offer.id)} onMouseOut={() => setActiveCard(0)}>
+    <article className={`${CardSettings[cardType].cardClass} place-card`} onMouseEnter={() => handleSetActiveCard(offer.id)} onMouseOut={() => handleSetActiveCard(0)}>
       {offer.isPremium && <div className="place-card__mark">
         <span>Premium</span>
       </div>}
@@ -88,7 +94,7 @@ const PlaceCard = (props) => {
 
 PlaceCard.propTypes = {
   offer: PropTypes.shape(offerTypes),
-  setActiveCard: PropTypes.func.isRequired,
+  setActiveCard: PropTypes.func,
   cardType: PropTypes.string.isRequired,
   authorizationStatus: PropTypes.bool.isRequired,
 };

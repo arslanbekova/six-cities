@@ -3,8 +3,9 @@ import Map from '../map/map';
 
 const MapNear = (props) => {
   return (
-    <Map cardType="NEAR" {...props}/>
+    <Map mapType="NEAR" {...props}/>
   );
 };
 
 export default MapNear;
+

@@ -117,7 +117,7 @@ const Room = (props) => {
               </section>
             </div>
           </div>
-            <MapNear offers={offersNear}/>
+          <MapNear offers={offersNear} activeOffer={offer} activeCard={offer.id}/>
         </section>
         <div className="container">
           <section className="near-places places">
@@ -152,9 +152,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
 
   onOpenOfferPage(offerId) {
+    dispatch(fetchOffersNear(offerId));
     dispatch(fetchOffer(offerId));
     dispatch(fetchReviewsList(offerId));
-    dispatch(fetchOffersNear(offerId));
   },
 });
 

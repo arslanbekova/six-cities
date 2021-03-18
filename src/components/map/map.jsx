@@ -5,7 +5,7 @@ import {offerTypes} from '../../prop-types/prop-types';
 import 'leaflet/dist/leaflet.css';
 
 const Map = (props) => {
-  const {offers, activeCard, city, mapType} = props;
+  const {offers, activeCard, city, mapType, activeOffer} = props;
 
   const MapSettings = {
     NEAR: {
@@ -58,15 +58,26 @@ const Map = (props) => {
     const points = new leaflet.LayerGroup();
 
     offers.forEach((offer) => {
-      leaflet.marker({
+      points.addLayer(leaflet.marker({
         lat: offer.location.latitude,
         lng: offer.location.longitude
       },
       {
         icon,
         alt: offer.id
-      }).addTo(points);
+      }));
     });
+
+    if (activeOffer) {
+      points.addLayer(leaflet.marker({
+        lat: activeOffer.location.latitude,
+        lng: activeOffer.location.longitude
+      },
+      {
+        icon,
+        alt: activeOffer.id}
+      ));
+    }
 
     points.addTo(mapRef.current);
 
@@ -74,7 +85,7 @@ const Map = (props) => {
       mapRef.current.removeLayer(points);
     };
 
-  }, [city]);
+  }, [city, activeOffer]);
 
   useEffect(() => {
     mapRef.current.eachLayer((layer) => {
@@ -93,8 +104,9 @@ const Map = (props) => {
 
 Map.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.shape(offerTypes)).isRequired,
+  activeOffer: PropTypes.shape(offerTypes),
   activeCard: PropTypes.number.isRequired,
-  city: PropTypes.string.isRequired,
+  city: PropTypes.string,
   mapType: PropTypes.string.isRequired
 };
 
