@@ -46,9 +46,7 @@ const Main = (props) => {
               <OffersList offers={offers} cardType="MAIN" setActiveCard={setActiveCard}/>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map">
-                <Map offers={offers} activeCard={activeCard} city={city}/>
-              </section>
+                <Map offers={offers} activeCard={activeCard} city={city} mapType="MAIN"/>
             </div>
           </div>
         </div>

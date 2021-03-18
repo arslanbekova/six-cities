@@ -5,7 +5,16 @@ import {offerTypes} from '../../prop-types/prop-types';
 import 'leaflet/dist/leaflet.css';
 
 const Map = (props) => {
-  const {offers, activeCard, city} = props;
+  const {offers, activeCard, city, mapType} = props;
+
+  const MapSettings = {
+    NEAR: {
+      containerClass: `property__map`,
+    },
+    MAIN: {
+      containerClass: `cities__map`,
+    }
+  };
 
   const cityPoints = offers[0].city.location;
   const mapRef = useRef();
@@ -76,14 +85,17 @@ const Map = (props) => {
   }, [activeCard]);
 
   return (
-    <div id="map" ref={mapRef} style={{height: 100 + `%`}}></div>
+    <section className={`${MapSettings[mapType].containerClass} map`}>
+      <div id="map" ref={mapRef} style={{height: 100 + `%`}}></div>
+    </section>
   );
 };
 
 Map.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.shape(offerTypes)).isRequired,
   activeCard: PropTypes.number.isRequired,
-  city: PropTypes.string.isRequired
+  city: PropTypes.string.isRequired,
+  mapType: PropTypes.string.isRequired
 };
 
 export default Map;

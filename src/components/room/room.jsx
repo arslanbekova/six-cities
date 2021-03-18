@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Header from '../header/header';
 import ReviewsList from '../reviews-list/reviews-list';
 import CommentForm from '../comment-form/comment-form';
-import Map from '../map/map';
+import MapNear from '../map-near/map-near';
 import OffersListNear from '../offers-list-near/offers-list-near';
 import Spinner from '../spinner/spinner';
 import {connect} from 'react-redux';
@@ -117,9 +117,7 @@ const Room = (props) => {
               </section>
             </div>
           </div>
-          <section className="property__map map">
-            <Map offers={offersNear}/>
-          </section>
+            <MapNear offers={offersNear}/>
         </section>
         <div className="container">
           <section className="near-places places">
