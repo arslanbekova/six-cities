@@ -60,10 +60,10 @@ const reducer = (state = initialState, action) => {
         isOfferLoaded: true
       };
     case ActionType.LOAD_OFFERS_NEAR:
-    return {
-      ...state,
-      offersNear: action.payload,
-    };
+      return {
+        ...state,
+        offersNear: action.payload,
+      };
   }
 
   return state;

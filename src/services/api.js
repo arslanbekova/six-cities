@@ -1,5 +1,4 @@
 import axios from "axios";
-import {ActionCreator} from '../store/action';
 
 const BACKEND_URL = `https://6.react.pages.academy/six-cities`;
 const REQUEST_TIMEOUT = 5000;
@@ -24,9 +23,9 @@ export const createAPI = (onUnauthorized) => {
       onUnauthorized();
     }
 
-    if (err.response.status === HttpCode.NOT_FOUND) {
-      onErrorUpLoad()
-    }
+    // if (err.response.status === HttpCode.NOT_FOUND) {
+
+    // }
 
     throw err;
   };
