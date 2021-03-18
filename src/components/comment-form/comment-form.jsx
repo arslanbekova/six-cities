@@ -5,13 +5,6 @@ import {postComment} from "../../store/api-actions";
 
 const CommentForm = (props) => {
   const {offerId, onSubmit} = props;
-  const InputRatingValues = {
-    FIVE_STARS: `5`,
-    FOUR_STARS: `4`,
-    THREE_STARS: `3`,
-    TWO_STARS: `2`,
-    ONE_STAR: `1`
-  };
 
   const [userForm, setUserForm] = useState({
     rating: ``,
@@ -19,6 +12,14 @@ const CommentForm = (props) => {
     isDisableFormField: false,
     isChecked: false
   });
+
+  const InputRatingValues = {
+    FIVE_STARS: `5`,
+    FOUR_STARS: `4`,
+    THREE_STARS: `3`,
+    TWO_STARS: `2`,
+    ONE_STAR: `1`
+  };
 
   const [isDisableButton, setDisableButton] = useState(true);
 
@@ -33,10 +34,11 @@ const CommentForm = (props) => {
     setUserForm({...userForm, isDisableFormField: false});
   };
 
-  // const onErrorUpLoad = () => {
-  //   setUserForm({...userForm, isDisableFormField: false});
-  //   setDisableButton(false);
-  // };
+  const onErrorUpLoad = () => {
+    setUserForm({...userForm, isDisableFormField: false});
+    setDisableButton(false);
+    //нужно показывать ошибку
+  };
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -46,7 +48,7 @@ const CommentForm = (props) => {
     onSubmit(offerId, {
       comment: userForm.review,
       rating: userForm.rating
-    }, onSuccessUpLoad);
+    }, onSuccessUpLoad, onErrorUpLoad);
   };
 
   const handleFieldChange = (evt) => {
@@ -86,7 +88,7 @@ const CommentForm = (props) => {
           </svg>
         </label>
 
-        <input className="form__rating-input visually-hidden" name="rating" value="3" id="3-stars" type="radio" checked={userForm.rating === InputRatingValues.FOUR_STARS} disabled={userForm.isDisableFormField} onChange={handleFieldChange}/>
+        <input className="form__rating-input visually-hidden" name="rating" value="3" id="3-stars" type="radio" checked={userForm.rating === InputRatingValues.THREE_STARS} disabled={userForm.isDisableFormField} onChange={handleFieldChange}/>
         <label htmlFor="3-stars" className="reviews__rating-label form__rating-label" title="not bad">
           <svg className="form__star-image" width="37" height="33">
             <use xlinkHref="#icon-star"></use>
@@ -124,8 +126,8 @@ CommentForm.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  onSubmit(offerId, commentData, onSuccessUpLoad) {
-    dispatch(postComment(offerId, commentData, onSuccessUpLoad));
+  onSubmit(offerId, commentData, onSuccessUpLoad, onErrorUpLoad) {
+    dispatch(postComment(offerId, commentData, onSuccessUpLoad, onErrorUpLoad));
   },
 });
 

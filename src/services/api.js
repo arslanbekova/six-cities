@@ -1,10 +1,13 @@
 import axios from "axios";
+import {ActionCreator} from '../store/action';
 
 const BACKEND_URL = `https://6.react.pages.academy/six-cities`;
 const REQUEST_TIMEOUT = 5000;
 
 const HttpCode = {
-  UNAUTHORIZED: 401
+  BAD_REQUEST: 400,
+  UNAUTHORIZED: 401,
+  NOT_FOUND: 404,
 };
 
 export const createAPI = (onUnauthorized) => {
@@ -17,10 +20,12 @@ export const createAPI = (onUnauthorized) => {
   const onSuccess = (response) => response;
 
   const onFail = (err) => {
-    const {response} = err;
-
-    if (response.status === HttpCode.UNAUTHORIZED) {
+    if (err.response.status === HttpCode.UNAUTHORIZED) {
       onUnauthorized();
+    }
+
+    if (err.response.status === HttpCode.NOT_FOUND) {
+      onErrorUpLoad()
     }
 
     throw err;

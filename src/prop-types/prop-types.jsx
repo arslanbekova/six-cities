@@ -12,10 +12,11 @@ export const cityTypes = {
 };
 
 export const authTypes = {
-  avatarUrl: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired,
-  isPro: PropTypes.bool.isRequired,
-  name: PropTypes.string.isRequired
+  avatarUrl: PropTypes.string,
+  email: PropTypes.string,
+  id: PropTypes.number,
+  isPro: PropTypes.bool,
+  name: PropTypes.string
 };
 
 export const offerTypes = {
