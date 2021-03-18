@@ -30,8 +30,6 @@ const CommentForm = (props) => {
       isDisableFormField: false,
       isChecked: false
     });
-    setDisableButton(false);
-    setUserForm({...userForm, isDisableFormField: false});
   };
 
   const onErrorUpLoad = () => {

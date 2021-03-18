@@ -5,6 +5,7 @@ import {reviewTypes} from '../../prop-types/prop-types';
 
 const ReviewsList = (props) => {
   const {reviews} = props;
+  const MAX_REVIEWS_COUNT = 9;
 
   reviews.sort((a, b) => {
     let dateA = new Date(a.date);
@@ -14,10 +15,12 @@ const ReviewsList = (props) => {
 
   return (
     <ul className="reviews__list">
-      {reviews.map((review) =>
-        <ReviewItem
-          key={review.id}
-          review={review}/>
+      {reviews.map((review, i) =>
+        i <= MAX_REVIEWS_COUNT ?
+          <ReviewItem
+            key={review.id}
+            review={review}/>
+          : ``
       )}
     </ul>
   );
