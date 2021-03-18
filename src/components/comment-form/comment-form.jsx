@@ -6,13 +6,6 @@ import {postComment} from "../../store/api-actions";
 const CommentForm = (props) => {
   const {offerId, onSubmit} = props;
 
-  const [userForm, setUserForm] = useState({
-    rating: ``,
-    review: ``,
-    isDisableFormField: false,
-    isChecked: false
-  });
-
   const InputRatingValues = {
     FIVE_STARS: `5`,
     FOUR_STARS: `4`,
@@ -20,6 +13,19 @@ const CommentForm = (props) => {
     TWO_STARS: `2`,
     ONE_STAR: `1`
   };
+
+  const FormValidationPoints = {
+    MIN_REVIEW_LENGTH: 50,
+    MAX_REVIEW_LENGTH: 300,
+    MIN_RATING_VALUE: 1
+  };
+
+  const [userForm, setUserForm] = useState({
+    rating: ``,
+    review: ``,
+    isDisableFormField: false,
+    isChecked: false
+  });
 
   const [isDisableButton, setDisableButton] = useState(true);
 
@@ -52,12 +58,6 @@ const CommentForm = (props) => {
   const handleFieldChange = (evt) => {
     const {name, value} = evt.target;
     setUserForm({...userForm, [name]: value, isChecked: true});
-
-    const FormValidationPoints = {
-      MIN_REVIEW_LENGTH: 50,
-      MAX_REVIEW_LENGTH: 300,
-      MIN_RATING_VALUE: 1
-    };
 
     if (userForm.review.length >= FormValidationPoints.MIN_REVIEW_LENGTH
       && userForm.review.length <= FormValidationPoints.MAX_REVIEW_LENGTH
@@ -107,7 +107,14 @@ const CommentForm = (props) => {
           </svg>
         </label>
       </div>
-      <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved" value={userForm.review} disabled={userForm.isDisableFormField} onChange={handleFieldChange} required></textarea>
+      <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved"
+        value={userForm.review}
+        disabled={userForm.isDisableFormField}
+        onChange={handleFieldChange}
+        minLength={FormValidationPoints.MIN_REVIEW_LENGTH}
+        maxLength={FormValidationPoints.MAX_REVIEW_LENGTH}
+        required>
+      </textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
