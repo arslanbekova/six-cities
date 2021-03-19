@@ -1,19 +1,16 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
-import OffersList from '../offers-list/offers-list';
 import Header from '../header/header';
-import Map from '../map/map';
 import CitiesList from '../cities-list/cities-list';
-import SortOptions from '../sort-options/sort-options';
 import Spinner from '../spinner/spinner';
+import MainEmpty from '../main-empty/main-empty';
+import MainOffers from '../main-offers/main-offers';
 import {connect} from 'react-redux';
 import {fetchOffersList} from "../../store/api-actions";
 import {offerTypes} from '../../prop-types/prop-types';
 
 const Main = (props) => {
   const {offers, city, isDataLoaded, onLoadData} = props;
-
-  const [activeCard, setActiveCard] = useState(0);
 
   useEffect(() => {
     if (!isDataLoaded) {
@@ -39,15 +36,7 @@ const Main = (props) => {
         </div>
         <div className="cities">
           <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offers.length} places to stay in {city}</b>
-              <SortOptions/>
-              <OffersList offers={offers} cardType="MAIN" setActiveCard={setActiveCard}/>
-            </section>
-            <div className="cities__right-section">
-              <Map offers={offers} activeCard={activeCard} city={city} mapType="MAIN"/>
-            </div>
+            {offers.length === 0 ? <MainEmpty city={city}/> : <MainOffers city={city} offers={offers}/>}
           </div>
         </div>
       </main>
@@ -58,35 +47,15 @@ const Main = (props) => {
 Main.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.shape(offerTypes)).isRequired,
   city: PropTypes.string.isRequired,
-  sortType: PropTypes.string.isRequired,
   isDataLoaded: PropTypes.bool.isRequired,
   onLoadData: PropTypes.func.isRequired
-};
-
-const sortOffers = (sortType, offers) => {
-  switch (sortType) {
-    case `Price: low to high`:
-      offers.sort((a, b) => a.price - b.price);
-      break;
-    case `Price: high to low`:
-      offers.sort((a, b) => b.price - a.price);
-      break;
-    case `Top rated first`:
-      offers.sort((a, b) => b.rating - a.rating);
-      break;
-    default:
-      return offers;
-  }
-  return offers;
 };
 
 const mapStateToProps = (state) => {
   return {
     city: state.city,
-    offers: sortOffers(state.sortType, state.offers.filter((offer) => offer.city.name === state.city)),
-    sortType: state.sortType,
-    isDataLoaded: state.isDataLoaded,
-    authorizationStatus: state.authorizationStatus
+    offers: state.offers.filter((offer) => offer.city.name === state.city),
+    isDataLoaded: state.isDataLoaded
   };
 };
 
