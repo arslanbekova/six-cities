@@ -30,6 +30,21 @@ const Room = (props) => {
   }
 
   const separatedDescription = offer.description.split(`.`).slice(0, -1);
+  const isPro = `
+    .property__avatar-wrapper--pro::after {
+      content: "";
+      position: absolute;
+      top: -3px;
+      right: -16px;
+      width: 33px;
+      height: 33px;
+      border-radius: 50%;
+      background-color: #ff9000;
+      background-image: url(../img/star-white.svg);
+      background-size: 20px 19px;
+      background-position: center 6px;
+      background-repeat: no-repeat
+    }`;
 
   return (
     <div className="page">
@@ -38,6 +53,7 @@ const Room = (props) => {
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
+              {console.log(offer.host.isPro)}
               {offer.images.map((image) =>
                 <div className="property__image-wrapper" key={image}>
                   <img className="property__image" src={image} alt="Photo studio"/>
@@ -95,7 +111,7 @@ const Room = (props) => {
               <div className="property__host">
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
-                  <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
+                  <div className="property__avatar-wrapper user__avatar-wrapper property__avatar-wrapper--pro" style={offer.host.isPro ? {isPro} : ``}>
                     <img className="property__avatar user__avatar" src={offer.host.avatarUrl} width="74" height="74" alt="Host avatar"/>
                   </div>
                   <span className="property__user-name">
