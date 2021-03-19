@@ -20,7 +20,7 @@ const Header = (props) => {
             <ul className="header__nav-list">
               <li className="header__nav-item user">
                 <Link className="header__nav-link header__nav-link--profile" to="/favorites">
-                  <div className="header__avatar-wrapper user__avatar-wrapper">
+                  <div className="header__avatar-wrapper user__avatar-wrapper" style={authorizationStatus ? {backgroundImage: `url(${authInfo.avatarUrl})`} : undefined}>
                   </div>
                   <span className={authorizationStatus && `header__user-name user__name` || `header__login`}>{authorizationStatus && authInfo.email || `Sign in`}</span>
                 </Link>
