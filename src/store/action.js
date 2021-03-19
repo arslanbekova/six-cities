@@ -8,6 +8,7 @@ export const ActionType = {
   LOAD_AUTH_INFO: `login/loadAuthInfo`,
   LOAD_OFFER: `data/loadOffer`,
   LOAD_OFFERS_NEAR: `data/loadOffersNear`,
+  LOAD_FAVORITES_OFFERS: `data/loadFavoritesOffers`
 };
 
 export const ActionCreator = {
@@ -45,6 +46,10 @@ export const ActionCreator = {
   }),
   loadOffersNear: (offers) => ({
     type: ActionType.LOAD_OFFERS_NEAR,
+    payload: offers
+  }),
+  loadFavoritesOffers: (offers) => ({
+    type: ActionType.LOAD_FAVORITES_OFFERS,
     payload: offers
   }),
 };

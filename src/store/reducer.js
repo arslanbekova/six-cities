@@ -12,6 +12,8 @@ const initialState = {
   isOfferLoaded: false,
   offer: {},
   offersNear: [],
+  favoritesOffers: [],
+  isFavoritesOffersLoaded: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -63,6 +65,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         offersNear: action.payload,
+      };
+    case ActionType.LOAD_FAVORITES_OFFERS:
+      return {
+        ...state,
+        favoritesOffers: action.payload,
+        isFavoritesOffersLoaded: true
       };
   }
 

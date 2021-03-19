@@ -27,6 +27,12 @@ export const fetchOffersNear = (id) => (dispatch, _getState, api) => (
   .catch((err) => dispatch(ActionCreator.redirectToRoute(`/not_found`)))
 );
 
+export const fetchFavoritesOffers = () => (dispatch, _getState, api) => (
+  api.get(`/favorite`, FORMATTED_RESPONS)
+  .then(({data}) => dispatch(ActionCreator.loadFavoritesOffers(data)))
+  .catch((err) => dispatch(ActionCreator.redirectToRoute(`/not_found`)))
+);
+
 export const fetchReviewsList = (id) => (dispatch, _getState, api) => (
   api.get(`/comments/${id}`, FORMATTED_RESPONS)
   .then(({data}) => dispatch(ActionCreator.loadReviews(data)))
