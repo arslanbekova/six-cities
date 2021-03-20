@@ -5,12 +5,6 @@ import FavoritePlaceCard from '../favorite-place-card/favorite-place-card';
 
 const FavoritesList = (props) => {
   const {favoritesOffers} = props;
-
-  favoritesOffers.reduce((result, item) => {
-    result[item.city.name] = [...result[item.city.name] || [], item];
-    return result;
-  }, {});
-
   return (
     <main className="page__main page__main--favorites">
       <div className="page__favorites-container container">
@@ -37,7 +31,7 @@ const FavoritesList = (props) => {
 };
 
 FavoritesList.propTypes = {
-  favoritesOffers: PropTypes.arrayOf(PropTypes.shape(offerTypes)).isRequired
+  favoritesOffers: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.shape(offerTypes))).isRequired
 };
 
 export default FavoritesList;

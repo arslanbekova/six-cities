@@ -26,7 +26,7 @@ const Favorites = (props) => {
   return (
     <div className="page">
       <Header/>
-      {favoritesOffers.length === 0 ? <FavoritesEmpty/> : <FavoritesList/>}
+      {favoritesOffers.length === 0 ? <FavoritesEmpty/> : <FavoritesList favoritesOffers={favoritesOffers}/>}
       <footer className="footer container">
         <a className="footer__logo-link" href="main.html">
           <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33"/>
@@ -37,14 +37,17 @@ const Favorites = (props) => {
 };
 
 Favorites.propTypes = {
-  favoritesOffers: PropTypes.arrayOf(PropTypes.shape(offerTypes)).isRequired,
+  favoritesOffers: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.shape(offerTypes))).isRequired,
   onOpenFavoritesPage: PropTypes.func.isRequired,
   isFavoritesOffersLoaded: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => {
   return {
-    favoritesOffers: state.favoritesOffers,
+    favoritesOffers: state.favoritesOffers.reduce((result, item) => {
+      result[item.city.name] = [...result[item.city.name] || [], item];
+      return result;
+    }, {}),
     isFavoritesOffersLoaded: state.isFavoritesOffersLoaded
   };
 };
