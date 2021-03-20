@@ -33,6 +33,11 @@ export const fetchFavoritesOffers = () => (dispatch, _getState, api) => (
   .catch((err) => dispatch(ActionCreator.redirectToRoute(`/not_found`)))
 );
 
+export const addToFavorites = (id, status) => (dispatch, _getState, api) => (
+  api.post(`/favorite/${id}/${status}`, {id, status}, FORMATTED_RESPONS)
+    .then(({data}) => dispatch(ActionCreator.updateOffers(data)))
+);
+
 export const fetchReviewsList = (id) => (dispatch, _getState, api) => (
   api.get(`/comments/${id}`, FORMATTED_RESPONS)
   .then(({data}) => dispatch(ActionCreator.loadReviews(data)))

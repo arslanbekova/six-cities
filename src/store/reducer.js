@@ -72,6 +72,11 @@ const reducer = (state = initialState, action) => {
         favoritesOffers: action.payload,
         isFavoritesOffersLoaded: true
       };
+    case ActionType.UPDATE_OFFERS:
+      return {
+        ...state,
+        offers: state.offers.map((offer) => offer.id === action.payload.id ? action.payload : offer),
+      };
   }
 
   return state;
