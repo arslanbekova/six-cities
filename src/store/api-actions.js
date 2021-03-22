@@ -18,7 +18,6 @@ export const fetchOffersList = () => (dispatch, _getState, api) => (
 export const fetchOffer = (id) => (dispatch, _getState, api) => (
   api.get(`/hotels/${id}`, FORMATTED_RESPONS)
   .then(({data}) => dispatch(ActionCreator.loadOffer(data)))
-  .then(() => dispatch(ActionCreator.redirectToRoute(`/offer/${id}`)))
   .catch((err) => dispatch(ActionCreator.redirectToRoute(`/not_found`)))
 );
 
@@ -34,10 +33,20 @@ export const fetchFavoritesOffers = () => (dispatch, _getState, api) => (
   .catch((err) => dispatch(ActionCreator.redirectToRoute(`/not_found`)))
 );
 
-export const addToFavorites = (id, status) => (dispatch, _getState, api) => (
-  api.post(`/favorite/${id}/${status}`, {id, status}, FORMATTED_RESPONS)
-    .then(({data}) => dispatch(ActionCreator.updateOffers(data)))
-);
+export const addToFavorites = (id, status, cardType) => (dispatch, _getState, api) => {
+  return api.post(`/favorite/${id}/${status}`, {id, status}, FORMATTED_RESPONS)
+    .then(({data}) => {
+      if (cardType === `MAIN`) {
+        dispatch(ActionCreator.updateOffers(data));
+      }
+      if (cardType === `NEAR`) {
+        dispatch(ActionCreator.updateOffersNear(data));
+      }
+      if (cardType === `FAVORITES`) {
+        dispatch(ActionCreator.updateFavoritesOffers(data));
+      }
+    });
+};
 
 export const fetchReviewsList = (id) => (dispatch, _getState, api) => (
   api.get(`/comments/${id}`, FORMATTED_RESPONS)
@@ -50,7 +59,6 @@ export const postComment = (id, {comment, rating}, onSuccessUpLoad, onErrorUpLoa
     .then(onSuccessUpLoad)
     .catch(onErrorUpLoad)
 );
-
 
 export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(`/login`, FORMATTED_RESPONS)

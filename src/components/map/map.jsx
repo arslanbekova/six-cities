@@ -69,7 +69,11 @@ const Map = (props) => {
       leaflet.marker({
         lat: activeOffer.location.latitude,
         lng: activeOffer.location.longitude
-      }).setIcon(activeIcon).addTo(points);
+      },
+      {
+        alt: activeOffer.id,
+      }
+      ).setIcon(activeIcon).addTo(points);
     }
 
     points.addTo(mapRef.current);

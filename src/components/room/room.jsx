@@ -22,7 +22,7 @@ const Room = (props) => {
     if (!isOfferLoaded) {
       onOpenOfferPage(id);
     }
-  }, [id]);
+  }, [id, isOfferLoaded]);
 
   if (!isOfferLoaded) {
     return (
@@ -47,15 +47,15 @@ const Room = (props) => {
       background-repeat: no-repeat
     }`;
 
-  const handleChangeFavoriteFlag = (activeOffer) => {
+  const handleChangeFavoriteFlag = () => {
     if (authorizationStatus === AuthorizationStatus.AUTH) {
       let status;
-      if (activeOffer.isFavorite) {
+      if (offer.isFavorite) {
         status = 0;
       } else {
         status = 1;
       }
-      onAddToFavorites(activeOffer.id, status);
+      onAddToFavorites(offer.id, status);
     } else {
       history.push(`/login`);
     }
@@ -83,7 +83,7 @@ const Room = (props) => {
                 <h1 className="property__name">
                   {offer.title}
                 </h1>
-                <button className={`property__bookmark-button button ${offer.isFavorite && `place-card__bookmark-button--active`}`} type="button" onClick={() => handleChangeFavoriteFlag(offer)}>
+                <button className={`property__bookmark-button button ${offer.isFavorite && `property__bookmark-button--active`}`} type="button" onClick={handleChangeFavoriteFlag}>
                   <svg className="property__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
@@ -188,7 +188,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(fetchOffersNear(offerId));
   },
   onAddToFavorites(offerId, status) {
-    dispatch(addToFavorites(offerId, status));
+    dispatch(addToFavorites(offerId, status))
+    .then(() => dispatch(fetchOffer(offerId)));
   },
 });
 

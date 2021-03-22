@@ -5,7 +5,8 @@ import {setRating} from '../../utils/general';
 import {AuthorizationStatus} from '../../utils/const';
 import {connect} from 'react-redux';
 import {offerTypes} from '../../prop-types/prop-types';
-import {addToFavorites, fetchOffer, fetchReviewsList, fetchOffersNear} from "../../store/api-actions";
+import {addToFavorites} from "../../store/api-actions";
+import {ActionCreator} from "../../store/action";
 
 const PlaceCard = (props) => {
 
@@ -34,7 +35,7 @@ const PlaceCard = (props) => {
     }
   };
 
-  const handleChangeFavoriteFlag = (activeOffer) => {
+  const handleChangeFavoriteFlag = (activeOffer, card) => {
     if (authorizationStatus === AuthorizationStatus.AUTH) {
       let status;
       if (activeOffer.isFavorite) {
@@ -42,7 +43,7 @@ const PlaceCard = (props) => {
       } else {
         status = 1;
       }
-      onAddToFavorites(activeOffer.id, status);
+      onAddToFavorites(activeOffer.id, status, card);
     } else {
       history.push(`/login`);
     }
@@ -50,6 +51,7 @@ const PlaceCard = (props) => {
 
   const handleOpenOfferPage = () => {
     onOpenOfferPage(offer.id);
+    history.push(`/offer/${offer.id}`);
   };
 
   const handleSetActiveOffer = (activeOffer) => {
@@ -74,7 +76,7 @@ const PlaceCard = (props) => {
             <b className="place-card__price-value">&euro;{offer.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button button ${offer.isFavorite && `place-card__bookmark-button--active`}`} type="button" onClick={() => handleChangeFavoriteFlag(offer)}>
+          <button className={`place-card__bookmark-button button ${offer.isFavorite && `place-card__bookmark-button--active`}`} type="button" onClick={() => handleChangeFavoriteFlag(offer, cardType)}>
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
@@ -110,13 +112,11 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onAddToFavorites(offerId, status) {
-    dispatch(addToFavorites(offerId, status));
+  onAddToFavorites(offerId, status, card) {
+    dispatch(addToFavorites(offerId, status, card));
   },
-  onOpenOfferPage(offerId) {
-    dispatch(fetchOffer(offerId));
-    dispatch(fetchReviewsList(offerId));
-    dispatch(fetchOffersNear(offerId));
+  onOpenOfferPage() {
+    dispatch(ActionCreator.updateOfferLoadedStatus(false));
   },
 });
 

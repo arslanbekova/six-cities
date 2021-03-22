@@ -77,6 +77,26 @@ const reducer = (state = initialState, action) => {
         ...state,
         offers: state.offers.map((offer) => offer.id === action.payload.id ? action.payload : offer),
       };
+    case ActionType.UPDATE_OFFER:
+      return {
+        ...state,
+        offer: action.payload
+      };
+    case ActionType.UPDATE_OFFER_LOADED_STATUS:
+      return {
+        ...state,
+        isOfferLoaded: action.payload,
+      };
+    case ActionType.UPDATE_OFFERS_NEAR:
+      return {
+        ...state,
+        offersNear: state.offersNear.map((offer) => offer.id === action.payload.id ? action.payload : offer),
+      };
+    case ActionType.UPDATE_FAVORITES_OFFERS:
+      return {
+        ...state,
+        favoritesOffers: state.favoritesOffers.map((offer) => offer.id === action.payload.id ? action.payload : offer),
+      };
   }
 
   return state;

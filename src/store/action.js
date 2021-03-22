@@ -10,6 +10,10 @@ export const ActionType = {
   LOAD_OFFERS_NEAR: `data/loadOffersNear`,
   LOAD_FAVORITES_OFFERS: `data/loadFavoritesOffers`,
   UPDATE_OFFERS: `data/updateOffers`,
+  UPDATE_OFFER: `data/updateOffer`,
+  UPDATE_OFFER_LOADED_STATUS: `data/updateOfferLoadedStatus`,
+  UPDATE_OFFERS_NEAR: `data/updateOffersNear`,
+  UPDATE_FAVORITES_OFFERS: `data/updateFavoritesOffers`,
 };
 
 export const ActionCreator = {
@@ -55,6 +59,22 @@ export const ActionCreator = {
   }),
   updateOffers: (offer) => ({
     type: ActionType.UPDATE_OFFERS,
+    payload: offer
+  }),
+  updateOffer: (offer) => ({
+    type: ActionType.UPDATE_OFFER,
+    payload: offer
+  }),
+  updateOfferLoadedStatus: (status) => ({
+    type: ActionType.UPDATE_OFFER_LOADED_STATUS,
+    payload: status
+  }),
+  updateOffersNear: (offer) => ({
+    type: ActionType.UPDATE_OFFERS_NEAR,
+    payload: offer
+  }),
+  updateFavoritesOffers: (offer) => ({
+    type: ActionType.UPDATE_FAVORITES_OFFERS,
     payload: offer
   })
 };
