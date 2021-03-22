@@ -1,12 +1,11 @@
 import React, {useEffect, useRef} from 'react';
 import leaflet from 'leaflet';
 import PropTypes from 'prop-types';
-import {offerTypes} from '../../prop-types/prop-types';
+import {offerTypes, locationTypes} from '../../prop-types/prop-types';
 import 'leaflet/dist/leaflet.css';
 
 const Map = (props) => {
-  const {offers, activeCard, city, mapType, activeOffer} = props;
-
+  const {offers, city, mapType, activeOffer, cityPoints} = props;
   const MapSettings = {
     NEAR: {
       containerClass: `property__map`,
@@ -16,7 +15,6 @@ const Map = (props) => {
     }
   };
 
-  const cityPoints = offers[0].city.location;
   const mapRef = useRef();
 
   const icon = leaflet.icon({
@@ -56,7 +54,6 @@ const Map = (props) => {
 
   useEffect(() => {
     const points = new leaflet.LayerGroup();
-
     offers.forEach((offer) => {
       points.addLayer(leaflet.marker({
         lat: offer.location.latitude,
@@ -68,15 +65,11 @@ const Map = (props) => {
       }));
     });
 
-    if (activeOffer) {
-      points.addLayer(leaflet.marker({
+    if (mapType === `NEAR`) {
+      leaflet.marker({
         lat: activeOffer.location.latitude,
         lng: activeOffer.location.longitude
-      },
-      {
-        icon,
-        alt: activeOffer.id}
-      ));
+      }).setIcon(activeIcon).addTo(points);
     }
 
     points.addTo(mapRef.current);
@@ -85,15 +78,15 @@ const Map = (props) => {
       mapRef.current.removeLayer(points);
     };
 
-  }, [city, activeOffer]);
+  }, [city, offers]);
 
   useEffect(() => {
     mapRef.current.eachLayer((layer) => {
       if (layer instanceof leaflet.Marker) {
-        layer.setIcon(layer.options.alt === activeCard ? activeIcon : icon);
+        layer.setIcon(layer.options.alt === activeOffer.id ? activeIcon : icon);
       }
     });
-  }, [activeCard]);
+  }, [activeOffer]);
 
   return (
     <section className={`${MapSettings[mapType].containerClass} map`}>
@@ -104,10 +97,10 @@ const Map = (props) => {
 
 Map.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.shape(offerTypes)).isRequired,
-  activeOffer: PropTypes.shape(offerTypes),
-  activeCard: PropTypes.number.isRequired,
+  activeOffer: PropTypes.oneOfType([PropTypes.shape(offerTypes), PropTypes.number]).isRequired,
   city: PropTypes.string,
-  mapType: PropTypes.string.isRequired
+  mapType: PropTypes.string.isRequired,
+  cityPoints: PropTypes.shape(locationTypes).isRequired
 };
 
 export default Map;

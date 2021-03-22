@@ -8,7 +8,7 @@ import Map from '../map/map';
 
 const MainOffers = (props) => {
   const {offers, city, sortType} = props;
-  const [activeCard, setActiveCard] = useState(0);
+  const [activeOffer, setActiveOffer] = useState(0);
 
   const sortOffers = (sortBy, data) => {
     switch (sortBy) {
@@ -35,10 +35,10 @@ const MainOffers = (props) => {
         <h2 className="visually-hidden">Places</h2>
         <b className="places__found">{offers.length} places to stay in {city}</b>
         <SortOptions/>
-        <OffersList offers={offers} cardType="MAIN" setActiveCard={setActiveCard}/>
+        <OffersList offers={offers} cardType="MAIN" setActiveOffer={setActiveOffer}/>
       </section>
       <div className="cities__right-section">
-        <Map offers={offers} activeCard={activeCard} city={city} mapType="MAIN"/>
+        <Map offers={offers} activeOffer={activeOffer} city={city} cityPoints={offers[0].city.location} mapType="MAIN"/>
       </div>
     </React.Fragment>
   );

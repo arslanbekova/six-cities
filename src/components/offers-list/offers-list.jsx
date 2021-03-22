@@ -5,7 +5,7 @@ import {offerTypes} from '../../prop-types/prop-types';
 
 const OffersList = (props) => {
 
-  const {offers, cardType, setActiveCard} = props;
+  const {offers, cardType, setActiveOffer} = props;
   const OfferListSettings = {
     NEAR: {
       containerClass: `near-places__list`,
@@ -19,7 +19,7 @@ const OffersList = (props) => {
     <div className={`${OfferListSettings[cardType].containerClass} places__list`}>
       {
         offers.map((offer) =>
-          <PlaceCard key={offer.id} offer={offer} cardType={cardType} setActiveCard={setActiveCard}/>
+          <PlaceCard key={offer.id} offer={offer} cardType={cardType} setActiveOffer={setActiveOffer}/>
         )}
     </div>
   );
@@ -28,7 +28,7 @@ const OffersList = (props) => {
 OffersList.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.shape(offerTypes)).isRequired,
   cardType: PropTypes.string.isRequired,
-  setActiveCard: PropTypes.func
+  setActiveOffer: PropTypes.func
 };
 
 export default OffersList;
