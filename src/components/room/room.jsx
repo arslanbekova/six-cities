@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {useParams} from "react-router-dom";
+import {useParams, useHistory} from "react-router-dom";
 import PropTypes from 'prop-types';
 import Header from '../header/header';
 import ReviewsList from '../reviews-list/reviews-list';
@@ -10,11 +10,12 @@ import Spinner from '../spinner/spinner';
 import {connect} from 'react-redux';
 import {offerTypes, reviewTypes} from '../../prop-types/prop-types';
 import {setRating} from '../../utils/general';
-import {fetchOffer, fetchReviewsList, fetchOffersNear} from "../../store/api-actions";
+import {AuthorizationStatus} from '../../utils/const';
+import {fetchOffer, fetchReviewsList, fetchOffersNear, addToFavorites} from "../../store/api-actions";
 
 const Room = (props) => {
-  const {reviews, offersNear, authorizationStatus, offer, onOpenOfferPage, isOfferLoaded} = props;
-
+  const {reviews, offersNear, authorizationStatus, offer, onOpenOfferPage, isOfferLoaded, onAddToFavorites} = props;
+  const history = useHistory();
   let {id} = useParams();
 
   useEffect(() => {
@@ -46,6 +47,20 @@ const Room = (props) => {
       background-repeat: no-repeat
     }`;
 
+  const handleChangeFavoriteFlag = (activeOffer) => {
+    if (authorizationStatus === AuthorizationStatus.AUTH) {
+      let status;
+      if (activeOffer.isFavorite) {
+        status = 0;
+      } else {
+        status = 1;
+      }
+      onAddToFavorites(activeOffer.id, status);
+    } else {
+      history.push(`/login`);
+    }
+  };
+
   return (
     <div className="page">
       <Header/>
@@ -68,7 +83,7 @@ const Room = (props) => {
                 <h1 className="property__name">
                   {offer.title}
                 </h1>
-                <button className="property__bookmark-button button" type="button">
+                <button className={`property__bookmark-button button ${offer.isFavorite && `place-card__bookmark-button--active`}`} type="button" onClick={() => handleChangeFavoriteFlag(offer)}>
                   <svg className="property__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
@@ -132,7 +147,7 @@ const Room = (props) => {
               </section>
             </div>
           </div>
-          <MapNear offers={offersNear} activeOffer={offer} activeCard={offer.id}/>
+          <MapNear offers={offersNear} activeOffer={offer} cityPoints={offer.city.location}/>
         </section>
         <div className="container">
           <section className="near-places places">
@@ -151,7 +166,8 @@ Room.propTypes = {
   authorizationStatus: PropTypes.bool.isRequired,
   offer: PropTypes.oneOfType([PropTypes.shape(offerTypes), PropTypes.object.isRequired]),
   isOfferLoaded: PropTypes.bool.isRequired,
-  onOpenOfferPage: PropTypes.func.isRequired
+  onOpenOfferPage: PropTypes.func.isRequired,
+  onAddToFavorites: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -160,16 +176,19 @@ const mapStateToProps = (state) => {
     reviews: state.reviews,
     authorizationStatus: state.authorizationStatus,
     offer: state.offer,
-    isOfferLoaded: state.isOfferLoaded
+    isOfferLoaded: state.isOfferLoaded,
+    city: state.city
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
-
   onOpenOfferPage(offerId) {
-    dispatch(fetchOffersNear(offerId));
     dispatch(fetchOffer(offerId));
     dispatch(fetchReviewsList(offerId));
+    dispatch(fetchOffersNear(offerId));
+  },
+  onAddToFavorites(offerId, status) {
+    dispatch(addToFavorites(offerId, status));
   },
 });
 

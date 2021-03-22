@@ -18,6 +18,7 @@ export const fetchOffersList = () => (dispatch, _getState, api) => (
 export const fetchOffer = (id) => (dispatch, _getState, api) => (
   api.get(`/hotels/${id}`, FORMATTED_RESPONS)
   .then(({data}) => dispatch(ActionCreator.loadOffer(data)))
+  .then(() => dispatch(ActionCreator.redirectToRoute(`/offer/${id}`)))
   .catch((err) => dispatch(ActionCreator.redirectToRoute(`/not_found`)))
 );
 
