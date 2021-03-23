@@ -7,10 +7,13 @@ import Room from '../room/room';
 import NotFound from '../not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
 import browserHistory from "../../browser-history";
+import ReactNotification from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
 
 const App = () => {
   return (
     <BrowserRouter history={browserHistory}>
+      <ReactNotification/>
       <Switch>
         <Route exact path="/">
           <Main/>

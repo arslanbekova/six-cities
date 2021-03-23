@@ -41,7 +41,6 @@ const CommentForm = (props) => {
   const onErrorUpLoad = () => {
     setUserForm({...userForm, isDisableFormField: false});
     setDisableButton(false);
-    //нужно показывать ошибку
   };
 
   const handleSubmit = (evt) => {
