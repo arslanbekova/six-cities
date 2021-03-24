@@ -2,6 +2,11 @@ import React, {useEffect} from 'react';
 import {useParams, useHistory} from "react-router-dom";
 import PropTypes from 'prop-types';
 import Header from '../header/header';
+import RoomRating from '../room-rating/room-rating';
+import RoomFeatures from '../room-features/room-features';
+import RoomPrice from '../room-price/room-price';
+import RoomInside from '../room-inside/room-inside';
+import RoomHost from '../room-host/room-host';
 import ReviewsList from '../reviews-list/reviews-list';
 import CommentForm from '../comment-form/comment-form';
 import MapNear from '../map-near/map-near';
@@ -9,7 +14,6 @@ import OffersListNear from '../offers-list-near/offers-list-near';
 import Spinner from '../spinner/spinner';
 import {connect} from 'react-redux';
 import {offerTypes, reviewTypes} from '../../prop-types/prop-types';
-import {setRating} from '../../utils/general';
 import {AuthorizationStatus, PathName, FavoriteStatus} from '../../utils/const';
 import {fetchOffer, fetchReviewsList, fetchOffersNear, addToFavorites} from "../../store/api-actions";
 import {ActionCreator} from '../../store/action';
@@ -18,21 +22,6 @@ const Room = (props) => {
   const {reviews, offersNear, authorizationStatus, offer, onOpenOfferPage, isOfferLoaded, onAddToFavorites} = props;
   const history = useHistory();
   let {id} = useParams();
-  const isPro = `
-    .property__avatar-wrapper--pro::after {
-      content: "";
-      position: absolute;
-      top: -3px;
-      right: -16px;
-      width: 33px;
-      height: 33px;
-      border-radius: 50%;
-      background-color: #ff9000;
-      background-image: url(../img/star-white.svg);
-      background-size: 20px 19px;
-      background-position: center 6px;
-      background-repeat: no-repeat
-    }`;
 
   useEffect(() => {
     if (!isOfferLoaded) {
@@ -89,56 +78,11 @@ const Room = (props) => {
                   <span className="visually-hidden">To bookmarks</span>
                 </button>
               </div>
-              <div className="property__rating rating">
-                <div className="property__stars rating__stars">
-                  <span style={{width: setRating(offer)}}></span>
-                  <span className="visually-hidden">Rating</span>
-                </div>
-                <span className="property__rating-value rating__value">{offer.rating}</span>
-              </div>
-              <ul className="property__features">
-                <li className="property__feature property__feature--entire">
-                  {offer.type}
-                </li>
-                <li className="property__feature property__feature--bedrooms">
-                  {offer.bedrooms}
-                </li>
-                <li className="property__feature property__feature--adults">
-                  {offer.maxAdults}
-                </li>
-              </ul>
-              <div className="property__price">
-                <b className="property__price-value">&euro;{offer.price}</b>
-                <span className="property__price-text">&nbsp;night</span>
-              </div>
-              <div className="property__inside">
-                <h2 className="property__inside-title">What&apos;s inside</h2>
-                <ul className="property__inside-list">
-                  {offer.goods.map((good) =>
-                    <li className="property__inside-item" key={good}>
-                      {good}
-                    </li>
-                  )}
-                </ul>
-              </div>
-              <div className="property__host">
-                <h2 className="property__host-title">Meet the host</h2>
-                <div className="property__host-user user">
-                  <div className="property__avatar-wrapper user__avatar-wrapper property__avatar-wrapper--pro" style={offer.host.isPro ? {isPro} : undefined}>
-                    <img className="property__avatar user__avatar" src={offer.host.avatarUrl} width="74" height="74" alt="Host avatar"/>
-                  </div>
-                  <span className="property__user-name">
-                    {offer.host.name}
-                  </span>
-                </div>
-                <div className="property__description">
-                  {offer.description.split(`.`).slice(0, -1).map((sentence) =>
-                    <p className="property__text" key={sentence}>
-                      {sentence + `.`}
-                    </p>
-                  )}
-                </div>
-              </div>
+              <RoomRating rating={offer.rating}/>
+              <RoomFeatures offerType={offer.type} bedroomsCount={offer.bedrooms} maxAdults={offer.maxAdults}/>
+              <RoomPrice price={offer.price}/>
+              <RoomInside goods={offer.goods}/>
+              <RoomHost hostInfo={offer.host} offerDescription={offer.description}/>
               <section className="property__reviews reviews">
                 <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
                 <ReviewsList reviews={reviews}/>

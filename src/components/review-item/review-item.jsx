@@ -20,7 +20,7 @@ const ReviewItem = (props) => {
       <div className="reviews__info">
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
-            <span style={{width: setRating(review)}}></span>
+            <span style={{width: setRating(review.rating)}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
