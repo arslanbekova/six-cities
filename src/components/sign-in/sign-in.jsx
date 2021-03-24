@@ -11,7 +11,7 @@ const SignIn = ({onSubmit}) => {
 
   const history = useHistory();
 
-  const handleSubmit = () => {
+  const handleFormSubmit = () => {
     onSubmit({
       email: loginRef.current.value,
       password: passwordRef.current.value,
@@ -26,7 +26,7 @@ const SignIn = ({onSubmit}) => {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            <form className="login__form form" action="" method="POST" onSubmit={handleSubmit}>
+            <form className="login__form form" action="" method="POST" onSubmit={handleFormSubmit}>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
                 <input ref={loginRef} className="login__input form__input" type="email" name="email" placeholder="Email" required/>

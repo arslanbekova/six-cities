@@ -8,7 +8,7 @@ import {fetchFavoritesOffers, logout} from "../../store/api-actions";
 const Header = (props) => {
   const {authorizationStatus, authInfo, onOpenFavoritesPage, onClickLogoutButton} = props;
 
-  const handleOpenFavoritesPage = () => {
+  const handleFavoritesPageOpen = () => {
     if (authorizationStatus) {
       onOpenFavoritesPage();
     }
@@ -21,7 +21,7 @@ const Header = (props) => {
     backgroundImage: `url(../img/logout.svg)`
   };
 
-  const handleLogout = () => {
+  const handleLogoutButtonClick = () => {
     onClickLogoutButton();
   };
 
@@ -37,12 +37,12 @@ const Header = (props) => {
           <nav className="header__nav">
             <ul className="header__nav-list">
               <li className="header__nav-item user" style={{display: `flex`, alignItems: `baseline`}}>
-                <Link className="header__nav-link header__nav-link--profile" to="/favorites" onClick={handleOpenFavoritesPage}>
+                <Link className="header__nav-link header__nav-link--profile" to="/favorites" onClick={handleFavoritesPageOpen}>
                   <div className="header__avatar-wrapper user__avatar-wrapper" style={authorizationStatus ? {backgroundImage: `url(${authInfo.avatarUrl})`} : undefined}>
                   </div>
                   <span className={authorizationStatus && `header__user-name user__name` || `header__login`}>{authorizationStatus && authInfo.email || `Sign in`}</span>
                 </Link>
-                {authorizationStatus && <button className="header__logout-button button" type="button" onClick={handleLogout} style={logoutButtonStyle}></button>}
+                {authorizationStatus && <button className="header__logout-button button" type="button" onClick={handleLogoutButtonClick} style={logoutButtonStyle}></button>}
               </li>
             </ul>
           </nav>

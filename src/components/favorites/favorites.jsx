@@ -5,7 +5,6 @@ import FavoritesEmpty from '../favorites-empty/favorites-empty';
 import FavoritesList from '../favorites-list/favorites-list';
 import {connect} from 'react-redux';
 import {offerTypes} from '../../prop-types/prop-types';
-import {fetchFavoritesOffers} from '../../store/api-actions';
 
 const Favorites = (props) => {
   const {favoritesOffers} = props;
@@ -25,8 +24,6 @@ const Favorites = (props) => {
 
 Favorites.propTypes = {
   favoritesOffers: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.shape(offerTypes))).isRequired,
-  onOpenFavoritesPage: PropTypes.func.isRequired,
-  isFavoritesOffersLoaded: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -34,16 +31,9 @@ const mapStateToProps = (state) => {
     favoritesOffers: state.favoritesOffers.reduce((result, item) => {
       result[item.city.name] = [...result[item.city.name] || [], item];
       return result;
-    }, {}),
-    isFavoritesOffersLoaded: state.isFavoritesOffersLoaded
+    }, {})
   };
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  onOpenFavoritesPage() {
-    dispatch(fetchFavoritesOffers());
-  },
-});
-
 export {Favorites};
-export default connect(mapStateToProps, mapDispatchToProps)(Favorites);
+export default connect(mapStateToProps)(Favorites);

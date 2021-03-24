@@ -35,7 +35,7 @@ const PlaceCard = (props) => {
     }
   };
 
-  const handleChangeFavoriteFlag = (activeOffer, card) => {
+  const handleFavoriteFlagChange = (activeOffer, card) => {
     if (authorizationStatus === AuthorizationStatus.AUTH) {
       let status;
       if (activeOffer.isFavorite) {
@@ -49,19 +49,19 @@ const PlaceCard = (props) => {
     }
   };
 
-  const handleOpenOfferPage = () => {
+  const handleOfferPageOpen = () => {
     onOpenOfferPage(offer.id);
     history.push(`/offer/${offer.id}`);
   };
 
-  const handleSetActiveOffer = (activeOffer) => {
+  const handleActiveOfferSetState = (activeOffer) => {
     if (cardType === `MAIN`) {
       setActiveOffer(activeOffer);
     }
   };
 
   return (
-    <article className={`${CardSettings[cardType].cardClass} place-card`} onMouseEnter={() => handleSetActiveOffer(offer)} onMouseOut={() => handleSetActiveOffer(0)}>
+    <article className={`${CardSettings[cardType].cardClass} place-card`} onMouseEnter={() => handleActiveOfferSetState(offer)} onMouseOut={() => handleActiveOfferSetState(0)}>
       {offer.isPremium && <div className="place-card__mark">
         <span>Premium</span>
       </div>}
@@ -76,7 +76,7 @@ const PlaceCard = (props) => {
             <b className="place-card__price-value">&euro;{offer.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button button ${offer.isFavorite && `place-card__bookmark-button--active`}`} type="button" onClick={() => handleChangeFavoriteFlag(offer, cardType)}>
+          <button className={`place-card__bookmark-button button ${offer.isFavorite && `place-card__bookmark-button--active`}`} type="button" onClick={() => handleFavoriteFlagChange(offer, cardType)}>
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
@@ -89,7 +89,7 @@ const PlaceCard = (props) => {
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
-        <h2 className="place-card__name" onClick={handleOpenOfferPage}>
+        <h2 className="place-card__name" onClick={handleOfferPageOpen}>
           {offer.title}
         </h2>
         <p className="place-card__type">{offer.type}</p>

@@ -54,7 +54,7 @@ const SortOptions = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    activeSortType: state.sortType,
+    activeSortType: state.sortType
   };
 };
 

@@ -48,7 +48,7 @@ const Room = (props) => {
       background-repeat: no-repeat
     }`;
 
-  const handleChangeFavoriteFlag = () => {
+  const handleFavoriteFlagChange = () => {
     if (authorizationStatus === AuthorizationStatus.AUTH) {
       let status;
       if (offer.isFavorite) {
@@ -84,7 +84,7 @@ const Room = (props) => {
                 <h1 className="property__name">
                   {offer.title}
                 </h1>
-                <button className={`property__bookmark-button button ${offer.isFavorite && `property__bookmark-button--active`}`} type="button" onClick={handleChangeFavoriteFlag}>
+                <button className={`property__bookmark-button button ${offer.isFavorite && `property__bookmark-button--active`}`} type="button" onClick={handleFavoriteFlagChange}>
                   <svg className="property__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
