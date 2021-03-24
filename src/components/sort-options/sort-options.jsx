@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {ActionCreator} from '../../store/action';
 
 const SortOptions = (props) => {
-  const {handleChangeSortType, activeSortType} = props;
+  const {onChangeSortType, activeSortType} = props;
 
   const SortListSettings = {
     CLOSED_CLASS: `places__options places__options--custom`,
@@ -24,6 +24,10 @@ const SortOptions = (props) => {
 
   const handleSortListClose = () => {
     return changeSortListClasses(SortListSettings.CLOSED_CLASS);
+  };
+
+  const handleChangeSortType = (sortType) => {
+    onChangeSortType(sortType);
   };
 
   return (
@@ -55,13 +59,13 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  handleChangeSortType(sortType) {
+  onChangeSortType(sortType) {
     dispatch(ActionCreator.changeSortType(sortType));
   }
 });
 
 SortOptions.propTypes = {
-  handleChangeSortType: PropTypes.func.isRequired,
+  onChangeSortType: PropTypes.func.isRequired,
   activeSortType: PropTypes.string.isRequired
 };
 
