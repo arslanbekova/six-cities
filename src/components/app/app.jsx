@@ -1,5 +1,6 @@
 import React from 'react';
 import {Router as BrowserRouter, Switch, Route} from 'react-router-dom';
+import {PathName} from '../../utils/const';
 import Main from '../main/main';
 import SignIn from '../sign-in/sign-in';
 import Favorites from '../favorites/favorites';
@@ -15,17 +16,17 @@ const App = () => {
     <BrowserRouter history={browserHistory}>
       <ReactNotification/>
       <Switch>
-        <Route exact path="/">
+        <Route exact path={PathName.MAIN}>
           <Main/>
         </Route>
-        <Route exact path="/login">
+        <Route exact path={PathName.LOGIN}>
           <SignIn/>
         </Route>
         <PrivateRoute exact
-          path="/favorites"
+          path={PathName.FAVORITES}
           render={() => <Favorites/>}>
         </PrivateRoute>
-        <Route exact path="/offer/:id">
+        <Route exact path={PathName.OFFER}>
           <Room/>
         </Route>
         <Route>

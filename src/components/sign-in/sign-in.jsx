@@ -4,6 +4,7 @@ import {useHistory} from 'react-router-dom';
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {login} from "../../store/api-actions";
+import {PathName} from '../../utils/const';
 
 const SignIn = ({onSubmit}) => {
   const loginRef = useRef();
@@ -16,7 +17,7 @@ const SignIn = ({onSubmit}) => {
       email: loginRef.current.value,
       password: passwordRef.current.value,
     });
-    history.push(`/`);
+    history.push(PathName.MAIN);
   };
 
   return (

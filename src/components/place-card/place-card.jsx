@@ -7,6 +7,7 @@ import {connect} from 'react-redux';
 import {offerTypes} from '../../prop-types/prop-types';
 import {addToFavorites} from "../../store/api-actions";
 import {ActionCreator} from "../../store/action";
+import {PathName} from '../../utils/const';
 
 const PlaceCard = (props) => {
 
@@ -51,7 +52,7 @@ const PlaceCard = (props) => {
 
   const handleOfferPageOpen = () => {
     onOpenOfferPage(offer.id);
-    history.push(`/offer/${offer.id}`);
+    history.push(PathName.OFFER_PAGE + `${offer.id}`);
   };
 
   const handleActiveOfferSetState = (activeOffer) => {

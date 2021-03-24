@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {authTypes} from '../../prop-types/prop-types';
 import {fetchFavoritesOffers, logout} from "../../store/api-actions";
+import {PathName} from '../../utils/const';
 
 const Header = (props) => {
   const {authorizationStatus, authInfo, onOpenFavoritesPage, onClickLogoutButton} = props;
@@ -37,7 +38,7 @@ const Header = (props) => {
           <nav className="header__nav">
             <ul className="header__nav-list">
               <li className="header__nav-item user" style={{display: `flex`, alignItems: `baseline`}}>
-                <Link className="header__nav-link header__nav-link--profile" to="/favorites" onClick={handleFavoritesPageOpen}>
+                <Link className="header__nav-link header__nav-link--profile" to={PathName.FAVORITES} onClick={handleFavoritesPageOpen}>
                   <div className="header__avatar-wrapper user__avatar-wrapper" style={authorizationStatus ? {backgroundImage: `url(${authInfo.avatarUrl})`} : undefined}>
                   </div>
                   <span className={authorizationStatus && `header__user-name user__name` || `header__login`}>{authorizationStatus && authInfo.email || `Sign in`}</span>
