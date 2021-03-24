@@ -40,3 +40,8 @@ export const Filter = {
   TOP_RATED: `Top rated first`,
   POPULAR: `Popular`
 };
+
+export const FavoriteStatus = {
+  ADD: 1,
+  REMOVE: 0,
+};

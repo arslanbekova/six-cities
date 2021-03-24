@@ -10,7 +10,7 @@ import Spinner from '../spinner/spinner';
 import {connect} from 'react-redux';
 import {offerTypes, reviewTypes} from '../../prop-types/prop-types';
 import {setRating} from '../../utils/general';
-import {AuthorizationStatus, PathName} from '../../utils/const';
+import {AuthorizationStatus, PathName, FavoriteStatus} from '../../utils/const';
 import {fetchOffer, fetchReviewsList, fetchOffersNear, addToFavorites} from "../../store/api-actions";
 import {ActionCreator} from '../../store/action';
 
@@ -52,13 +52,13 @@ const Room = (props) => {
     if (authorizationStatus === AuthorizationStatus.AUTH) {
       let status;
       if (offer.isFavorite) {
-        status = 0;
+        status = FavoriteStatus.REMOVE;
       } else {
-        status = 1;
+        status = FavoriteStatus.ADD;
       }
       onAddToFavorites(offer.id, status);
     } else {
-      history.push(`/login`);
+      history.push(PathName.LOGIN);
     }
   };
 

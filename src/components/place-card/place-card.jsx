@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 import {offerTypes} from '../../prop-types/prop-types';
 import {addToFavorites} from "../../store/api-actions";
 import {ActionCreator} from "../../store/action";
-import {PathName, ComponentType, LoadedStatus} from '../../utils/const';
+import {PathName, ComponentType, LoadedStatus, FavoriteStatus} from '../../utils/const';
 
 const PlaceCard = (props) => {
 
@@ -40,13 +40,13 @@ const PlaceCard = (props) => {
     if (authorizationStatus === AuthorizationStatus.AUTH) {
       let status;
       if (activeOffer.isFavorite) {
-        status = 0;
+        status = FavoriteStatus.REMOVE;
       } else {
-        status = 1;
+        status = FavoriteStatus.ADD;
       }
       onAddToFavorites(activeOffer.id, status, card);
     } else {
-      history.push(`/login`);
+      history.push(PathName.LOGIN);
     }
   };
 
