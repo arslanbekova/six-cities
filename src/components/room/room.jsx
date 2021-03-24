@@ -10,10 +10,9 @@ import Spinner from '../spinner/spinner';
 import {connect} from 'react-redux';
 import {offerTypes, reviewTypes} from '../../prop-types/prop-types';
 import {setRating} from '../../utils/general';
-import {AuthorizationStatus} from '../../utils/const';
+import {AuthorizationStatus, PathName} from '../../utils/const';
 import {fetchOffer, fetchReviewsList, fetchOffersNear, addToFavorites} from "../../store/api-actions";
 import {ActionCreator} from '../../store/action';
-import {PathName} from '../../utils/const';
 
 const Room = (props) => {
   const {reviews, offersNear, authorizationStatus, offer, onOpenOfferPage, isOfferLoaded, onAddToFavorites} = props;

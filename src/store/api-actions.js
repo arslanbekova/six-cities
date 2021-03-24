@@ -1,6 +1,6 @@
 import {ActionCreator} from './action';
-import {AuthorizationStatus} from '../utils/const';
-import {BackendUrl} from '../utils/const';
+import {AuthorizationStatus, PathName} from '../utils/const';
+import {BackendUrl, ComponentType} from '../utils/const';
 import camelcaseKeys from 'camelcase-keys';
 
 const FORMATTED_RESPONS = {
@@ -41,13 +41,13 @@ export const fetchFavoritesOffers = () => (dispatch, _getState, api) => (
 export const addToFavorites = (id, status, cardType) => (dispatch, _getState, api) => {
   return api.post(BackendUrl.FAVORITE_HOTELS + `/${id}/${status}`, {id, status}, FORMATTED_RESPONS)
     .then(({data}) => {
-      if (cardType === `MAIN`) {
+      if (cardType === ComponentType.MAIN) {
         dispatch(ActionCreator.updateOffers(data));
       }
-      if (cardType === `NEAR`) {
+      if (cardType === ComponentType.NEAR) {
         dispatch(ActionCreator.updateOffersNear(data));
       }
-      if (cardType === `FAVORITES`) {
+      if (cardType === ComponentType.FAVORITE) {
         dispatch(ActionCreator.updateFavoritesOffers(data));
       }
     })
@@ -78,7 +78,7 @@ export const login = ({email, password}) => (dispatch, _getState, api) => (
   api.post(BackendUrl.LOGIN, {email, password}, FORMATTED_RESPONS)
     .then(({data}) => dispatch(ActionCreator.loadAuthInfo(data)))
     .then(() => dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH)))
-    .then(() => dispatch(ActionCreator.redirectToRoute(`/`)))
+    .then(() => dispatch(ActionCreator.redirectToRoute(PathName.MAIN)))
     .catch({})
 );
 

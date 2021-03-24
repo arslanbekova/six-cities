@@ -1,15 +1,16 @@
 import {ActionType} from './action';
 import {AuthorizationStatus} from '../utils/const';
+import {LoadedStatus, Filter, CITY_BY_DEFAULT} from '../utils/const';
 
 const initialState = {
-  city: `Paris`,
+  city: CITY_BY_DEFAULT,
   offers: [],
   reviews: [],
-  sortType: `Popular`,
-  isDataLoaded: false,
+  sortType: Filter.POPULAR,
+  isDataLoaded: LoadedStatus.NOT_LOADED,
   authorizationStatus: AuthorizationStatus.NO_AUTH,
   authInfo: {},
-  isOfferLoaded: false,
+  isOfferLoaded: LoadedStatus.NOT_LOADED,
   offer: {},
   offersNear: [],
   favoritesOffers: [],
@@ -34,7 +35,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         offers: action.payload,
-        isDataLoaded: true
+        isDataLoaded: LoadedStatus.LOADED
       };
 
     case ActionType.LOAD_REVIEWS:
@@ -59,7 +60,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         offer: action.payload,
-        isOfferLoaded: true
+        isOfferLoaded: LoadedStatus.LOADED
       };
     case ActionType.LOAD_OFFERS_NEAR:
       return {
@@ -70,7 +71,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         favoritesOffers: action.payload,
-        isFavoritesOffersLoaded: true
+        isFavoritesOffersLoaded: LoadedStatus.LOADED
       };
     case ActionType.UPDATE_OFFERS:
       return {

@@ -36,7 +36,7 @@ const Main = (props) => {
         </div>
         <div className="cities">
           <div className="cities__places-container container">
-            {offers.length === 0 ? <MainEmpty city={city}/> : <MainOffers city={city} offers={offers}/>}
+            {!offers.length ? <MainEmpty city={city}/> : <MainOffers city={city} offers={offers}/>}
           </div>
         </div>
       </main>

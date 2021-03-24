@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {reviewTypes} from '../../prop-types/prop-types';
 import {setRating} from '../../utils/general';
 import moment from 'moment';
-import {reviewTypes} from '../../prop-types/prop-types';
 
 const ReviewItem = (props) => {
   const {review} = props;

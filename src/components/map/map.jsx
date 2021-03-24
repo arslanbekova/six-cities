@@ -1,8 +1,9 @@
 import React, {useEffect, useRef} from 'react';
 import leaflet from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import {ComponentType} from '../../utils/const';
 import PropTypes from 'prop-types';
 import {offerTypes, locationTypes} from '../../prop-types/prop-types';
-import 'leaflet/dist/leaflet.css';
 
 const Map = (props) => {
   const {offers, city, mapType, activeOffer, cityPoints} = props;
@@ -65,7 +66,7 @@ const Map = (props) => {
       }));
     });
 
-    if (mapType === `NEAR`) {
+    if (mapType === ComponentType.NEAR) {
       leaflet.marker({
         lat: activeOffer.location.latitude,
         lng: activeOffer.location.longitude

@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {offerTypes} from '../../prop-types/prop-types';
 import PlaceCard from '../place-card/place-card';
+import {offerTypes} from '../../prop-types/prop-types';
+import {ComponentType} from '../../utils/const';
 
 const FavoritesList = (props) => {
   const {favoritesOffers} = props;
@@ -20,7 +21,7 @@ const FavoritesList = (props) => {
                 </div>
               </div>
               <div className="favorites__places">
-                {Object.values(favoritesOffers).map((city) => city.map((offer) => offer.city.name === cityKey ? <PlaceCard cardType="FAVORITES" key={offer.id} offer={offer}/> : ``))}
+                {Object.values(favoritesOffers).map((city) => city.map((offer) => offer.city.name === cityKey ? <PlaceCard cardType={ComponentType.FAVORITE} key={offer.id} offer={offer}/> : ``))}
               </div>
             </li>)}
           </ul>

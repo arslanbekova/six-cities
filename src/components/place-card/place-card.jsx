@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 import {offerTypes} from '../../prop-types/prop-types';
 import {addToFavorites} from "../../store/api-actions";
 import {ActionCreator} from "../../store/action";
-import {PathName} from '../../utils/const';
+import {PathName, ComponentType, LoadedStatus} from '../../utils/const';
 
 const PlaceCard = (props) => {
 
@@ -56,7 +56,7 @@ const PlaceCard = (props) => {
   };
 
   const handleActiveOfferSetState = (activeOffer) => {
-    if (cardType === `MAIN`) {
+    if (cardType === ComponentType.MAIN) {
       setActiveOffer(activeOffer);
     }
   };
@@ -117,7 +117,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(addToFavorites(offerId, status, card));
   },
   onOpenOfferPage() {
-    dispatch(ActionCreator.updateOfferLoadedStatus(false));
+    dispatch(ActionCreator.updateOfferLoadedStatus(LoadedStatus.NOT_LOADED));
   },
 });
 
