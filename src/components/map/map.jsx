@@ -7,6 +7,9 @@ import {offerTypes, locationTypes} from '../../prop-types/prop-types';
 
 const Map = (props) => {
   const {offers, city, mapType, activeOffer, cityPoints} = props;
+
+  const mapRef = useRef();
+
   const MapSettings = {
     NEAR: {
       containerClass: `property__map`,
@@ -15,8 +18,6 @@ const Map = (props) => {
       containerClass: `cities__map`,
     }
   };
-
-  const mapRef = useRef();
 
   const icon = leaflet.icon({
     iconUrl: `img/pin.svg`,

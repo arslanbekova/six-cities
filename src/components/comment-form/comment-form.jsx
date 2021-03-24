@@ -6,6 +6,15 @@ import {postComment} from "../../store/api-actions";
 const CommentForm = (props) => {
   const {offerId, onSubmit} = props;
 
+  const [userForm, setUserForm] = useState({
+    rating: ``,
+    review: ``,
+    isDisableFormField: false,
+    isChecked: false
+  });
+
+  const [isDisableButton, setDisableButton] = useState(true);
+
   const InputRatingValues = {
     FIVE_STARS: `5`,
     FOUR_STARS: `4`,
@@ -19,15 +28,6 @@ const CommentForm = (props) => {
     MAX_REVIEW_LENGTH: 300,
     MIN_RATING_VALUE: 1
   };
-
-  const [userForm, setUserForm] = useState({
-    rating: ``,
-    review: ``,
-    isDisableFormField: false,
-    isChecked: false
-  });
-
-  const [isDisableButton, setDisableButton] = useState(true);
 
   const onSuccessUpLoad = () => {
     setUserForm({

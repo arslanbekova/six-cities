@@ -18,20 +18,6 @@ const Room = (props) => {
   const {reviews, offersNear, authorizationStatus, offer, onOpenOfferPage, isOfferLoaded, onAddToFavorites} = props;
   const history = useHistory();
   let {id} = useParams();
-
-  useEffect(() => {
-    if (!isOfferLoaded) {
-      onOpenOfferPage(id);
-    }
-  }, [id, isOfferLoaded]);
-
-  if (!isOfferLoaded) {
-    return (
-      <Spinner/>
-    );
-  }
-
-  const separatedDescription = offer.description.split(`.`).slice(0, -1);
   const isPro = `
     .property__avatar-wrapper--pro::after {
       content: "";
@@ -47,6 +33,18 @@ const Room = (props) => {
       background-position: center 6px;
       background-repeat: no-repeat
     }`;
+
+  useEffect(() => {
+    if (!isOfferLoaded) {
+      onOpenOfferPage(id);
+    }
+  }, [id, isOfferLoaded]);
+
+  if (!isOfferLoaded) {
+    return (
+      <Spinner/>
+    );
+  }
 
   const handleFavoriteFlagChange = () => {
     if (authorizationStatus === AuthorizationStatus.AUTH) {
@@ -134,7 +132,7 @@ const Room = (props) => {
                   </span>
                 </div>
                 <div className="property__description">
-                  {separatedDescription.map((sentence) =>
+                  {offer.description.split(`.`).slice(0, -1).map((sentence) =>
                     <p className="property__text" key={sentence}>
                       {sentence + `.`}
                     </p>

@@ -9,17 +9,17 @@ import {PathName} from '../../utils/const';
 const Header = (props) => {
   const {authorizationStatus, authInfo, onOpenFavoritesPage, onClickLogoutButton} = props;
 
-  const handleFavoritesPageOpen = () => {
-    if (authorizationStatus) {
-      onOpenFavoritesPage();
-    }
-  };
-
   const logoutButtonStyle = {
     marginLeft: 10 + `px`,
     width: 18 + `px`,
     height: 18 + `px`,
     backgroundImage: `url(../img/logout.svg)`
+  };
+
+  const handleFavoritesPageOpen = () => {
+    if (authorizationStatus) {
+      onOpenFavoritesPage();
+    }
   };
 
   const handleLogoutButtonClick = () => {
