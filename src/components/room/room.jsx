@@ -12,6 +12,7 @@ import {offerTypes, reviewTypes} from '../../prop-types/prop-types';
 import {setRating} from '../../utils/general';
 import {AuthorizationStatus} from '../../utils/const';
 import {fetchOffer, fetchReviewsList, fetchOffersNear, addToFavorites} from "../../store/api-actions";
+import {ActionCreator} from '../../store/action';
 
 const Room = (props) => {
   const {reviews, offersNear, authorizationStatus, offer, onOpenOfferPage, isOfferLoaded, onAddToFavorites} = props;
@@ -183,9 +184,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   onOpenOfferPage(offerId) {
-    dispatch(fetchOffer(offerId));
-    dispatch(fetchReviewsList(offerId));
-    dispatch(fetchOffersNear(offerId));
+    dispatch(fetchOffer(offerId))
+    .then(() => dispatch(fetchReviewsList(offerId)))
+    .then(() => dispatch(fetchOffersNear(offerId)))
+    .catch(() => dispatch(ActionCreator.redirectToRoute(`/not_found`)));
   },
   onAddToFavorites(offerId, status) {
     dispatch(addToFavorites(offerId, status))

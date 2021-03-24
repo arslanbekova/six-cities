@@ -5,7 +5,10 @@ import camelcaseKeys from 'camelcase-keys';
 const FORMATTED_RESPONS = {
   transformResponse: [
     (data) => {
-      return camelcaseKeys(JSON.parse(data), {deep: true});
+      if (data) {
+        return camelcaseKeys(JSON.parse(data), {deep: true});
+      }
+      return data;
     }
   ]
 };
@@ -16,24 +19,26 @@ export const fetchOffersList = () => (dispatch, _getState, api) => {
   .catch({});
 };
 
-export const fetchOffer = (id) => (dispatch, _getState, api) => (
-  api.get(`/hotels/${id}`, FORMATTED_RESPONS)
+export const fetchOffer = (id) => (dispatch, _getState, api) => {
+  return api.get(`/hotels/${id}`, FORMATTED_RESPONS)
   .then(({data}) => dispatch(ActionCreator.loadOffer(data)))
-);
+  .catch({});
+};
 
-export const fetchOffersNear = (id) => (dispatch, _getState, api) => (
+export const fetchOffersNear = (id) => (dispatch, _getState, api) => {
   api.get(`/hotels/${id}/nearby`, FORMATTED_RESPONS)
   .then(({data}) => dispatch(ActionCreator.loadOffersNear(data)))
-);
+  .catch(() => {});
+};
 
 export const fetchFavoritesOffers = () => (dispatch, _getState, api) => (
   api.get(`/favorite`, FORMATTED_RESPONS)
   .then(({data}) => dispatch(ActionCreator.loadFavoritesOffers(data)))
-  .catch({})
+  .catch(() => {})
 );
 
 export const addToFavorites = (id, status, cardType) => (dispatch, _getState, api) => {
-  api.post(`/favorite/${id}/${status}`, {id, status}, FORMATTED_RESPONS)
+  return api.post(`/favorite/${id}/${status}`, {id, status}, FORMATTED_RESPONS)
     .then(({data}) => {
       if (cardType === `MAIN`) {
         dispatch(ActionCreator.updateOffers(data));
@@ -51,7 +56,7 @@ export const addToFavorites = (id, status, cardType) => (dispatch, _getState, ap
 export const fetchReviewsList = (id) => (dispatch, _getState, api) => (
   api.get(`/comments/${id}`, FORMATTED_RESPONS)
   .then(({data}) => dispatch(ActionCreator.loadReviews(data)))
-  .catch({})
+  .catch(() => {})
 );
 
 export const postComment = (id, {comment, rating}, onSuccessUpLoad, onErrorUpLoad) => (dispatch, _getState, api) => (
@@ -65,7 +70,7 @@ export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(`/login`, FORMATTED_RESPONS)
     .then(({data}) => dispatch(ActionCreator.loadAuthInfo(data)))
     .then(() => dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH)))
-    .catch({})
+    .catch(() => {})
 );
 
 export const login = ({email, password}) => (dispatch, _getState, api) => (

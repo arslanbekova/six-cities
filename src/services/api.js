@@ -14,7 +14,7 @@ const HttpCode = {
 const getNotification = (message, status, statusText) => {
   return store.addNotification({
     title: `Server error! ${status}: ${statusText}`,
-    message,
+    message: `${message || statusText}`,
     type: `danger`,
     insert: `top`,
     container: `bottom-full`,
@@ -46,9 +46,6 @@ export const createAPI = () => {
       getNotification(message, status, statusText);
     }
 
-    if (status === HttpCode.UNAUTHORIZED) {
-      getNotification(message, status, statusText);
-    }
     if (status === HttpCode.NOT_FOUND) {
       getNotification(message, status, statusText);
     }
