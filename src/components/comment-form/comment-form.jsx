@@ -1,10 +1,9 @@
 import React, {useState} from 'react';
+import {useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {postComment} from "../../store/api-actions";
+import {postComment} from "../../store/actions/api-actions";
 
-const CommentForm = (props) => {
-  const {offerId, onSubmit} = props;
+const CommentForm = ({offerId}) => {
 
   const [userForm, setUserForm] = useState({
     rating: ``,
@@ -29,6 +28,8 @@ const CommentForm = (props) => {
     MIN_RATING_VALUE: 1
   };
 
+  const dispatch = useDispatch();
+
   const onSuccessUpLoad = () => {
     setUserForm({
       rating: ``,
@@ -48,10 +49,10 @@ const CommentForm = (props) => {
     setDisableButton(true);
     setUserForm({...userForm, isDisableFormField: true});
 
-    onSubmit(offerId, {
+    dispatch(postComment(offerId, {
       comment: userForm.review,
       rating: userForm.rating
-    }, onSuccessUpLoad, onErrorUpLoad);
+    }, onSuccessUpLoad, onErrorUpLoad));
   };
 
   const handleFieldChange = (evt) => {
@@ -125,15 +126,7 @@ const CommentForm = (props) => {
 };
 
 CommentForm.propTypes = {
-  offerId: PropTypes.number.isRequired,
-  onSubmit: PropTypes.func.isRequired,
+  offerId: PropTypes.number.isRequired
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  onSubmit(offerId, commentData, onSuccessUpLoad, onErrorUpLoad) {
-    dispatch(postComment(offerId, commentData, onSuccessUpLoad, onErrorUpLoad));
-  },
-});
-
-export {CommentForm};
-export default connect(null, mapDispatchToProps)(CommentForm);
+export default CommentForm;

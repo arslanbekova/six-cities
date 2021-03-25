@@ -1,19 +1,19 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import {useSelector, useDispatch} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 import {setRating} from '../../utils/general';
 import {AuthorizationStatus} from '../../utils/const';
-import {connect} from 'react-redux';
-import {offerTypes} from '../../prop-types/prop-types';
-import {addToFavorites} from "../../store/api-actions";
-import {ActionCreator} from "../../store/action";
+import {addToFavorites} from "../../store/actions/api-actions";
+import {updateOfferLoadedStatus} from '../../store/actions/offers-data-actions';
 import {PathName, ComponentType, LoadedStatus, FavoriteStatus} from '../../utils/const';
+import PropTypes from 'prop-types';
+import {offerTypes} from '../../prop-types/prop-types';
 
 const PlaceCard = (props) => {
-
-  const {offer, cardType, setActiveOffer, authorizationStatus, onAddToFavorites, onOpenOfferPage} = props;
+  const {offer, cardType, setActiveOffer} = props;
+  const {authorizationStatus} = useSelector((state) => state.USER);
   const history = useHistory();
-
+  const dispatch = useDispatch();
   const CardSettings = {
     NEAR: {
       cardClass: `near-places__card`,
@@ -44,14 +44,14 @@ const PlaceCard = (props) => {
       } else {
         status = FavoriteStatus.ADD;
       }
-      onAddToFavorites(activeOffer.id, status, card);
+      dispatch(addToFavorites(activeOffer.id, status, card));
     } else {
       history.push(PathName.LOGIN);
     }
   };
 
   const handleOfferPageOpen = () => {
-    onOpenOfferPage(offer.id);
+    dispatch(updateOfferLoadedStatus(LoadedStatus.NOT_LOADED));
     history.push(PathName.OFFER_PAGE + `${offer.id}`);
   };
 
@@ -102,24 +102,7 @@ const PlaceCard = (props) => {
 PlaceCard.propTypes = {
   offer: PropTypes.shape(offerTypes).isRequired,
   setActiveOffer: PropTypes.func,
-  cardType: PropTypes.string.isRequired,
-  authorizationStatus: PropTypes.bool.isRequired,
-  onAddToFavorites: PropTypes.func.isRequired,
-  onOpenOfferPage: PropTypes.func.isRequired
+  cardType: PropTypes.string.isRequired
 };
 
-const mapStateToProps = (state) => ({
-  authorizationStatus: state.authorizationStatus
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onAddToFavorites(offerId, status, card) {
-    dispatch(addToFavorites(offerId, status, card));
-  },
-  onOpenOfferPage() {
-    dispatch(ActionCreator.updateOfferLoadedStatus(LoadedStatus.NOT_LOADED));
-  },
-});
-
-export {PlaceCard};
-export default connect(mapStateToProps, mapDispatchToProps)(PlaceCard);
+export default PlaceCard;

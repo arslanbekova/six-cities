@@ -1,20 +1,19 @@
 import React, {useEffect} from 'react';
-import PropTypes from 'prop-types';
+import {useSelector, useDispatch} from 'react-redux';
 import Header from '../header/header';
 import CitiesList from '../cities-list/cities-list';
 import Spinner from '../spinner/spinner';
 import MainEmpty from '../main-empty/main-empty';
 import MainOffers from '../main-offers/main-offers';
-import {connect} from 'react-redux';
-import {fetchOffersList} from "../../store/api-actions";
-import {offerTypes} from '../../prop-types/prop-types';
+import {fetchOffersList} from "../../store/actions/api-actions";
 
-const Main = (props) => {
-  const {offers, city, isDataLoaded, onLoadData} = props;
+const Main = () => {
+  const {isDataLoaded, offers} = useSelector((state) => state.MAIN_PAGE);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!isDataLoaded) {
-      onLoadData();
+      dispatch(fetchOffersList());
     }
   }, [isDataLoaded]);
 
@@ -36,7 +35,7 @@ const Main = (props) => {
         </div>
         <div className="cities">
           <div className="cities__places-container container">
-            {!offers.length ? <MainEmpty city={city}/> : <MainOffers city={city} offers={offers}/>}
+            {!offers.length ? <MainEmpty/> : <MainOffers/>}
           </div>
         </div>
       </main>
@@ -44,27 +43,5 @@ const Main = (props) => {
   );
 };
 
-Main.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.shape(offerTypes)).isRequired,
-  city: PropTypes.string.isRequired,
-  isDataLoaded: PropTypes.bool.isRequired,
-  onLoadData: PropTypes.func.isRequired
-};
-
-const mapStateToProps = (state) => {
-  return {
-    city: state.city,
-    offers: state.offers.filter((offer) => offer.city.name === state.city),
-    isDataLoaded: state.isDataLoaded
-  };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  onLoadData() {
-    dispatch(fetchOffersList());
-  },
-});
-
-export {Main};
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default Main;
 

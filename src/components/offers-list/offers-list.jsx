@@ -1,6 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import PlaceCard from '../place-card/place-card';
+import PropTypes from 'prop-types';
 import {offerTypes} from '../../prop-types/prop-types';
 
 const OffersList = (props) => {

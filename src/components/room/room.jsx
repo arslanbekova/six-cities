@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useParams, useHistory} from "react-router-dom";
-import PropTypes from 'prop-types';
+import {useSelector, useDispatch} from 'react-redux';
 import Header from '../header/header';
 import RoomRating from '../room-rating/room-rating';
 import RoomFeatures from '../room-features/room-features';
@@ -12,20 +12,23 @@ import CommentForm from '../comment-form/comment-form';
 import MapNear from '../map-near/map-near';
 import OffersListNear from '../offers-list-near/offers-list-near';
 import Spinner from '../spinner/spinner';
-import {connect} from 'react-redux';
-import {offerTypes, reviewTypes} from '../../prop-types/prop-types';
 import {AuthorizationStatus, PathName, FavoriteStatus} from '../../utils/const';
-import {fetchOffer, fetchReviewsList, fetchOffersNear, addToFavorites} from "../../store/api-actions";
-import {ActionCreator} from '../../store/action';
+import {fetchOffer, fetchReviewsList, fetchOffersNear, addToFavorites} from '../../store/actions/api-actions';
+import {redirectToRoute} from '../../store/actions/redirect-actions';
 
-const Room = (props) => {
-  const {reviews, offersNear, authorizationStatus, offer, onOpenOfferPage, isOfferLoaded, onAddToFavorites} = props;
+const Room = () => {
+  const {reviews, offersNear, offer, isOfferLoaded} = useSelector((state) => state.DATA);
+  const {authorizationStatus} = useSelector((state) => state.USER);
+  const dispatch = useDispatch();
   const history = useHistory();
   let {id} = useParams();
 
   useEffect(() => {
     if (!isOfferLoaded) {
-      onOpenOfferPage(id);
+      dispatch(fetchOffer(id))
+      .then(() => dispatch(fetchReviewsList(id)))
+      .then(() => dispatch(fetchOffersNear(id)))
+      .catch(() => dispatch(redirectToRoute(PathName.NOT_FOUND)));
     }
   }, [id, isOfferLoaded]);
 
@@ -43,7 +46,8 @@ const Room = (props) => {
       } else {
         status = FavoriteStatus.ADD;
       }
-      onAddToFavorites(offer.id, status);
+      dispatch(addToFavorites(offer.id, status))
+      .then(() => dispatch(fetchOffer(offer.id)));
     } else {
       history.push(PathName.LOGIN);
     }
@@ -85,7 +89,7 @@ const Room = (props) => {
               <RoomHost hostInfo={offer.host} offerDescription={offer.description}/>
               <section className="property__reviews reviews">
                 <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
-                <ReviewsList reviews={reviews}/>
+                <ReviewsList/>
                 {authorizationStatus && <CommentForm offerId={offer.id}/>}
               </section>
             </div>
@@ -103,39 +107,4 @@ const Room = (props) => {
   );
 };
 
-Room.propTypes = {
-  reviews: PropTypes.arrayOf(PropTypes.shape(reviewTypes)).isRequired,
-  offersNear: PropTypes.arrayOf(PropTypes.shape(offerTypes)).isRequired,
-  authorizationStatus: PropTypes.bool.isRequired,
-  offer: PropTypes.oneOfType([PropTypes.shape(offerTypes), PropTypes.object.isRequired]),
-  isOfferLoaded: PropTypes.bool.isRequired,
-  onOpenOfferPage: PropTypes.func.isRequired,
-  onAddToFavorites: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => {
-  return {
-    offersNear: state.offersNear,
-    reviews: state.reviews,
-    authorizationStatus: state.authorizationStatus,
-    offer: state.offer,
-    isOfferLoaded: state.isOfferLoaded,
-    city: state.city
-  };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  onOpenOfferPage(offerId) {
-    dispatch(fetchOffer(offerId))
-    .then(() => dispatch(fetchReviewsList(offerId)))
-    .then(() => dispatch(fetchOffersNear(offerId)))
-    .catch(() => dispatch(ActionCreator.redirectToRoute(PathName.NOT_FOUND)));
-  },
-  onAddToFavorites(offerId, status) {
-    dispatch(addToFavorites(offerId, status))
-    .then(() => dispatch(fetchOffer(offerId)));
-  },
-});
-
-export {Room};
-export default connect(mapStateToProps, mapDispatchToProps)(Room);
+export default Room;

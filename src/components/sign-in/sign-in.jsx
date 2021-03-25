@@ -1,22 +1,23 @@
 import React, {useRef} from 'react';
+import {useDispatch} from 'react-redux';
 import Header from '../header/header';
 import {useHistory} from 'react-router-dom';
-import PropTypes from "prop-types";
-import {connect} from "react-redux";
-import {login} from "../../store/api-actions";
+import {login} from "../../store/actions/api-actions";
 import {PathName} from '../../utils/const';
 
-const SignIn = ({onSubmit}) => {
+const SignIn = () => {
   const loginRef = useRef();
   const passwordRef = useRef();
 
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const handleFormSubmit = () => {
-    onSubmit({
+    dispatch(login({
       email: loginRef.current.value,
       password: passwordRef.current.value,
-    });
+    }));
+
     history.push(PathName.MAIN);
   };
 
@@ -52,16 +53,4 @@ const SignIn = ({onSubmit}) => {
   );
 };
 
-SignIn.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-};
-
-
-const mapDispatchToProps = (dispatch) => ({
-  onSubmit(authData) {
-    dispatch(login(authData));
-  }
-});
-
-export {SignIn};
-export default connect(null, mapDispatchToProps)(SignIn);
+export default SignIn;

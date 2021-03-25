@@ -1,8 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import {useSelector} from 'react-redux';
 
-const MainEmpty = (props) => {
-  const {city} = props;
+const MainEmpty = () => {
+  const {city} = useSelector((state) => state.MAIN_PAGE);
+
   return (
     <React.Fragment>
       <section className="cities__no-places">
@@ -14,10 +15,6 @@ const MainEmpty = (props) => {
       <div className="cities__right-section" style={{backgroundImage: `url(../img/no-places@2x.png)`}}></div>
     </React.Fragment>
   );
-};
-
-MainEmpty.propTypes = {
-  city: PropTypes.string.isRequired
 };
 
 export default MainEmpty;

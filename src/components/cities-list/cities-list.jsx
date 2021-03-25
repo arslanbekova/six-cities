@@ -1,10 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {ActionCreator} from '../../store/action';
+import {useSelector, useDispatch} from 'react-redux';
+import {changeCity} from '../../store/actions/main-page-actions';
 
-const CitiesList = (props) => {
-  const {onChangeCity, activeCity} = props;
+const CitiesList = () => {
+  const {city} = useSelector((state) => state.MAIN_PAGE);
 
   const CITIES = [
     `Paris`,
@@ -15,16 +14,18 @@ const CitiesList = (props) => {
     `Dusseldorf`
   ];
 
-  const handleCityChange = (city) => {
-    onChangeCity(city);
+  const dispatch = useDispatch();
+
+  const handleCityChange = (activeCity) => {
+    dispatch(changeCity(activeCity));
   };
 
   return (
     <ul className="locations__list tabs__list">
-      {CITIES.map((city) =>
-        <li key={city} className="locations__item">
-          <a className={`locations__item-link tabs__item ${city === activeCity && `tabs__item--active`}`} onClick={() => handleCityChange(city)}>
-            <span>{city}</span>
+      {CITIES.map((cityItem) =>
+        <li key={cityItem} className="locations__item">
+          <a className={`locations__item-link tabs__item ${cityItem === city && `tabs__item--active`}`} onClick={() => handleCityChange(cityItem)}>
+            <span>{cityItem}</span>
           </a>
         </li>
       )}
@@ -32,22 +33,4 @@ const CitiesList = (props) => {
   );
 };
 
-CitiesList.propTypes = {
-  onChangeCity: PropTypes.func.isRequired,
-  activeCity: PropTypes.string.isRequired
-};
-
-const mapStateToProps = (state) => {
-  return {
-    activeCity: state.city,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  onChangeCity(city) {
-    dispatch(ActionCreator.changeCity(city));
-  }
-});
-
-export {CitiesList};
-export default connect(mapStateToProps, mapDispatchToProps)(CitiesList);
+export default CitiesList;

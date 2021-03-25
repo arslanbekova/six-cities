@@ -1,34 +1,15 @@
 import React, {useState} from 'react';
-import PropTypes from 'prop-types';
+import {useSelector} from 'react-redux';
+import {ComponentType} from '../../utils/const';
+import {selectOffers} from '../../store/main-page-data/selectors';
 import SortOptions from '../sort-options/sort-options';
 import OffersList from '../offers-list/offers-list';
 import Map from '../map/map';
-import {ComponentType, Filter} from '../../utils/const';
-import {connect} from 'react-redux';
-import {offerTypes} from '../../prop-types/prop-types';
 
-const MainOffers = (props) => {
-  const {offers, city, sortType} = props;
+const MainOffers = () => {
+  const {city} = useSelector((state) => state.MAIN_PAGE);
+  const offers = useSelector(selectOffers);
   const [activeOffer, setActiveOffer] = useState(0);
-
-  const sortOffers = (sortBy, data) => {
-    switch (sortBy) {
-      case Filter.TO_HIGHEST_PRICE:
-        data.sort((a, b) => a.price - b.price);
-        break;
-      case Filter.TO_LOWEST_PRICE:
-        data.sort((a, b) => b.price - a.price);
-        break;
-      case Filter.TOP_RATED:
-        data.sort((a, b) => b.rating - a.rating);
-        break;
-      default:
-        return data;
-    }
-    return data;
-  };
-
-  sortOffers(sortType, offers);
 
   return (
     <React.Fragment>
@@ -45,17 +26,4 @@ const MainOffers = (props) => {
   );
 };
 
-MainOffers.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.shape(offerTypes)).isRequired,
-  city: PropTypes.string.isRequired,
-  sortType: PropTypes.string.isRequired,
-};
-
-const mapStateToProps = (state) => {
-  return {
-    sortType: state.sortType
-  };
-};
-
-export {MainOffers};
-export default connect(mapStateToProps)(MainOffers);
+export default MainOffers;

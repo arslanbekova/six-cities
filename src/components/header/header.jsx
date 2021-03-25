@@ -1,29 +1,27 @@
 import React from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 import {Link} from 'react-router-dom';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {authTypes} from '../../prop-types/prop-types';
-import {fetchFavoritesOffers, logout} from "../../store/api-actions";
 import {PathName} from '../../utils/const';
+import {fetchFavoritesOffers, logout} from "../../store/actions/api-actions";
 
-const Header = (props) => {
-  const {authorizationStatus, authInfo, onOpenFavoritesPage, onClickLogoutButton} = props;
-
+const Header = () => {
+  const {authorizationStatus, authInfo} = useSelector((state) => state.USER);
   const logoutButtonStyle = {
     marginLeft: 10 + `px`,
     width: 18 + `px`,
     height: 18 + `px`,
     backgroundImage: `url(../img/logout.svg)`
   };
+  const dispatch = useDispatch();
 
   const handleFavoritesPageOpen = () => {
     if (authorizationStatus) {
-      onOpenFavoritesPage();
+      dispatch(fetchFavoritesOffers());
     }
   };
 
   const handleLogoutButtonClick = () => {
-    onClickLogoutButton();
+    dispatch(logout());
   };
 
   return (
@@ -53,26 +51,4 @@ const Header = (props) => {
   );
 };
 
-Header.propTypes = {
-  authorizationStatus: PropTypes.bool.isRequired,
-  authInfo: PropTypes.shape(authTypes),
-  onOpenFavoritesPage: PropTypes.func.isRequired,
-  onClickLogoutButton: PropTypes.func.isRequired
-};
-
-const mapStateToProps = (state) => ({
-  authorizationStatus: state.authorizationStatus,
-  authInfo: state.authInfo
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onOpenFavoritesPage() {
-    dispatch(fetchFavoritesOffers());
-  },
-  onClickLogoutButton() {
-    dispatch(logout());
-  }
-});
-
-export {Header};
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default Header;

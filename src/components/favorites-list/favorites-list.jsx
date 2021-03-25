@@ -1,11 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import PlaceCard from '../place-card/place-card';
-import {offerTypes} from '../../prop-types/prop-types';
+import {useSelector} from 'react-redux';
+import {selectFavoritesOffers} from '../../store/offers-data/selectors';
 import {ComponentType} from '../../utils/const';
+import PlaceCard from '../place-card/place-card';
 
-const FavoritesList = (props) => {
-  const {favoritesOffers} = props;
+const FavoritesList = () => {
+  const favoritesOffers = useSelector(selectFavoritesOffers);
   return (
     <main className="page__main page__main--favorites">
       <div className="page__favorites-container container">
@@ -29,10 +29,6 @@ const FavoritesList = (props) => {
       </div>
     </main>
   );
-};
-
-FavoritesList.propTypes = {
-  favoritesOffers: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.shape(offerTypes))).isRequired
 };
 
 export default FavoritesList;
