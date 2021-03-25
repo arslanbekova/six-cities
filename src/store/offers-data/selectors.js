@@ -16,13 +16,11 @@ const getReviews = (state) => state[NameSpace.DATA].reviews;
 export const selectReviews = createSelector(
     [getReviews],
     (reviews) => {
-      if (!reviews.length) {
-        return reviews.sort((a, b) => {
-          let dateA = new Date(a.date);
-          let dateB = new Date(b.date);
-          return dateB - dateA;
-        });
-      }
-      return reviews;
+      const sortedReviews = reviews.slice().sort((a, b) => {
+        let dateA = new Date(a.date);
+        let dateB = new Date(b.date);
+        return dateB - dateA;
+      });
+      return sortedReviews;
     }
 );
