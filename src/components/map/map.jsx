@@ -96,7 +96,7 @@ const Map = (props) => {
 
   return (
     <section className={`${MapSettings[mapType].containerClass} map`}>
-      <div id="map" ref={mapRef} style={{height: 100 + `%`}}></div>
+      <div id="map" style={{height: 100 + `%`}}></div>
     </section>
   );
 };

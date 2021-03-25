@@ -62,7 +62,7 @@ const PlaceCard = (props) => {
   };
 
   return (
-    <article className={`${CardSettings[cardType].cardClass} place-card`} onMouseEnter={() => handleActiveOfferSetState(offer)} onMouseOut={() => handleActiveOfferSetState(0)}>
+    <article className={`${CardSettings[cardType].cardClass} place-card`} onMouseOver={() => handleActiveOfferSetState(offer)} onMouseOut={() => handleActiveOfferSetState(0)}>
       {offer.isPremium && <div className="place-card__mark">
         <span>Premium</span>
       </div>}
