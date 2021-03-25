@@ -1,6 +1,9 @@
-import {ActionCreator} from './action';
-import {AuthorizationStatus, PathName} from '../utils/const';
-import {BackendUrl, ComponentType} from '../utils/const';
+import {loadOffer, loadReviews, loadOffersNear, loadFavoritesOffers, updateOffersNear, updateFavoritesOffers} from './offers-data-actions';
+import {loadOffers, updateOffers} from './main-page-actions';
+import {requireAuthorization, loadAuthInfo} from './user-actions';
+import {redirectToRoute} from './redirect-actions';
+import {AuthorizationStatus, PathName} from '../../utils/const';
+import {BackendUrl, ComponentType} from '../../utils/const';
 import camelcaseKeys from 'camelcase-keys';
 
 const FORMATTED_RESPONS = {
@@ -16,25 +19,25 @@ const FORMATTED_RESPONS = {
 
 export const fetchOffersList = () => (dispatch, _getState, api) => {
   api.get(BackendUrl.HOTELS, FORMATTED_RESPONS)
-  .then(({data}) => dispatch(ActionCreator.loadOffers(data)))
+  .then(({data}) => dispatch(loadOffers(data)))
   .catch({});
 };
 
 export const fetchOffer = (id) => (dispatch, _getState, api) => {
   return api.get(BackendUrl.HOTELS + `/${id}`, FORMATTED_RESPONS)
-  .then(({data}) => dispatch(ActionCreator.loadOffer(data)))
+  .then(({data}) => dispatch(loadOffer(data)))
   .catch({});
 };
 
 export const fetchOffersNear = (id) => (dispatch, _getState, api) => {
   api.get(BackendUrl.HOTELS + `/${id}` + BackendUrl.NEAR, FORMATTED_RESPONS)
-  .then(({data}) => dispatch(ActionCreator.loadOffersNear(data)))
+  .then(({data}) => dispatch(loadOffersNear(data)))
   .catch(() => {});
 };
 
 export const fetchFavoritesOffers = () => (dispatch, _getState, api) => (
   api.get(BackendUrl.FAVORITE_HOTELS, FORMATTED_RESPONS)
-  .then(({data}) => dispatch(ActionCreator.loadFavoritesOffers(data)))
+  .then(({data}) => dispatch(loadFavoritesOffers(data)))
   .catch(() => {})
 );
 
@@ -42,13 +45,15 @@ export const addToFavorites = (id, status, cardType) => (dispatch, _getState, ap
   return api.post(BackendUrl.FAVORITE_HOTELS + `/${id}/${status}`, {id, status}, FORMATTED_RESPONS)
     .then(({data}) => {
       if (cardType === ComponentType.MAIN) {
-        dispatch(ActionCreator.updateOffers(data));
+        dispatch(updateOffers(data));
       }
       if (cardType === ComponentType.NEAR) {
-        dispatch(ActionCreator.updateOffersNear(data));
+        dispatch(updateOffersNear(data));
       }
       if (cardType === ComponentType.FAVORITE) {
-        dispatch(ActionCreator.updateFavoritesOffers(data));
+        dispatch(updateFavoritesOffers(data));
+        dispatch(updateOffers(data));
+        dispatch(updateOffersNear(data));
       }
     })
     .catch({});
@@ -56,33 +61,33 @@ export const addToFavorites = (id, status, cardType) => (dispatch, _getState, ap
 
 export const fetchReviewsList = (id) => (dispatch, _getState, api) => (
   api.get(BackendUrl.COMMENTS + `/${id}`, FORMATTED_RESPONS)
-  .then(({data}) => dispatch(ActionCreator.loadReviews(data)))
+  .then(({data}) => dispatch(loadReviews(data)))
   .catch(() => {})
 );
 
 export const postComment = (id, {comment, rating}, onSuccessUpLoad, onErrorUpLoad) => (dispatch, _getState, api) => (
   api.post(BackendUrl.COMMENTS + `/${id}`, {comment, rating}, FORMATTED_RESPONS)
-    .then(({data}) => dispatch(ActionCreator.loadReviews(data)))
+    .then(({data}) => dispatch(loadReviews(data)))
     .then(onSuccessUpLoad)
     .catch(onErrorUpLoad)
 );
 
 export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(BackendUrl.LOGIN, FORMATTED_RESPONS)
-    .then(({data}) => dispatch(ActionCreator.loadAuthInfo(data)))
-    .then(() => dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH)))
+    .then(({data}) => dispatch(loadAuthInfo(data)))
+    .then(() => dispatch(requireAuthorization(AuthorizationStatus.AUTH)))
     .catch(() => {})
 );
 
 export const login = ({email, password}) => (dispatch, _getState, api) => (
   api.post(BackendUrl.LOGIN, {email, password}, FORMATTED_RESPONS)
-    .then(({data}) => dispatch(ActionCreator.loadAuthInfo(data)))
-    .then(() => dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH)))
-    .then(() => dispatch(ActionCreator.redirectToRoute(PathName.MAIN)))
+    .then(({data}) => dispatch(loadAuthInfo(data)))
+    .then(() => dispatch(requireAuthorization(AuthorizationStatus.AUTH)))
+    .then(() => dispatch(redirectToRoute(PathName.MAIN)))
     .catch({})
 );
 
 export const logout = () => (dispatch, _getState, api) => (
   api.get(BackendUrl.LOGOUT)
-    .then(() => dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH)))
+    .then(() => dispatch(requireAuthorization(AuthorizationStatus.NO_AUTH)))
 );
