@@ -34,11 +34,11 @@ export const ComponentType = {
   FAVORITE: `FAVORITES`
 };
 
-export const Filter = {
+export const SortOption = {
+  POPULAR: `Popular`,
   TO_HIGHEST_PRICE: `Price: low to high`,
   TO_LOWEST_PRICE: `Price: high to low`,
-  TOP_RATED: `Top rated first`,
-  POPULAR: `Popular`
+  TOP_RATED: `Top rated first`
 };
 
 export const FavoriteStatus = {
