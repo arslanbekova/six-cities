@@ -1,14 +1,23 @@
 import React, {useEffect, useRef} from 'react';
 import leaflet from 'leaflet';
-import PropTypes from 'prop-types';
-import {offerTypes} from '../../prop-types/prop-types';
 import 'leaflet/dist/leaflet.css';
+import {ComponentType} from '../../utils/const';
+import PropTypes from 'prop-types';
+import {offerTypes, locationTypes} from '../../prop-types/prop-types';
 
 const Map = (props) => {
-  const {offers, activeCard, city} = props;
+  const {offers, city, mapType, activeOffer, cityPoints} = props;
 
-  const cityPoints = offers[0].city.location;
   const mapRef = useRef();
+
+  const MapSettings = {
+    NEAR: {
+      containerClass: `property__map`,
+    },
+    MAIN: {
+      containerClass: `cities__map`,
+    }
+  };
 
   const icon = leaflet.icon({
     iconUrl: `img/pin.svg`,
@@ -47,16 +56,27 @@ const Map = (props) => {
 
   useEffect(() => {
     const points = new leaflet.LayerGroup();
-
     offers.forEach((offer) => {
-      leaflet.marker({
+      points.addLayer(leaflet.marker({
         lat: offer.location.latitude,
         lng: offer.location.longitude
       },
       {
-        icon
-      }).addTo(points);
+        icon,
+        alt: offer.id
+      }));
     });
+
+    if (mapType === ComponentType.NEAR) {
+      leaflet.marker({
+        lat: activeOffer.location.latitude,
+        lng: activeOffer.location.longitude
+      },
+      {
+        alt: activeOffer.id,
+      }
+      ).setIcon(activeIcon).addTo(points);
+    }
 
     points.addTo(mapRef.current);
 
@@ -64,25 +84,29 @@ const Map = (props) => {
       mapRef.current.removeLayer(points);
     };
 
-  }, [city]);
+  }, [city, offers]);
 
-  // useEffect(() => {
-  //   mapRef.current.eachLayer((layer) => {
-  //       if (?) {
-  //         layer.setIcon(activeIcon)
-  //       }
-  //   })
-  // }, [activeCard])
+  useEffect(() => {
+    mapRef.current.eachLayer((layer) => {
+      if (layer instanceof leaflet.Marker) {
+        layer.setIcon(layer.options.alt === activeOffer.id ? activeIcon : icon);
+      }
+    });
+  }, [activeOffer]);
 
   return (
-    <div id="map" ref={mapRef} style={{height: 100 + `%`}}></div>
+    <section className={`${MapSettings[mapType].containerClass} map`}>
+      <div id="map" style={{height: 100 + `%`}}></div>
+    </section>
   );
 };
 
 Map.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.shape(offerTypes)).isRequired,
-  activeCard: PropTypes.number.isRequired,
-  city: PropTypes.string.isRequired
+  activeOffer: PropTypes.oneOfType([PropTypes.shape(offerTypes), PropTypes.number]).isRequired,
+  city: PropTypes.string,
+  mapType: PropTypes.string.isRequired,
+  cityPoints: PropTypes.shape(locationTypes).isRequired
 };
 
 export default Map;

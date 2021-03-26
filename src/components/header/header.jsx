@@ -1,11 +1,28 @@
 import React from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 import {Link} from 'react-router-dom';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {authTypes} from '../../prop-types/prop-types';
+import {PathName} from '../../utils/const';
+import {fetchFavoritesOffers, logout} from "../../store/actions/api-actions";
 
-const Header = (props) => {
-  const {authorizationStatus, authInfo} = props;
+const Header = () => {
+  const {authorizationStatus, authInfo} = useSelector((state) => state.USER);
+  const logoutButtonStyle = {
+    marginLeft: 10 + `px`,
+    width: 18 + `px`,
+    height: 18 + `px`,
+    backgroundImage: `url(../img/logout.svg)`
+  };
+  const dispatch = useDispatch();
+
+  const handleFavoritesPageOpen = () => {
+    if (authorizationStatus) {
+      dispatch(fetchFavoritesOffers());
+    }
+  };
+
+  const handleLogoutButtonClick = () => {
+    dispatch(logout());
+  };
 
   return (
     <header className="header">
@@ -18,12 +35,13 @@ const Header = (props) => {
           </div>
           <nav className="header__nav">
             <ul className="header__nav-list">
-              <li className="header__nav-item user">
-                <Link className="header__nav-link header__nav-link--profile" to="/favorites">
-                  <div className="header__avatar-wrapper user__avatar-wrapper">
+              <li className="header__nav-item user" style={{display: `flex`, alignItems: `baseline`}}>
+                <Link className="header__nav-link header__nav-link--profile" to={PathName.FAVORITES} onClick={handleFavoritesPageOpen}>
+                  <div className="header__avatar-wrapper user__avatar-wrapper" style={authorizationStatus ? {backgroundImage: `url(${authInfo.avatarUrl})`} : undefined}>
                   </div>
-                  {authorizationStatus && <span className="header__user-name user__name">{authInfo.email}</span> || <span className="header__login">Sign in</span>}
+                  <span className={authorizationStatus && `header__user-name user__name` || `header__login`}>{authorizationStatus && authInfo.email || `Sign in`}</span>
                 </Link>
+                {authorizationStatus && <button className="header__logout-button button" type="button" onClick={handleLogoutButtonClick} style={logoutButtonStyle}></button>}
               </li>
             </ul>
           </nav>
@@ -33,15 +51,4 @@ const Header = (props) => {
   );
 };
 
-Header.propTypes = {
-  authorizationStatus: PropTypes.bool.isRequired,
-  authInfo: PropTypes.shape(authTypes)
-};
-
-const mapStateToProps = (state) => ({
-  authorizationStatus: state.authorizationStatus,
-  authInfo: state.authInfo
-});
-
-export {Header};
-export default connect(mapStateToProps)(Header);
+export default Header;

@@ -1,30 +1,23 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import {useSelector} from 'react-redux';
+import {selectReviews} from '../../store/offers-data/selectors';
 import ReviewItem from '../review-item/review-item';
-import {reviewTypes} from '../../prop-types/prop-types';
 
-const ReviewsList = (props) => {
-  const {reviews} = props;
-
-  reviews.sort((a, b) => {
-    let dateA = new Date(a.date);
-    let dateB = new Date(b.date);
-    return dateB - dateA;
-  });
+const ReviewsList = () => {
+  const reviews = useSelector(selectReviews);
+  const MAX_REVIEWS_COUNT = 9;
 
   return (
     <ul className="reviews__list">
-      {reviews.map((review) =>
-        <ReviewItem
-          key={review.id}
-          review={review}/>
+      {reviews.map((review, i) =>
+        i <= MAX_REVIEWS_COUNT ?
+          <ReviewItem
+            key={review.id}
+            review={review}/>
+          : ``
       )}
     </ul>
   );
-};
-
-ReviewsList.propTypes = {
-  reviews: PropTypes.arrayOf(PropTypes.shape(reviewTypes)).isRequired
 };
 
 export default ReviewsList;
