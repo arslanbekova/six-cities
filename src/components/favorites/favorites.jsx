@@ -5,7 +5,7 @@ import FavoritesEmpty from '../favorites-empty/favorites-empty';
 import FavoritesList from '../favorites-list/favorites-list';
 
 const Favorites = () => {
-  const favoritesOffers = useSelector((state) => state.DATA);
+  const favoritesOffers = useSelector((state) => state.DATA.favoritesOffers);
 
   return (
     <div className="page">
