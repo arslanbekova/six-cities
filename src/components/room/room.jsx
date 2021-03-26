@@ -1,17 +1,57 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, {useEffect} from 'react';
+import {useParams, useHistory} from "react-router-dom";
+import {useSelector, useDispatch} from 'react-redux';
 import Header from '../header/header';
+import RoomRating from '../room-rating/room-rating';
+import RoomFeatures from '../room-features/room-features';
+import RoomPrice from '../room-price/room-price';
+import RoomInside from '../room-inside/room-inside';
+import RoomHost from '../room-host/room-host';
 import ReviewsList from '../reviews-list/reviews-list';
 import CommentForm from '../comment-form/comment-form';
-import Map from '../map/map';
+import MapNear from '../map-near/map-near';
 import OffersListNear from '../offers-list-near/offers-list-near';
-import {connect} from 'react-redux';
-import {offerTypes, reviewTypes} from '../../prop-types/prop-types';
+import Spinner from '../spinner/spinner';
+import {AuthorizationStatus, PathName, FavoriteStatus} from '../../utils/const';
+import {fetchOffer, fetchReviewsList, fetchOffersNear, addToFavorites} from '../../store/actions/api-actions';
+import {redirectToRoute} from '../../store/actions/redirect-actions';
 
-const Room = (props) => {
-  const {reviews, offers, authorizationStatus} = props;
+const Room = () => {
+  const {reviews, offersNear, offer, isOfferLoaded} = useSelector((state) => state.DATA);
+  const {authorizationStatus} = useSelector((state) => state.USER);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  let {id} = useParams();
 
-  const nearPlaces = offers.slice(0, 3);
+  useEffect(() => {
+    if (!isOfferLoaded) {
+      dispatch(fetchOffer(id))
+      .then(() => dispatch(fetchReviewsList(id)))
+      .then(() => dispatch(fetchOffersNear(id)))
+      .catch(() => dispatch(redirectToRoute(PathName.NOT_FOUND)));
+    }
+  }, [id, isOfferLoaded]);
+
+  if (!isOfferLoaded) {
+    return (
+      <Spinner/>
+    );
+  }
+
+  const handleFavoriteFlagChange = () => {
+    if (authorizationStatus === AuthorizationStatus.AUTH) {
+      let status;
+      if (offer.isFavorite) {
+        status = FavoriteStatus.REMOVE;
+      } else {
+        status = FavoriteStatus.ADD;
+      }
+      dispatch(addToFavorites(offer.id, status))
+      .then(() => dispatch(fetchOffer(offer.id)));
+    } else {
+      history.push(PathName.LOGIN);
+    }
+  };
 
   return (
     <div className="page">
@@ -20,133 +60,46 @@ const Room = (props) => {
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/room.jpg" alt="Photo studio"/>
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-01.jpg" alt="Photo studio"/>
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-02.jpg" alt="Photo studio"/>
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-03.jpg" alt="Photo studio"/>
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/studio-01.jpg" alt="Photo studio"/>
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-01.jpg" alt="Photo studio"/>
-              </div>
+              {offer.images.map((image) =>
+                <div className="property__image-wrapper" key={image}>
+                  <img className="property__image" src={image} alt="Photo studio"/>
+                </div>)}
             </div>
           </div>
           <div className="property__container container">
             <div className="property__wrapper">
-              <div className="property__mark">
+              {offer.isPremium && <div className="property__mark">
                 <span>Premium</span>
-              </div>
+              </div>}
               <div className="property__name-wrapper">
                 <h1 className="property__name">
-                  Beautiful &amp; luxurious studio at great location
+                  {offer.title}
                 </h1>
-                <button className="property__bookmark-button button" type="button">
+                <button className={`property__bookmark-button button ${offer.isFavorite && `property__bookmark-button--active`}`} type="button" onClick={handleFavoriteFlagChange}>
                   <svg className="property__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
                   <span className="visually-hidden">To bookmarks</span>
                 </button>
               </div>
-              <div className="property__rating rating">
-                <div className="property__stars rating__stars">
-                  <span style={{width: 80 + `%`}}></span>
-                  <span className="visually-hidden">Rating</span>
-                </div>
-                <span className="property__rating-value rating__value">4.8</span>
-              </div>
-              <ul className="property__features">
-                <li className="property__feature property__feature--entire">
-                  Apartment
-                </li>
-                <li className="property__feature property__feature--bedrooms">
-                  3 Bedrooms
-                </li>
-                <li className="property__feature property__feature--adults">
-                  Max 4 adults
-                </li>
-              </ul>
-              <div className="property__price">
-                <b className="property__price-value">&euro;120</b>
-                <span className="property__price-text">&nbsp;night</span>
-              </div>
-              <div className="property__inside">
-                <h2 className="property__inside-title">What&apos;s inside</h2>
-                <ul className="property__inside-list">
-                  <li className="property__inside-item">
-                    Wi-Fi
-                  </li>
-                  <li className="property__inside-item">
-                    Washing machine
-                  </li>
-                  <li className="property__inside-item">
-                    Towels
-                  </li>
-                  <li className="property__inside-item">
-                    Heating
-                  </li>
-                  <li className="property__inside-item">
-                    Coffee machine
-                  </li>
-                  <li className="property__inside-item">
-                    Baby seat
-                  </li>
-                  <li className="property__inside-item">
-                    Kitchen
-                  </li>
-                  <li className="property__inside-item">
-                    Dishwasher
-                  </li>
-                  <li className="property__inside-item">
-                    Cabel TV
-                  </li>
-                  <li className="property__inside-item">
-                    Fridge
-                  </li>
-                </ul>
-              </div>
-              <div className="property__host">
-                <h2 className="property__host-title">Meet the host</h2>
-                <div className="property__host-user user">
-                  <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
-                    <img className="property__avatar user__avatar" src="img/avatar-angelina.jpg" width="74" height="74" alt="Host avatar"/>
-                  </div>
-                  <span className="property__user-name">
-                    Angelina
-                  </span>
-                </div>
-                <div className="property__description">
-                  <p className="property__text">
-                    A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
-                  </p>
-                  <p className="property__text">
-                    An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.
-                  </p>
-                </div>
-              </div>
+              <RoomRating rating={offer.rating}/>
+              <RoomFeatures offerType={offer.type} bedroomsCount={offer.bedrooms} maxAdults={offer.maxAdults}/>
+              <RoomPrice price={offer.price}/>
+              <RoomInside goods={offer.goods}/>
+              <RoomHost hostInfo={offer.host} offerDescription={offer.description}/>
               <section className="property__reviews reviews">
                 <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
-                <ReviewsList reviews={reviews}/>
-                {authorizationStatus && <CommentForm/>}
+                <ReviewsList/>
+                {authorizationStatus && <CommentForm offerId={offer.id}/>}
               </section>
             </div>
           </div>
-          <section className="property__map map">
-            <Map offers={nearPlaces}/>
-          </section>
+          <MapNear offers={offersNear} activeOffer={offer} cityPoints={offer.city.location}/>
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <OffersListNear offers={nearPlaces}/>
+            <OffersListNear offers={offersNear}/>
           </section>
         </div>
       </main>
@@ -154,19 +107,4 @@ const Room = (props) => {
   );
 };
 
-Room.propTypes = {
-  reviews: PropTypes.arrayOf(PropTypes.shape(reviewTypes)).isRequired,
-  offers: PropTypes.arrayOf(PropTypes.shape(offerTypes)).isRequired,
-  authorizationStatus: PropTypes.bool.isRequired
-};
-
-const mapStateToProps = (state) => {
-  return {
-    offers: state.offers,
-    reviews: state.reviews,
-    authorizationStatus: state.authorizationStatus
-  };
-};
-
-export {Room};
-export default connect(mapStateToProps)(Room);
+export default Room;
