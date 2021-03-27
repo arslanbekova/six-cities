@@ -1,6 +1,6 @@
 import {createReducer} from '@reduxjs/toolkit';
 import {loadOffer, loadReviews, loadOffersNear, loadFavoritesOffers,
-  updateOffersNear, updateFavoritesOffers, updateOffer, updateOfferLoadedStatus} from '../actions/offers-data-actions';
+  updateOffersNear, updateOffer, updateOfferLoadedStatus} from '../actions/offers-data-actions';
 import {LoadedStatus} from '../../utils/const';
 
 const initialState = {
@@ -30,9 +30,6 @@ const offersData = createReducer(initialState, (builder) => {
   });
   builder.addCase(updateOffersNear, (state, action) => {
     state.offersNear = state.offersNear.map((offer) => offer.id === action.payload.id ? action.payload : offer);
-  });
-  builder.addCase(updateFavoritesOffers, (state, action) => {
-    state.favoritesOffers = state.favoritesOffers.map((offer) => offer.id === action.payload.id ? action.payload : offer);
   });
   builder.addCase(updateOfferLoadedStatus, (state, action) => {
     state.isOfferLoaded = action.payload;

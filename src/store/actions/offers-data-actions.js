@@ -7,8 +7,7 @@ export const ActionType = {
   LOAD_FAVORITES_OFFERS: `data/loadFavoritesOffers`,
   UPDATE_OFFER: `data/updateOffer`,
   UPDATE_OFFER_LOADED_STATUS: `data/updateOfferLoadedStatus`,
-  UPDATE_OFFERS_NEAR: `data/updateOffersNear`,
-  UPDATE_FAVORITES_OFFERS: `data/updateFavoritesOffers`,
+  UPDATE_OFFERS_NEAR: `data/updateOffersNear`
 };
 
 export const loadReviews = createAction(ActionType.LOAD_REVIEWS, (reviews) => {
@@ -42,11 +41,6 @@ export const updateOfferLoadedStatus = createAction(ActionType.UPDATE_OFFER_LOAD
   };
 });
 export const updateOffersNear = createAction(ActionType.UPDATE_OFFERS_NEAR, (offer) => {
-  return {
-    payload: offer
-  };
-});
-export const updateFavoritesOffers = createAction(ActionType.UPDATE_FAVORITES_OFFERS, (offer) => {
   return {
     payload: offer
   };
