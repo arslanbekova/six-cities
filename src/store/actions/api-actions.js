@@ -1,4 +1,4 @@
-import {loadOffer, loadReviews, loadOffersNear, loadFavoritesOffers, updateOffersNear, updateFavoritesOffers} from './offers-data-actions';
+import {loadOffer, loadReviews, loadOffersNear, loadFavoritesOffers, updateOffersNear, updateOffer} from './offers-data-actions';
 import {loadOffers, updateOffers} from './main-page-actions';
 import {requireAuthorization, loadAuthInfo} from './user-actions';
 import {redirectToRoute} from './redirect-actions';
@@ -51,7 +51,8 @@ export const addToFavorites = (id, status, cardType) => (dispatch, _getState, ap
         dispatch(updateOffersNear(data));
       }
       if (cardType === ComponentType.FAVORITE) {
-        dispatch(updateFavoritesOffers(data));
+        dispatch(fetchFavoritesOffers());
+        dispatch(updateOffer(data));
         dispatch(updateOffers(data));
         dispatch(updateOffersNear(data));
       }
