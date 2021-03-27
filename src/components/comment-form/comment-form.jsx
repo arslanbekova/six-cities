@@ -57,7 +57,10 @@ const CommentForm = ({offerId}) => {
 
   const handleFieldChange = (evt) => {
     const {name, value} = evt.target;
-    setUserForm({...userForm, [name]: value, isChecked: true});
+    const copyUserForm = userForm;
+    copyUserForm[name] = value;
+    copyUserForm.isChecked = true;
+    setUserForm({...copyUserForm});
 
     if (userForm.review.length >= FormValidationPoints.MIN_REVIEW_LENGTH
       && userForm.review.length <= FormValidationPoints.MAX_REVIEW_LENGTH
