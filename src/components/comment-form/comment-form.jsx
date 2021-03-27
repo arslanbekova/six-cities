@@ -9,7 +9,7 @@ const CommentForm = ({offerId}) => {
     rating: ``,
     review: ``,
     isDisableFormField: false,
-    isChecked: false
+    isTouched: false
   });
 
   const [isDisableButton, setDisableButton] = useState(true);
@@ -35,7 +35,7 @@ const CommentForm = ({offerId}) => {
       rating: ``,
       review: ``,
       isDisableFormField: false,
-      isChecked: false
+      isTouched: false
     });
   };
 
@@ -57,9 +57,9 @@ const CommentForm = ({offerId}) => {
 
   const handleFieldChange = (evt) => {
     const {name, value} = evt.target;
-    const copyUserForm = userForm;
+    let copyUserForm = userForm;
     copyUserForm[name] = value;
-    copyUserForm.isChecked = true;
+    copyUserForm.isTouched = true;
     setUserForm({...copyUserForm});
 
     if (userForm.review.length >= FormValidationPoints.MIN_REVIEW_LENGTH
