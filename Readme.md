@@ -12,7 +12,7 @@ _`.editorconfig`, `.gitattributes`, `.gitignore`, `.travis.yml`, `package.json`.
 
 ### Памятка
 
-#### 1. Зарегистрируйтесь на GitHub
+#### 1. Зарегистрируйтесь на GitHub:
 
 Если у вас ещё нет аккаунта на [github.com](https://github.com/join), скорее зарегистрируйтесь.
 
