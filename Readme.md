@@ -1,1 +1,1 @@
-Pet projct «Six cities»
+Pet project «Six cities»
